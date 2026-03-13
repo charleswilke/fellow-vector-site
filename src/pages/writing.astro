@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SubstackFeed from '../components/SubstackFeed.astro';
+---
+
+<BaseLayout
+  title="Exploring L.ai.bor"
+  description="Charles Wilke writes about AI, design, and what it means to do meaningful work in a rapidly changing world. Published on Substack."
+>
+
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <div class="label">// signal log</div>
+      <h1>Exploring L.ai.bor</h1>
+      <p class="text-muted page-hero-sub">
+        Thinking out loud about AI, design, and what it means to do good work
+        in a world that keeps changing the rules.
+      </p>
+      <a
+        href="https://charleswilke.substack.com"
+        target="_blank"
+        rel="noopener"
+        class="substack-cta"
+      >
+        Subscribe on Substack →
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container feed-container">
+      <SubstackFeed limit={20} variant="full" />
+      <div class="archive-cta">
+        <a
+          href="https://charleswilke.substack.com/archive?sort=new"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary btn-lg"
+        >
+          Visit Full Archive →
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-2xl) 0 var(--sp-xl);
+  }
+
+  .page-hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .page-hero-inner h1 { margin-top: var(--sp-xs); margin-bottom: var(--sp-sm); }
+
+  .page-hero-sub {
+    font-size: 1rem;
+    max-width: 52ch;
+  }
+
+  .substack-cta {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--phosphor);
+    letter-spacing: 0.08em;
+    margin-top: var(--sp-xs);
+    transition: opacity 0.2s;
+  }
+
+  .substack-cta:hover { opacity: 0.7; }
+
+  .archive-cta {
+    margin-top: var(--sp-2xl);
+  }
+
+  .archive-cta .btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+</style>

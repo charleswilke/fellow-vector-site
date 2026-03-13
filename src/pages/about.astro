@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SubstackFeed from '../components/SubstackFeed.astro';
 ---
 
 <BaseLayout
@@ -112,6 +113,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             Just Charles. One consultant, fully present in every engagement.
             No handoffs, no junior staff. You work with me directly.
           </p>
+        </div>
+
+        <div class="sidebar-block">
+          <div class="label">// recently on exploring l.ai.bor</div>
+          <SubstackFeed limit={3} />
+          <a href="/writing" class="sidebar-link" style="margin-top: var(--sp-xs);">Explore more →</a>
         </div>
 
         <div class="sidebar-block">

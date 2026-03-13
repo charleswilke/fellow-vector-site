@@ -1,0 +1,325 @@
+---
+// Props:
+//   limit   — number of posts to show (default 3)
+//   variant — "compact" (sidebar) | "full" (writings page)
+const { limit = 3, variant = 'compact' } = Astro.props;
+---
+
+<div class="substack-feed" data-limit={limit} data-variant={variant}>
+  <div class="feed-loading">
+    <span class="text-phosphor feed-cursor">_</span>
+  </div>
+  <ul class="feed-list" hidden></ul>
+  <div class="feed-error" hidden>
+    <span class="text-muted">// signal lost — could not load posts</span>
+  </div>
+</div>
+
+<script>
+  async function loadFeed(container) {
+    const limit = parseInt(container.dataset.limit) || 3;
+    const variant = container.dataset.variant || 'compact';
+    const loading = container.querySelector('.feed-loading');
+    const list = container.querySelector('.feed-list');
+    const error = container.querySelector('.feed-error');
+
+    try {
+      const res = await fetch('/api/feed');
+      if (!res.ok) throw new Error('Feed fetch failed');
+      const xml = await res.text();
+      const doc = new DOMParser().parseFromString(xml, 'application/xml');
+      const items = Array.from(doc.querySelectorAll('item')).slice(0, limit);
+
+      if (!items.length) throw new Error('No items');
+
+      const excerptLength = variant === 'full' ? 280 : 160;
+
+      list.innerHTML = items.map((item, i) => {
+        const title = item.querySelector('title')?.textContent ?? '';
+        const link = item.querySelector('link')?.textContent ?? '#';
+        const pubDate = item.querySelector('pubDate')?.textContent ?? '';
+        const description = item.querySelector('description')?.textContent ?? '';
+        const imageUrl = item.querySelector('enclosure')?.getAttribute('url') ?? '';
+
+        const date = pubDate
+          ? new Date(pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+          : '';
+
+        const excerpt = description.replace(/<[^>]*>/g, '').trim().slice(0, excerptLength);
+        const index = String(i + 1).padStart(2, '0');
+
+        if (variant === 'full') {
+          const imageHtml = imageUrl ? `
+            <div class="feed-thumb">
+              <img src="${imageUrl}" alt="" class="feed-thumb-img" loading="lazy" />
+              <div class="feed-thumb-overlay" aria-hidden="true"></div>
+              <div class="feed-thumb-scanlines" aria-hidden="true"></div>
+              <div class="feed-thumb-corners" aria-hidden="true">
+                <span class="fc tl"></span>
+                <span class="fc tr"></span>
+                <span class="fc bl"></span>
+                <span class="fc br"></span>
+              </div>
+            </div>
+          ` : '<div class="feed-thumb feed-thumb--empty"></div>';
+
+          return `
+            <li class="feed-item feed-item--full">
+              <a href="${link}" target="_blank" rel="noopener" class="feed-link">
+                ${imageHtml}
+                <div class="feed-body">
+                  <div class="feed-date text-muted">${date}</div>
+                  <div class="feed-title">${title}</div>
+                  ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}…</p>` : ''}
+                  <span class="feed-read">Read on Substack →</span>
+                </div>
+              </a>
+            </li>
+          `;
+        }
+
+        return `
+          <li class="feed-item">
+            <a href="${link}" target="_blank" rel="noopener" class="feed-link">
+              <div class="feed-meta">
+                <span class="feed-date text-muted">${date}</span>
+              </div>
+              <div class="feed-title">${title}</div>
+              ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}…</p>` : ''}
+            </a>
+          </li>
+        `;
+      }).join('');
+
+      loading.hidden = true;
+      list.hidden = false;
+    } catch (e) {
+      loading.hidden = true;
+      error.hidden = false;
+    }
+  }
+
+  document.querySelectorAll('.substack-feed').forEach(loadFeed);
+</script>
+
+<style is:global>
+  .substack-feed {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feed-loading {
+    padding: var(--sp-md) 0;
+  }
+
+  .feed-cursor {
+    font-family: var(--font-crt);
+    font-size: 1.5rem;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .feed-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* ── Compact (sidebar) ── */
+  .feed-list:not(:has(.feed-item--full)) {
+    gap: var(--sp-md);
+  }
+
+  .feed-item {
+    border-left: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+
+  .feed-item:hover {
+    border-left-color: var(--phosphor);
+  }
+
+  .feed-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xs);
+    padding: var(--sp-sm) var(--sp-md);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .feed-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+  }
+
+  .feed-date {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+  }
+
+  .feed-title {
+    font-size: 0.95rem;
+    color: var(--fg);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+
+  .feed-item:hover .feed-title {
+    color: var(--phosphor);
+  }
+
+  .feed-excerpt {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ── Full (writings page) — 2-col card grid ── */
+  .feed-list:has(.feed-item--full) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-lg);
+  }
+
+  .feed-item--full {
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    transition: border-color 0.2s;
+  }
+
+  .feed-item--full:hover {
+    border-color: var(--phosphor-dim);
+  }
+
+  .feed-item--full .feed-link {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+
+  /* Thumbnail */
+  .feed-thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .feed-thumb--empty {
+    background: var(--bg-raised);
+  }
+
+  .feed-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.5) brightness(0.65);
+    transition: filter 0.3s, transform 0.5s;
+  }
+
+  .feed-item--full:hover .feed-thumb-img {
+    filter: grayscale(0.2) brightness(0.8);
+    transform: scale(1.03);
+  }
+
+  /* Phosphor tint */
+  .feed-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 255, 136, 0.15) 0%,
+      rgba(0, 204, 255, 0.08) 100%
+    );
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  /* Scanlines */
+  .feed-thumb-scanlines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(0, 0, 0, 0.15) 3px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+  }
+
+  /* Corner brackets */
+  .feed-thumb-corners { position: absolute; inset: 0; pointer-events: none; }
+  .fc {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+  }
+  .fc.tl { top: 8px;    left: 8px;   border-top:    1px solid var(--phosphor); border-left:   1px solid var(--phosphor); opacity: 0.5; }
+  .fc.tr { top: 8px;    right: 8px;  border-top:    1px solid var(--phosphor); border-right:  1px solid var(--phosphor); opacity: 0.5; }
+  .fc.bl { bottom: 8px; left: 8px;   border-bottom: 1px solid var(--phosphor); border-left:   1px solid var(--phosphor); opacity: 0.5; }
+  .fc.br { bottom: 8px; right: 8px;  border-bottom: 1px solid var(--phosphor); border-right:  1px solid var(--phosphor); opacity: 0.5; }
+
+  .feed-item--full:hover .fc { opacity: 1; }
+
+  .feed-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    flex: 1;
+    padding: var(--sp-lg);
+  }
+
+  .feed-item--full .feed-date {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .feed-item--full .feed-title {
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.35;
+    transition: color 0.2s;
+  }
+
+  .feed-item--full:hover .feed-title {
+    color: var(--phosphor);
+  }
+
+  .feed-item--full .feed-excerpt {
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .feed-read {
+    font-size: 0.75rem;
+    color: var(--phosphor);
+    letter-spacing: 0.06em;
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: auto;
+    padding-top: var(--sp-sm);
+  }
+
+  .feed-item--full:hover .feed-read {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .feed-list:has(.feed-item--full) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
