@@ -1,0 +1,103 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer id="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">FELLOW VECTOR</span>
+      <p class="footer-tagline text-muted">
+        Consulting &middot; Speaking &middot; Webinars
+      </p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="/services">Services</a>
+      <a href="/about">About</a>
+      <a href="/book">Book a Call</a>
+    </nav>
+
+    <div class="footer-meta">
+      <span class="text-muted">&copy; {year} Fellow Vector</span>
+      <span class="footer-signal text-phosphor">// signal active</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  #site-footer {
+    border-top: 1px solid var(--border);
+    padding: var(--sp-xl) 0;
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: var(--sp-xl);
+  }
+
+  .footer-logo {
+    font-family: var(--font-crt);
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    color: var(--fg);
+    display: block;
+    margin-bottom: var(--sp-xs);
+  }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    max-width: none;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .footer-nav a {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .footer-nav a:hover {
+    color: var(--phosphor);
+  }
+
+  .footer-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--sp-xs);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .footer-signal {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    opacity: 0.5;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50%       { opacity: 1; text-shadow: var(--glow-green); }
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+
+    .footer-meta {
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,292 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Charles Wilke is a writer, designer, and generative AI consultant helping small and mid-sized businesses make practical, grounded use of emerging technology."
+>
+
+  <section class="page-hero">
+    <div class="page-hero-bg" aria-hidden="true">
+      <img src="/about.jpg" alt="" class="page-hero-splash" />
+    </div>
+    <div class="container page-hero-inner">
+      <div class="label">// about the operator</div>
+      <h1>Charles Wilke</h1>
+      <p class="page-hero-sub text-muted">Writer. Designer. Generative AI Consultant.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid">
+
+      <div class="about-body">
+        <p class="about-lead">
+          I help small and mid-sized businesses make practical, grounded use of emerging technology —
+          with less hype, more traction, and a clear sense of what actually matters for their work.
+        </p>
+
+        <p>
+          My work sits at the intersection of storytelling, systems thinking, and hands-on experimentation.
+          I care less about what AI can theoretically do and more about helping teams do better work:
+          faster where it matters, deeper where it counts.
+        </p>
+
+        <p>
+          Through Fellow Vector, I partner with organizations to translate AI from an abstract trend into
+          a usable capability. That might mean shaping content strategies, designing AI-assisted workflows,
+          building custom tools, or leading workshops that help teams understand how these systems can
+          support their real goals. The approach is collaborative and human-centered — technology should
+          amplify clarity, creativity, and confidence, not replace them.
+        </p>
+
+        <hr class="divider" />
+
+        <div class="label">// background</div>
+        <h2>How I got here</h2>
+
+        <p>
+          Before launching Fellow Vector, I spent years working across content development, product design,
+          marketing, and creative production. That cross-functional background is the foundation of how I
+          show up today: as both a strategic advisor and an embedded maker who isn't afraid to prototype,
+          test, and iterate alongside the people I support.
+        </p>
+
+        <p>
+          I believe the future of work will belong to organizations that stay curious, stay adaptable,
+          and stay grounded in what makes them uniquely valuable. That belief shapes everything I do.
+        </p>
+
+        <a href="/book" class="btn btn-primary" style="margin-top: 1rem;">Book a Call with Charles</a>
+      </div>
+
+      <aside class="about-sidebar">
+
+        <!-- Portrait -->
+        <div class="portrait-wrap">
+          <span class="corner tl"></span>
+          <span class="corner tr"></span>
+          <span class="corner bl"></span>
+          <span class="corner br"></span>
+          <img src="/cwilke.jpg" alt="Charles Wilke" class="portrait-img" />
+          <div class="portrait-scanlines" aria-hidden="true"></div>
+          <div class="portrait-label">// charles wilke</div>
+        </div>
+
+        <div class="sidebar-block">
+          <div class="label">// works with</div>
+          <ul class="sidebar-list">
+            <li>Small & mid-sized businesses</li>
+            <li>Founders & operators</li>
+            <li>Executive teams</li>
+            <li>Associations & communities</li>
+            <li>Conference organizers</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-block">
+          <div class="label">// disciplines</div>
+          <ul class="sidebar-list">
+            <li>Generative AI consulting</li>
+            <li>Content strategy</li>
+            <li>AI-assisted workflow design</li>
+            <li>Custom tool development</li>
+            <li>Workshops & speaking</li>
+          </ul>
+        </div>
+
+        <div class="sidebar-block">
+          <div class="label">// fellow vector is</div>
+          <p class="sidebar-note">
+            Just Charles — one consultant, fully present in every engagement.
+            No handoffs, no junior staff. You work with me directly.
+          </p>
+        </div>
+
+        <div class="sidebar-block">
+          <div class="label">// contact</div>
+          <a href="/book" class="sidebar-link">Book a call →</a>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-2xl) 0 var(--sp-xl);
+    overflow: hidden;
+  }
+
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .page-hero-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.35;
+  }
+
+  .page-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,
+        var(--bg) 20%,
+        rgba(8, 9, 15, 0.65) 55%,
+        rgba(8, 9, 15, 0.2) 100%
+      ),
+      linear-gradient(to top,
+        var(--bg) 0%,
+        transparent 35%
+      );
+  }
+
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .page-hero-inner h1 { margin-top: var(--sp-xs); margin-bottom: var(--sp-xs); }
+
+  .page-hero-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* ── Portrait ── */
+  .portrait-wrap {
+    position: relative;
+    border: 1px solid var(--phosphor-dim);
+    overflow: hidden;
+  }
+
+  .portrait-img {
+    display: block;
+    width: 100%;
+  }
+
+  .portrait-scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 35%,
+      rgba(8, 9, 15, 0.7) 75%,
+      rgba(8, 9, 15, 0.92) 100%
+    );
+    pointer-events: none;
+  }
+
+  .portrait-label {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    color: var(--phosphor);
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    border-top: 1px solid var(--phosphor-dim);
+  }
+
+  .corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    z-index: 2;
+  }
+
+  .corner.tl { top: 7px;    left: 7px;   border-top:    1px solid var(--phosphor); border-left:   1px solid var(--phosphor); }
+  .corner.tr { top: 7px;    right: 7px;  border-top:    1px solid var(--phosphor); border-right:  1px solid var(--phosphor); }
+  .corner.bl { bottom: 34px; left: 7px;  border-bottom: 1px solid var(--phosphor); border-left:   1px solid var(--phosphor); }
+  .corner.br { bottom: 34px; right: 7px; border-bottom: 1px solid var(--phosphor); border-right:  1px solid var(--phosphor); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--sp-2xl);
+    align-items: start;
+  }
+
+  .about-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  .about-lead {
+    font-size: 1.1rem;
+    color: var(--fg);
+    max-width: 55ch;
+  }
+
+  .about-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-lg);
+    padding-top: 0.25rem;
+    position: sticky;
+    top: 80px;
+  }
+
+  .sidebar-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .sidebar-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xs);
+  }
+
+  .sidebar-list li {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    padding-left: var(--sp-sm);
+    border-left: 1px solid var(--border);
+  }
+
+  .sidebar-note {
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+    line-height: 1.6;
+    max-width: none;
+  }
+
+  .sidebar-link {
+    font-size: 0.85rem;
+    color: var(--phosphor);
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-xl);
+    }
+
+    .about-sidebar {
+      position: static;
+    }
+  }
+</style>

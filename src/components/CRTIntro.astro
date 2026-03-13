@@ -1,0 +1,161 @@
+---
+// CRT Intro — boot sequence overlay
+// Plays on first load per session, then dismissed
+---
+
+<div id="crt-intro" role="presentation">
+  <div id="crt-screen">
+    <pre id="crt-text" aria-live="polite"></pre>
+    <div id="crt-prompt">[ press any key or click to skip ]</div>
+  </div>
+</div>
+
+<style>
+  #crt-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: rise 0.8s ease forwards;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  #crt-screen {
+    width: min(600px, 90vw);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  #crt-text {
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.1rem, 2.8vw, 1.55rem);
+    color: #39ff14;
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.85), 0 0 24px rgba(57, 255, 20, 0.3);
+    line-height: 1.65;
+    white-space: pre;
+    min-height: 16rem;
+  }
+
+  #crt-prompt {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: rgba(57, 255, 20, 0.45);
+    animation: blink 1.4s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  /* CRT collapse — the membrane moment */
+  @keyframes crt-collapse {
+    0%   { transform: scale(1, 1);        filter: brightness(1);  opacity: 1; }
+    45%  { transform: scale(1.04, 0.003); filter: brightness(5);  opacity: 1; }
+    65%  { transform: scale(1.04, 0.003); filter: brightness(0);  opacity: 0; }
+    100% { transform: scale(0, 0);        filter: brightness(0);  opacity: 0; }
+  }
+
+  #crt-intro.collapsing {
+    animation: crt-collapse 0.55s cubic-bezier(0.4, 0, 1, 1) forwards;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  (function () {
+    const SEEN_KEY = 'fv_intro_seen';
+
+    const introEl  = document.getElementById('crt-intro');
+    const screenEl = document.getElementById('crt-screen');
+    const textEl   = document.getElementById('crt-text');
+
+    if (!introEl || !screenEl || !textEl) return;
+
+    // Skip if already seen this session
+    if (sessionStorage.getItem(SEEN_KEY)) {
+      introEl.style.display = 'none';
+      return;
+    }
+
+    let dismissed = false;
+
+    const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+
+    // ── Boot sequence lines ──
+    const BOOT = [
+      'FELLOW VECTOR  //  SIGNAL ACQUIRED',
+      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
+      '',
+      '>> initializing carrier wave...',
+      '>> scanning for signal source...',
+      '>> carrier detected',
+      '>> authenticating transmission...',
+      '>> decoding...',
+      '',
+      'CONNECTION ESTABLISHED.',
+      '',
+      'WELCOME.',
+    ];
+
+    async function typeAll() {
+      for (const line of BOOT) {
+        if (dismissed) return;
+        await typeLine(line);
+        textEl.textContent += '\n';
+        const pause = line === '' ? 80 : line.startsWith('>>') ? 200 : 340;
+        await wait(pause);
+      }
+    }
+
+    function typeLine(line: string): Promise<void> {
+      return new Promise(resolve => {
+        if (line === '') { resolve(); return; }
+        let i = 0;
+        const speed = line.startsWith('━') ? 12 : 32;
+        const iv = setInterval(() => {
+          if (dismissed) { clearInterval(iv); resolve(); return; }
+          textEl.textContent += line[i++];
+          if (i >= line.length) { clearInterval(iv); resolve(); }
+        }, speed);
+      });
+    }
+
+    // ── Dismiss ──
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      sessionStorage.setItem(SEEN_KEY, '1');
+      introEl.classList.add('collapsing');
+      introEl.addEventListener('animationend', () => {
+        introEl.style.display = 'none';
+      }, { once: true });
+    }
+
+    // ── Start — rise from black, then show text ──
+    setTimeout(async () => {
+      if (dismissed) return;
+      screenEl.style.opacity = '1';
+      await typeAll();
+      if (dismissed) return;
+      await wait(1600);
+      dismiss();
+    }, 900);
+
+    document.addEventListener('click',     dismiss, { once: true });
+    document.addEventListener('keydown',   dismiss, { once: true });
+    introEl.addEventListener('touchstart', dismiss, { once: true, passive: true });
+  })();
+</script>

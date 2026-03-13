@@ -1,0 +1,420 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Fellow Vector"
+  description="Consulting, speaking, and webinars for businesses and leaders navigating the AI era."
+>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-label label">// incoming transmission</div>
+      <h1 class="hero-headline glow-green text-phosphor">
+        NAVIGATE<br />THE SIGNAL.
+      </h1>
+      <p class="hero-sub">
+        The future is already broadcasting. Fellow Vector helps businesses
+        and the people inside them tune in, find their bearing, and move with intention through
+        the noise of the AI era.
+      </p>
+      <div class="hero-cta">
+        <a href="/services" class="btn btn-primary">Explore Services</a>
+        <a href="/book" class="btn btn-ghost">Book a Call</a>
+      </div>
+    </div>
+
+    <div class="hero-bg" aria-hidden="true">
+      <img src="/splash.jpg" alt="" class="hero-splash" />
+    </div>
+  </section>
+
+  <!-- ── Signal strip ── -->
+  <!-- 4 copies so seam is always off-screen; animation travels -25% = exactly one copy width -->
+  <div class="signal-strip" aria-hidden="true">
+    <div class="signal-ticker">
+      <span>CONSULTING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>WEBINARS</span><span class="sep">///</span><span>STRATEGY</span><span class="sep">///</span><span>AI ADOPTION</span><span class="sep">///</span><span>LEADERSHIP</span><span class="sep">///</span>
+      <span>CONSULTING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>WEBINARS</span><span class="sep">///</span><span>STRATEGY</span><span class="sep">///</span><span>AI ADOPTION</span><span class="sep">///</span><span>LEADERSHIP</span><span class="sep">///</span>
+      <span>CONSULTING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>WEBINARS</span><span class="sep">///</span><span>STRATEGY</span><span class="sep">///</span><span>AI ADOPTION</span><span class="sep">///</span><span>LEADERSHIP</span><span class="sep">///</span>
+      <span>CONSULTING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>WEBINARS</span><span class="sep">///</span><span>STRATEGY</span><span class="sep">///</span><span>AI ADOPTION</span><span class="sep">///</span><span>LEADERSHIP</span><span class="sep">///</span>
+    </div>
+  </div>
+
+  <!-- ── What we do ── -->
+  <section class="section focus-section">
+    <div class="focus-bg" aria-hidden="true">
+      <img src="/focus.jpg" alt="" class="focus-splash" />
+    </div>
+    <div class="container">
+      <div class="section-head">
+        <div class="label">// services offered</div>
+        <h2>Where do you need focus?</h2>
+        <p class="text-muted">
+          Fellow Vector brings clarity to the signal — whether you need a strategic partner,
+          a voice for your stage, or an educator for your team.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <a href="/services#consulting" class="card service-card">
+          <div class="service-icon text-phosphor">▸▸</div>
+          <h3>Strategic Consulting</h3>
+          <p class="text-muted">
+            1:1 and organizational engagements for leaders ready to map their AI strategy
+            with clarity and confidence.
+          </p>
+          <span class="card-arrow text-phosphor">→</span>
+        </a>
+
+        <a href="/services#speaking" class="card service-card">
+          <div class="service-icon text-electric">▸▸</div>
+          <h3>Speaking & Keynotes</h3>
+          <p class="text-muted">
+            Compelling talks for conferences, executive briefings, and corporate events —
+            grounded in what's real, built to move people.
+          </p>
+          <span class="card-arrow text-electric">→</span>
+        </a>
+
+        <a href="/services#webinars" class="card service-card">
+          <div class="service-icon text-amber">▸▸</div>
+          <h3>Webinars & Workshops</h3>
+          <p class="text-muted">
+            Deep-dive sessions for teams, communities, and cohorts — hands-on,
+            direct, and built to translate into action.
+          </p>
+          <span class="card-arrow text-amber">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Why Fellow Vector ── -->
+  <section class="section alt-section">
+    <div class="container why-grid">
+      <div class="why-text">
+        <div class="label">// the frequency</div>
+        <h2>This isn't hype.<br />It's signal.</h2>
+        <p>
+          Too much conversation about AI is noise — either alarmist or breathlessly optimistic.
+          Fellow Vector cuts through. The goal is to help you understand what's actually happening,
+          what it means for your business and your people, and what to do about it.
+        </p>
+        <p>
+          That means honest guidance, real frameworks, and a commitment to your specific situation —
+          not a one-size-fits-all deck.
+        </p>
+        <a href="/about" class="btn btn-ghost" style="margin-top: 1.5rem;">About Fellow Vector</a>
+      </div>
+
+      <div class="why-stats">
+        <div class="stat-block">
+          <div class="stat-number text-phosphor glow-green">01</div>
+          <div class="stat-label">Strategic clarity over buzzword compliance</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number text-electric glow-blue">02</div>
+          <div class="stat-label">Grounded in practice, not prediction</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number text-amber">03</div>
+          <div class="stat-label">Built around your specific context</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-bg" aria-hidden="true">
+      <img src="/signal.jpg" alt="" class="cta-splash" />
+    </div>
+    <div class="container cta-inner">
+      <h2 class="text-phosphor glow-green">Ready to find your signal?</h2>
+      <p class="text-muted">
+        Book a call and let's figure out where Fellow Vector fits into your picture.
+      </p>
+      <a href="/book" class="btn btn-primary">Book a Call</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center right;
+    opacity: 0.55;
+  }
+
+  /* Gradient: dark on the left where text lives, fades toward image on the right */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,
+        var(--bg) 20%,
+        rgba(8, 9, 15, 0.75) 50%,
+        rgba(8, 9, 15, 0.2) 100%
+      ),
+      linear-gradient(to top,
+        var(--bg) 0%,
+        transparent 30%
+      );
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-lg);
+    padding-top: var(--sp-2xl);
+    padding-bottom: var(--sp-2xl);
+  }
+
+  .hero-label { animation: fadeIn 0.6s 0.2s both; }
+  .hero-headline { animation: fadeIn 0.7s 0.35s both; line-height: 1; }
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: var(--fg-muted);
+    max-width: 52ch;
+    animation: fadeIn 0.7s 0.5s both;
+  }
+  .hero-cta {
+    display: flex;
+    gap: var(--sp-md);
+    flex-wrap: wrap;
+    animation: fadeIn 0.7s 0.65s both;
+  }
+
+  /* ── Signal strip ── */
+  .signal-strip {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 0;
+    background: var(--bg-surface);
+  }
+
+  .signal-ticker {
+    display: flex;
+    gap: 2rem;
+    white-space: nowrap;
+    animation: ticker 22s linear infinite;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--fg-muted);
+    width: max-content;
+  }
+
+  .signal-ticker .sep {
+    color: var(--phosphor-dim);
+    opacity: 0.5;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-25%); }
+  }
+
+  /* ── Focus / services section ── */
+  .focus-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .focus-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .focus-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.18;
+  }
+
+  .focus-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(8, 9, 15, 0.2) 0%,
+      rgba(8, 9, 15, 0.8) 100%
+    );
+  }
+
+  .focus-section .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Services grid ── */
+  .section-head {
+    margin-bottom: var(--sp-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .section-head h2 { margin-top: var(--sp-xs); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--sp-md);
+  }
+
+  .service-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    padding: var(--sp-lg) var(--sp-lg) var(--sp-md);
+  }
+
+  .service-card h3 { color: var(--fg); transition: color 0.2s; }
+  .service-card:hover h3 { color: var(--phosphor); }
+
+  .service-icon {
+    font-family: var(--font-crt);
+    font-size: 1.2rem;
+    letter-spacing: -0.05em;
+  }
+
+  .card-arrow {
+    font-size: 1.2rem;
+    margin-top: auto;
+    padding-top: var(--sp-sm);
+    transition: transform 0.2s;
+    align-self: flex-start;
+  }
+
+  .service-card:hover .card-arrow { transform: translateX(6px); }
+
+  /* ── Why / alt section ── */
+  .alt-section {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-2xl);
+    align-items: start;
+  }
+
+  .why-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  .why-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-lg);
+    padding-top: 2.5rem;
+  }
+
+  .stat-block {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-md);
+    border-left: 1px solid var(--border);
+    padding-left: var(--sp-md);
+  }
+
+  .stat-number {
+    font-family: var(--font-crt);
+    font-size: 2.5rem;
+    flex-shrink: 0;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    position: relative;
+    text-align: center;
+    padding: var(--sp-2xl) 0;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .cta-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.12;
+  }
+
+  .cta-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(8, 9, 15, 0.3) 0%,
+      rgba(8, 9, 15, 0.85) 100%
+    );
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-lg);
+  }
+
+  @media (max-width: 768px) {
+    .why-grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-xl);
+    }
+  }
+</style>
+
+<script>
+</script>

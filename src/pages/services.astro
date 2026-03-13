@@ -1,0 +1,304 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const services = [
+  {
+    id: 'consulting',
+    label: '01 // consulting',
+    title: 'Strategic Consulting',
+    color: 'phosphor',
+    description: `Whether you're a solo operator trying to figure out what AI actually means for your work,
+    or an executive team navigating organization-wide adoption, Fellow Vector meets you where you are.`,
+    bullets: [
+      'AI readiness assessments for organizations',
+      '1:1 strategy sessions for founders and leaders',
+      'Roadmap development for implementation',
+      'Ongoing advisory relationships',
+    ],
+    cta: { href: '/book', label: 'Book a Consulting Call' },
+  },
+  {
+    id: 'speaking',
+    label: '02 // speaking',
+    title: 'Speaking & Keynotes',
+    color: 'electric',
+    description: `Fellow Vector speaks to audiences that need more than hype. Whether it's a conference keynote,
+    a corporate all-hands, or an executive briefing — the goal is always the same: move people from confusion
+    to clarity, and from clarity to action.`,
+    bullets: [
+      'Conference keynotes and panel appearances',
+      'Corporate events and executive briefings',
+      'Industry association engagements',
+      'Custom talk development for your audience',
+    ],
+    cta: { href: '/book', label: 'Inquire About Speaking' },
+  },
+  {
+    id: 'webinars',
+    label: '03 // webinars',
+    title: 'Webinars & Workshops',
+    color: 'amber',
+    description: `For teams and communities that need more than a talk — they need to understand and apply.
+    Fellow Vector designs and delivers focused webinars and workshops that go deep on specific topics,
+    with outcomes your people can use immediately.`,
+    bullets: [
+      'Live webinars for teams and communities',
+      'Interactive workshops (virtual and in-person)',
+      'Custom curriculum for your specific domain',
+      'Cohort-based learning engagements',
+    ],
+    cta: { href: '/book', label: 'Discuss a Webinar' },
+  },
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Strategic consulting, speaking, and webinars from Fellow Vector — helping businesses navigate the AI era."
+>
+
+  <!-- ── Page header ── -->
+  <section class="page-hero">
+    <div class="page-hero-bg" aria-hidden="true">
+      <img src="/services.jpg" alt="" class="page-hero-splash" />
+    </div>
+    <div class="container page-hero-inner">
+      <div class="label">// what we offer</div>
+      <h1>Services</h1>
+      <p class="text-muted page-hero-sub">
+        Every engagement starts with a question: where do you need the most clarity?
+        From there, we find the right format.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Services ── -->
+  {services.map((svc, i) => (
+    <section id={svc.id} class={`service-section section${i === services.length - 1 ? ' last-service' : ''}`}>
+      <div class={`container service-layout ${i % 2 !== 0 ? 'reverse' : ''}`}>
+
+        <div class="service-meta">
+          <div class="label" style={`color: var(--${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'})`}>
+            {svc.label}
+          </div>
+          <div class={`service-index text-${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'} glow-${svc.color === 'electric' ? 'blue' : svc.color === 'phosphor' ? 'green' : ''}`}>
+            0{i + 1}
+          </div>
+        </div>
+
+        <div class="service-body">
+          <h2>{svc.title}</h2>
+          <p>{svc.description}</p>
+
+          <ul class="service-bullets">
+            {svc.bullets.map(b => (
+              <li>
+                <span class={`bullet-mark text-${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'}`}>▸</span>
+                {b}
+              </li>
+            ))}
+          </ul>
+
+          <a href={svc.cta.href} class="btn btn-primary">{svc.cta.label}</a>
+        </div>
+
+      </div>
+      {i < services.length - 1 && <hr class="divider container" />}
+    </section>
+  ))}
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-bg" aria-hidden="true">
+      <img src="/patchbay.jpg" alt="" class="cta-splash" />
+    </div>
+    <div class="container cta-inner">
+      <h2 class="text-phosphor glow-green">Not sure where to start?</h2>
+      <p class="text-muted">Book an initial call — we'll figure out the right fit together.</p>
+      <a href="/book" class="btn btn-primary">Book a Call</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-2xl) 0 var(--sp-xl);
+    overflow: hidden;
+  }
+
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .page-hero-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.4;
+  }
+
+  .page-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,
+        var(--bg) 25%,
+        rgba(8, 9, 15, 0.6) 60%,
+        rgba(8, 9, 15, 0.15) 100%
+      ),
+      linear-gradient(to top,
+        var(--bg) 0%,
+        transparent 35%
+      );
+  }
+
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .page-hero-inner h1 {
+    margin-top: var(--sp-xs);
+    margin-bottom: var(--sp-sm);
+  }
+
+  .page-hero-sub {
+    font-size: 1rem;
+    max-width: 55ch;
+  }
+
+  .last-service {
+    padding-bottom: 0;
+  }
+
+  .service-layout {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: var(--sp-xl);
+    align-items: start;
+  }
+
+  .service-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    padding-top: var(--sp-sm);
+    position: sticky;
+    top: 80px;
+  }
+
+  .service-index {
+    font-family: var(--font-crt);
+    font-size: 4rem;
+    line-height: 1;
+    opacity: 0.15;
+  }
+
+  .service-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  .service-body h2 {
+    margin-top: var(--sp-xs);
+  }
+
+  .service-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+    margin: var(--sp-sm) 0;
+  }
+
+  .service-bullets li {
+    display: flex;
+    gap: var(--sp-sm);
+    align-items: baseline;
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+  }
+
+  .bullet-mark {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+  }
+
+  .cta-section {
+    position: relative;
+    text-align: center;
+    padding: var(--sp-2xl) 0;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .cta-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.28;
+  }
+
+  .cta-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(8, 9, 15, 0.3) 0%,
+      rgba(8, 9, 15, 0.88) 100%
+    );
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-md);
+  }
+
+  @media (max-width: 640px) {
+    .service-layout {
+      grid-template-columns: 1fr;
+      gap: var(--sp-md);
+    }
+
+    .service-meta {
+      position: static;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .service-index { font-size: 2.5rem; }
+  }
+</style>

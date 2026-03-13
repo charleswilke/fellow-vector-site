@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd D:/FellowVectorSite && npm create astro@latest . -- --template minimal --no-install --no-git 2>&1)",
+      "Bash(cd D:/FellowVectorSite && npm create astro@latest fellowvector -- --template minimal --no-install --no-git --yes 2>&1)",
+      "Bash(mv D:/FellowVectorSite/fellowvector/* D:/FellowVectorSite/ && mv D:/FellowVectorSite/fellowvector/.* D:/FellowVectorSite/ 2>/dev/null; rmdir D:/FellowVectorSite/fellowvector && ls D:/FellowVectorSite/)",
+      "Bash(cd D:/FellowVectorSite && npm install 2>&1 | tail -5)",
+      "Bash(cd D:/FellowVectorSite && npm run build 2>&1)",
+      "Bash(cd D:/FellowVectorSite && npm run dev -- --host 2>&1)",
+      "Bash(gh auth:*)",
+      "Bash(git --version 2>&1 && cat D:/FellowVectorSite/.gitignore 2>/dev/null || echo \"no .gitignore\")"
+    ]
+  }
+}

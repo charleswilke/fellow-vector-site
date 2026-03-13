@@ -1,0 +1,239 @@
+/* ──────────────────────────────────────────
+   Fellow Vector — Design System
+   ────────────────────────────────────────── */
+
+:root {
+  /* Palette */
+  --bg:            #08090f;
+  --bg-surface:    #0e1018;
+  --bg-raised:     #141620;
+  --fg:            #dde1ec;
+  --fg-muted:      #6b7390;
+  --phosphor:      #00ff88;
+  --phosphor-dim:  #00804a;
+  --electric:      #00ccff;
+  --electric-dim:  #006b88;
+  --amber:         #ffb300;
+  --border:        rgba(0, 255, 136, 0.12);
+  --border-hover:  rgba(0, 255, 136, 0.35);
+
+  /* Typography */
+  --font-mono:  'Share Tech Mono', 'Courier New', monospace;
+  --font-crt:   'VT323', monospace;
+
+  /* Glows */
+  --glow-green: 0 0 6px rgba(0, 255, 136, 0.5), 0 0 18px rgba(0, 255, 136, 0.15);
+  --glow-blue:  0 0 6px rgba(0, 204, 255, 0.5), 0 0 18px rgba(0, 204, 255, 0.15);
+
+  /* Spacing */
+  --sp-xs:  0.25rem;
+  --sp-sm:  0.5rem;
+  --sp-md:  1rem;
+  --sp-lg:  2rem;
+  --sp-xl:  4rem;
+  --sp-2xl: 8rem;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  line-height: 1.75;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Persistent CRT texture ── */
+
+/* Scanlines */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* Vignette */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+  z-index: 9001;
+}
+
+/* ── Typography ── */
+
+a {
+  color: var(--phosphor);
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+a:hover {
+  color: var(--electric);
+  text-shadow: var(--glow-blue);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-crt);
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+h1 { font-size: clamp(3rem, 7vw, 6rem); }
+h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); }
+h3 { font-size: clamp(1.4rem, 3vw, 2.2rem); }
+
+p {
+  max-width: 62ch;
+}
+
+/* ── Layout ── */
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--sp-lg);
+}
+
+.section {
+  padding: var(--sp-2xl) 0;
+}
+
+/* ── Components ── */
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.75rem;
+  border: 1px solid var(--phosphor);
+  color: var(--phosphor);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+}
+
+.btn:hover {
+  background: var(--phosphor);
+  color: var(--bg);
+  text-shadow: none;
+  box-shadow: var(--glow-green);
+}
+
+.btn-primary {
+  background: var(--phosphor);
+  color: var(--bg);
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--phosphor);
+  text-shadow: var(--glow-green);
+}
+
+.btn-ghost {
+  border-color: var(--border-hover);
+  color: var(--fg-muted);
+}
+
+.btn-ghost:hover {
+  border-color: var(--electric);
+  color: var(--electric);
+  background: transparent;
+  text-shadow: var(--glow-blue);
+  box-shadow: var(--glow-blue);
+}
+
+/* Card */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: var(--sp-lg);
+  transition: border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 0;
+  background: var(--phosphor);
+  transition: height 0.3s;
+}
+
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 24px rgba(0, 255, 136, 0.06);
+}
+
+.card:hover::before {
+  height: 100%;
+}
+
+/* Label / tag */
+.label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+  opacity: 0.7;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--sp-xl) 0;
+}
+
+/* Utility */
+.text-phosphor { color: var(--phosphor); }
+.text-electric  { color: var(--electric); }
+.text-amber     { color: var(--amber); }
+.text-muted     { color: var(--fg-muted); }
+.glow-green     { text-shadow: var(--glow-green); }
+.glow-blue      { text-shadow: var(--glow-blue); }
+
+/* Fade-in animation for page content */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}

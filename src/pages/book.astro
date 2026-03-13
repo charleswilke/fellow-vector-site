@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Book a Call"
+  description="Schedule a call with Fellow Vector to discuss consulting, speaking, or webinar engagements."
+>
+
+  <section class="page-hero">
+    <div class="page-hero-bg" aria-hidden="true">
+      <img src="/book.jpg" alt="" class="page-hero-splash" />
+    </div>
+    <div class="container page-hero-inner">
+      <div class="label">// establish connection</div>
+      <h1>Book a Call</h1>
+      <p class="text-muted page-hero-sub">
+        Whether you're ready to engage or just exploring — this is where we start.
+        Pick a time and let's talk.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container booking-layout">
+
+      <div class="booking-sidebar">
+        <div class="booking-info-block">
+          <div class="label">// what to expect</div>
+          <p>
+            A 30-minute exploratory call. No pitch, no pressure. We'll talk about where you are,
+            what you're trying to figure out, and whether Fellow Vector can help.
+          </p>
+        </div>
+
+        <div class="booking-info-block">
+          <div class="label">// good fits</div>
+          <ul class="info-list">
+            <li>You're navigating AI adoption and need a thinking partner</li>
+            <li>You're looking for a speaker for an upcoming event</li>
+            <li>You want to bring a webinar or workshop to your team</li>
+            <li>You're not sure what you need — but you know you need something</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── Booking embed placeholder ── -->
+      <div class="booking-embed-wrap">
+        <div class="booking-embed-placeholder">
+          <div class="placeholder-inner">
+            <div class="placeholder-icon text-phosphor">◈</div>
+            <p class="text-muted">
+              Booking calendar coming soon.<br />
+              In the meantime, reach out directly.
+            </p>
+            <!-- Replace this block with your Cal.com or Calendly embed:
+              <div class="cal-embed">
+                <!-- cal.com/embed or calendly widget here -->
+              </div>
+            -->
+            <a
+              href="mailto:cwilke@fellowvector.com"
+              class="btn btn-primary"
+            >
+              Email to Schedule
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-2xl) 0 var(--sp-xl);
+    overflow: hidden;
+  }
+
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .page-hero-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.45;
+  }
+
+  .page-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,
+        var(--bg) 20%,
+        rgba(8, 9, 15, 0.7) 55%,
+        rgba(8, 9, 15, 0.25) 100%
+      ),
+      linear-gradient(to top,
+        var(--bg) 0%,
+        transparent 35%
+      );
+  }
+
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .page-hero-inner h1 { margin-top: var(--sp-xs); margin-bottom: var(--sp-sm); }
+
+  .page-hero-sub {
+    font-size: 1rem;
+    max-width: 52ch;
+  }
+
+  .booking-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: var(--sp-2xl);
+    align-items: start;
+  }
+
+  .booking-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xl);
+    position: sticky;
+    top: 80px;
+  }
+
+  .booking-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .booking-info-block p {
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+  }
+
+  .info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .info-list li {
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    padding-left: var(--sp-md);
+    border-left: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  /* Embed area */
+  .booking-embed-wrap {
+    min-height: 400px;
+  }
+
+  .booking-embed-placeholder {
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .booking-embed-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(0, 255, 136, 0.02) 8px,
+      rgba(0, 255, 136, 0.02) 9px
+    );
+  }
+
+  .placeholder-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-lg);
+    text-align: center;
+    padding: var(--sp-xl);
+  }
+
+  .placeholder-icon {
+    font-size: 3rem;
+    font-family: var(--font-crt);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; text-shadow: none; }
+    50% { opacity: 1; text-shadow: var(--glow-green); }
+  }
+
+  @media (max-width: 768px) {
+    .booking-layout {
+      grid-template-columns: 1fr;
+      gap: var(--sp-xl);
+    }
+
+    .booking-sidebar { position: static; }
+  }
+</style>
