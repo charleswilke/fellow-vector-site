@@ -44,33 +44,61 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
       </div>
 
-      <!-- ── Booking embed placeholder ── -->
+      <!-- ── Cal.com embed ── -->
       <div class="booking-embed-wrap">
-        <div class="booking-embed-placeholder">
-          <div class="placeholder-inner">
-            <div class="placeholder-icon text-phosphor">◈</div>
-            <p class="text-muted">
-              Booking calendar coming soon.<br />
-              In the meantime, reach out directly.
-            </p>
-            <!-- Replace this block with your Cal.com or Calendly embed:
-              <div class="cal-embed">
-                <!-- cal.com/embed or calendly widget here -->
-              </div>
-            -->
-            <a
-              href="mailto:cwilke@fellowvector.com"
-              class="btn btn-primary"
-            >
-              Email to Schedule
-            </a>
-          </div>
+        <div class="embed-frame">
+          <div class="embed-corner tl"></div>
+          <div class="embed-corner tr"></div>
+          <div class="embed-corner bl"></div>
+          <div class="embed-corner br"></div>
+          <div class="embed-scanlines" aria-hidden="true"></div>
+          <div id="cal-embed"></div>
         </div>
       </div>
 
     </div>
   </section>
 
+  <script type="text/javascript">
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal;
+        let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {};
+          cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1];
+          api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar);
+            p(cal, ["initNamespace", namespace]);
+          } else p(cal, ar);
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    Cal("init", { origin: "https://cal.com" });
+
+    Cal("inline", {
+      elementOrSelector: "#cal-embed",
+      calLink: "cwilke/discovery-call",
+      config: {
+        layout: "month_view",
+        theme: "dark",
+        brandColor: "#00ff88",
+      }
+    });
+  </script>
 </BaseLayout>
 
 <style>
@@ -169,52 +197,49 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   /* Embed area */
   .booking-embed-wrap {
-    min-height: 400px;
+    min-height: 600px;
   }
 
-  .booking-embed-placeholder {
+  .embed-frame {
+    position: relative;
     border: 1px solid var(--border);
     background: var(--bg-surface);
-    min-height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    overflow: hidden;
   }
 
-  .booking-embed-placeholder::before {
-    content: '';
+  /* Corner brackets */
+  .embed-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .embed-corner.tl { top: -1px; left: -1px; border-top: 2px solid var(--phosphor); border-left: 2px solid var(--phosphor); }
+  .embed-corner.tr { top: -1px; right: -1px; border-top: 2px solid var(--phosphor); border-right: 2px solid var(--phosphor); }
+  .embed-corner.bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--phosphor); border-left: 2px solid var(--phosphor); }
+  .embed-corner.br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--phosphor); border-right: 2px solid var(--phosphor); }
+
+  /* Scanline overlay */
+  .embed-scanlines {
     position: absolute;
     inset: 0;
+    z-index: 1;
+    pointer-events: none;
     background: repeating-linear-gradient(
-      45deg,
+      to bottom,
       transparent,
-      transparent 8px,
-      rgba(0, 255, 136, 0.02) 8px,
-      rgba(0, 255, 136, 0.02) 9px
+      transparent 3px,
+      rgba(0, 0, 0, 0.08) 3px,
+      rgba(0, 0, 0, 0.08) 4px
     );
   }
 
-  .placeholder-inner {
+  #cal-embed {
     position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-lg);
-    text-align: center;
-    padding: var(--sp-xl);
-  }
-
-  .placeholder-icon {
-    font-size: 3rem;
-    font-family: var(--font-crt);
-    animation: pulse 2.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; text-shadow: none; }
-    50% { opacity: 1; text-shadow: var(--glow-green); }
+    width: 100%;
+    min-height: 600px;
   }
 
   @media (max-width: 768px) {
