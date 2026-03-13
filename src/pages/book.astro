@@ -98,6 +98,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         brandColor: "#00ff88",
       }
     });
+
+    // Remove scrollbar from Cal.com iframe once it's injected
+    const observer = new MutationObserver(() => {
+      const iframe = document.querySelector("#cal-embed iframe");
+      if (iframe) {
+        iframe.setAttribute("scrolling", "no");
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.getElementById("cal-embed"), { childList: true, subtree: true });
   </script>
 </BaseLayout>
 
