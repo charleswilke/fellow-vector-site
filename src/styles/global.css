@@ -72,6 +72,8 @@ body::after {
   );
   pointer-events: none;
   z-index: 9000;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* Vignette */
@@ -89,6 +91,8 @@ body::before {
   );
   pointer-events: none;
   z-index: 9001;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 /* ── Typography ── */
