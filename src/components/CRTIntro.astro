@@ -60,12 +60,12 @@
     50%       { opacity: 0; }
   }
 
-  /* CRT collapse — the membrane moment */
+  /* CRT collapse — filter removed for iOS WebKit compatibility */
   @keyframes crt-collapse {
-    0%   { transform: scale(1, 1);        filter: brightness(1);  opacity: 1; }
-    45%  { transform: scale(1.04, 0.003); filter: brightness(5);  opacity: 1; }
-    65%  { transform: scale(1.04, 0.003); filter: brightness(0);  opacity: 0; }
-    100% { transform: scale(0, 0);        filter: brightness(0);  opacity: 0; }
+    0%   { transform: scale(1, 1);        opacity: 1; }
+    45%  { transform: scale(1.04, 0.003); opacity: 1; }
+    65%  { transform: scale(1.04, 0.003); opacity: 0; }
+    100% { transform: scale(0, 0);        opacity: 0; }
   }
 
   #crt-intro.collapsing {
@@ -139,7 +139,10 @@
       dismissed = true;
       sessionStorage.setItem(SEEN_KEY, '1');
       introEl.classList.add('collapsing');
+      // Fallback: force hide after 800ms in case animationend doesn't fire (iOS WebKit)
+      const fallback = setTimeout(() => { introEl.style.display = 'none'; }, 800);
       introEl.addEventListener('animationend', () => {
+        clearTimeout(fallback);
         introEl.style.display = 'none';
       }, { once: true });
     }
