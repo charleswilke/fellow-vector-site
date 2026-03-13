@@ -62,4 +62,15 @@ npm run preview   # preview production build locally
 
 ---
 
+## Documentation
+
+| Doc | Contents |
+|-----|---------|
+| [`docs/DESIGN.md`](docs/DESIGN.md) | Design system, tokens, components, CRT effects |
+| [`docs/VOICE.md`](docs/VOICE.md) | Brand voice, copy principles, Charles's background |
+| [`docs/IMAGES.md`](docs/IMAGES.md) | Visual narrative, image prompting guide, treatments |
+| [`docs/TECHNICAL.md`](docs/TECHNICAL.md) | Architecture, iOS gotchas, deployment, patterns |
+
+---
+
 ## Signal active.
