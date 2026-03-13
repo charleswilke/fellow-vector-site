@@ -1,43 +1,65 @@
-# Astro Starter Kit: Minimal
+# FELLOW VECTOR
+### fellowvector.com
+
+> *The future is already broadcasting.*
+
+Consulting, speaking, and webinar site for Fellow Vector — the practice of Charles Wilke.
+Built on Astro with a CRT signal aesthetic: phosphor green, scanlines, boot sequences, and
+imagery drawn from the inside of the machines that made the broadcast age possible.
+
+---
+
+## Stack
+
+- **Framework** — Astro (static)
+- **Fonts** — VT323, Share Tech Mono (Google Fonts)
+- **Styling** — Pure CSS with custom properties, no framework
+- **Deployment** — Vercel, connected to this repo (auto-deploys on push to `main`)
+
+---
+
+## Structure
+
+```
+src/
+  components/
+    CRTIntro.astro    — boot sequence overlay, plays once per session
+    Nav.astro         — fixed navigation
+    Footer.astro      — site footer
+  layouts/
+    BaseLayout.astro  — HTML shell, meta tags, OG image, fonts
+  pages/
+    index.astro       — home
+    services.astro    — consulting, speaking, webinars
+    about.astro       — about Charles
+    book.astro        — booking page
+  styles/
+    global.css        — design system, CRT texture, component styles
+
+public/
+  splash.jpg          — hero background (CRT glass, home)
+  services.jpg        — services header (electron gun)
+  about.jpg           — about header (oscilloscope)
+  book.jpg            — book header (radio tuner dial)
+  focus.jpg           — services grid background (lens)
+  signal.jpg          — CTA background (phosphor light trails)
+  patchbay.jpg        — services CTA background (patch bay)
+  cwilke.jpg          — portrait illustration
+  og.jpg              — OG / social share image (1200x630)
+  favicon.svg         — phosphor waveform mark
+```
+
+---
+
+## Dev
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev       # localhost:4321
+npm run build     # production build to ./dist
+npm run preview   # preview production build locally
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Signal active.
