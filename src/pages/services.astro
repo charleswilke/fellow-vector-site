@@ -114,8 +114,11 @@ const services = [
     </div>
     <div class="container cta-inner">
       <h2 class="text-phosphor glow-green">Not sure where to start?</h2>
-      <p class="text-muted">Book an initial call — we'll figure out the right fit together.</p>
-      <a href="/book" class="btn btn-primary">Book a Call</a>
+      <p class="text-muted">Let's figure out the right fit together.</p>
+      <div class="cta-buttons">
+        <a href="/book" class="btn btn-primary">Book a Call</a>
+        <a href="mailto:cwilke@fellowvector.com" class="btn btn-ghost">Send an Email</a>
+      </div>
     </div>
   </section>
 
@@ -276,6 +279,13 @@ const services = [
       rgba(8, 9, 15, 0.3) 0%,
       rgba(8, 9, 15, 0.88) 100%
     );
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--sp-md);
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .cta-inner {

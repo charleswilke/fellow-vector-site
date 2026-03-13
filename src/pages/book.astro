@@ -34,6 +34,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="booking-info-block">
+          <div class="label">// prefer email?</div>
+          <a href="mailto:cwilke@fellowvector.com" class="email-link">cwilke@fellowvector.com</a>
+        </div>
+
+        <div class="booking-info-block">
           <div class="label">// good fits</div>
           <ul class="info-list">
             <li>You're navigating AI adoption and need a thinking partner</li>
@@ -189,6 +194,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-size: 0.9rem;
     color: var(--fg-muted);
   }
+
+  .email-link {
+    font-size: 0.85rem;
+    color: var(--phosphor);
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s;
+  }
+
+  .email-link:hover { opacity: 0.7; }
 
   .info-list {
     list-style: none;
