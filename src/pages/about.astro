@@ -23,24 +23,38 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     <div class="container about-grid">
 
       <div class="about-body">
+
+        <div class="about-intro">
+          <!-- Portrait shown inline on mobile, floated right -->
+          <div class="portrait-wrap portrait-mobile" aria-hidden="true">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <img src="/cwilke.jpg" alt="Charles Wilke" class="portrait-img" />
+            <div class="portrait-scanlines" aria-hidden="true"></div>
+            <div class="portrait-label">// charles wilke</div>
+          </div>
+
+          <p>
+            In my day-to-day, I'm the architect of <a href="https://pos.toasttab.com/news/toast-expands-toast-iq-smart-ai-assistant" target="_blank" rel="noopener">Toast IQ</a>'s soul — senior product designer and
+            proud parent of Toast's first steps into this brave new world. That work keeps me
+            embedded in the real, daily friction of bringing AI into a product people actually use.
+            It's where theory meets the traction of real-world business operations.
+          </p>
+
+          <p>
+            Through Fellow Vector, I partner with organizations to translate AI from an abstract trend into
+            a usable capability. That might mean shaping content strategies, designing AI-assisted workflows,
+            building custom tools, or leading workshops that help teams understand how these systems can
+            support their real goals.
+          </p>
+        </div>
+
         <p class="about-lead">
           I help small and mid-sized businesses make practical, grounded use of this emerging
           technology. I do this with less hype and a clear sense of what actually
           matters for our best work to effortlessly flow from us.
-        </p>
-
-        <p>
-          In my day-to-day, I'm the architect of <a href="https://pos.toasttab.com/news/toast-expands-toast-iq-smart-ai-assistant" target="_blank" rel="noopener">Toast IQ</a>'s soul — senior product designer and
-          proud parent of Toast's first steps into this brave new world. That work keeps me
-          embedded in the real, daily friction of bringing AI into a product people actually use.
-          It's where theory meets the traction of real-world business operations.
-        </p>
-
-        <p>
-          Through Fellow Vector, I partner with organizations to translate AI from an abstract trend into
-          a usable capability. That might mean shaping content strategies, designing AI-assisted workflows,
-          building custom tools, or leading workshops that help teams understand how these systems can
-          support their real goals.
         </p>
         <p>
           My approach is collaborative and human-centered. I believe technology should
@@ -75,7 +89,7 @@ import SubstackFeed from '../components/SubstackFeed.astro';
       <aside class="about-sidebar">
 
         <!-- Portrait -->
-        <div class="portrait-wrap">
+        <div class="portrait-wrap portrait-sidebar">
           <span class="corner tl"></span>
           <span class="corner tr"></span>
           <span class="corner bl"></span>
@@ -297,7 +311,15 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     letter-spacing: 0.08em;
   }
 
+  .portrait-mobile {
+    display: none;
+  }
+
   @media (max-width: 768px) {
+    .page-hero {
+      padding: var(--sp-md) 0 var(--sp-sm);
+    }
+
     .about-grid {
       grid-template-columns: 1fr;
       gap: var(--sp-xl);
@@ -305,6 +327,23 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
     .about-sidebar {
       position: static;
+    }
+
+    .portrait-sidebar {
+      display: none;
+    }
+
+    .portrait-mobile {
+      display: block;
+      float: right;
+      width: 40%;
+      margin: 0 0 0.75rem 1.25rem;
+    }
+
+    .about-intro::after {
+      content: '';
+      display: table;
+      clear: both;
     }
   }
 </style>
