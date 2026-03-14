@@ -76,7 +76,8 @@
 
 <script>
   (function () {
-    const SEEN_KEY = 'fv_intro_seen';
+    const SEEN_KEY    = 'fv_intro_seen';
+    const EXPIRY_DAYS = 30;
 
     const introEl  = document.getElementById('crt-intro');
     const screenEl = document.getElementById('crt-screen');
@@ -84,8 +85,9 @@
 
     if (!introEl || !screenEl || !textEl) return;
 
-    // Skip if already seen this session
-    if (sessionStorage.getItem(SEEN_KEY)) {
+    // Skip if already seen within the expiry window
+    const stored = localStorage.getItem(SEEN_KEY);
+    if (stored && Date.now() < Number(stored)) {
       introEl.style.display = 'none';
       return;
     }
@@ -137,7 +139,8 @@
     function dismiss() {
       if (dismissed) return;
       dismissed = true;
-      sessionStorage.setItem(SEEN_KEY, '1');
+      const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+      localStorage.setItem(SEEN_KEY, String(expiry));
       introEl.classList.add('collapsing');
       // Fallback: force hide after 800ms in case animationend doesn't fire (iOS WebKit)
       const fallback = setTimeout(() => { introEl.style.display = 'none'; }, 800);
