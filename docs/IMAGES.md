@@ -11,6 +11,7 @@ Each image represents a different moment in the metaphor of "entering through a 
 | Services hero        | `services.jpg`  | Inside the electron gun — signal being made  |
 | About hero           | `about.jpg`     | Oscilloscope — the human reading the signal  |
 | Book hero            | `book.jpg`      | Radio tuner dial — finding the frequency     |
+| Writing hero         | `writings.jpg`  | Teletype internals — signal becoming language|
 | Home: focus section  | `focus.jpg`     | Precision lens — clarity from complexity     |
 | Home: CTA            | `signal.jpg`    | Phosphor light trails — pure transmission    |
 | Services: CTA        | `patchbay.jpg`  | Patch bay — connections waiting to be made   |
