@@ -9,6 +9,7 @@
     <div id="crt-prompt">[ press any key or click to skip ]</div>
   </div>
 </div>
+<canvas id="fv-dissolve"></canvas>
 
 <style>
   #crt-intro {
@@ -60,17 +61,13 @@
     50%       { opacity: 0; }
   }
 
-  /* CRT collapse — filter removed for iOS WebKit compatibility */
-  @keyframes crt-collapse {
-    0%   { transform: scale(1, 1);        opacity: 1; }
-    45%  { transform: scale(1.04, 0.003); opacity: 1; }
-    65%  { transform: scale(1.04, 0.003); opacity: 0; }
-    100% { transform: scale(0, 0);        opacity: 0; }
-  }
-
-  #crt-intro.collapsing {
-    animation: crt-collapse 0.55s cubic-bezier(0.4, 0, 1, 1) forwards;
+  #fv-dissolve {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: none;
     pointer-events: none;
+    image-rendering: pixelated;
   }
 </style>
 
@@ -79,11 +76,12 @@
     const SEEN_KEY    = 'fv_intro_seen';
     const EXPIRY_DAYS = 30;
 
-    const introEl  = document.getElementById('crt-intro');
-    const screenEl = document.getElementById('crt-screen');
-    const textEl   = document.getElementById('crt-text');
+    const introEl    = document.getElementById('crt-intro') as HTMLElement;
+    const screenEl   = document.getElementById('crt-screen') as HTMLElement;
+    const textEl     = document.getElementById('crt-text') as HTMLElement;
+    const dissolveEl = document.getElementById('fv-dissolve') as HTMLCanvasElement;
 
-    if (!introEl || !screenEl || !textEl) return;
+    if (!introEl || !screenEl || !textEl || !dissolveEl) return;
 
     // Skip if already seen within the expiry window
     const stored = localStorage.getItem(SEEN_KEY);
@@ -135,19 +133,71 @@
       });
     }
 
+    // ── Pixel dissolve ──
+    function runDissolve() {
+      const W = dissolveEl.width  = window.innerWidth;
+      const H = dissolveEl.height = window.innerHeight;
+      const ctx = dissolveEl.getContext('2d')!;
+
+      const BLOCK    = 2;
+      const cols     = Math.ceil(W / BLOCK);
+      const rows     = Math.ceil(H / BLOCK);
+      const total    = cols * rows;
+      const DURATION = 700;
+
+      // Fill black + show canvas synchronously — covers intro in same paint
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+      dissolveEl.style.display = 'block';
+      introEl.style.display = 'none';
+
+      // Shuffle block order (Fisher-Yates)
+      const order = new Uint32Array(total);
+      for (let i = 0; i < total; i++) order[i] = i;
+      for (let i = total - 1; i > 0; i--) {
+        const j = (Math.random() * (i + 1)) | 0;
+        const tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+      }
+
+      // Pre-clear ~15% of blocks so the first visible frame already has holes in it
+      const preCleared = (total * 0.15) | 0;
+      for (let i = 0; i < preCleared; i++) {
+        const idx = order[i];
+        ctx.clearRect((idx % cols) * BLOCK, ((idx / cols) | 0) * BLOCK, BLOCK, BLOCK);
+      }
+
+      let prevCleared = preCleared;
+      const start = performance.now();
+
+      function frame(now: number) {
+        const t      = Math.min((now - start) / DURATION, 1);
+        // ease-out: site appears quickly, remaining blocks linger
+        const eased   = 1 - (1 - t) * (1 - t);
+        const cleared = (preCleared + eased * (total - preCleared)) | 0;
+
+        for (let i = prevCleared; i < cleared; i++) {
+          const idx = order[i];
+          ctx.clearRect((idx % cols) * BLOCK, ((idx / cols) | 0) * BLOCK, BLOCK, BLOCK);
+        }
+        prevCleared = cleared;
+
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          dissolveEl.style.display = 'none';
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
     // ── Dismiss ──
     function dismiss() {
       if (dismissed) return;
       dismissed = true;
       const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
       localStorage.setItem(SEEN_KEY, String(expiry));
-      introEl.classList.add('collapsing');
-      // Fallback: force hide after 800ms in case animationend doesn't fire (iOS WebKit)
-      const fallback = setTimeout(() => { introEl.style.display = 'none'; }, 800);
-      introEl.addEventListener('animationend', () => {
-        clearTimeout(fallback);
-        introEl.style.display = 'none';
-      }, { once: true });
+      runDissolve();
     }
 
     // ── Start — rise from black, then show text ──
