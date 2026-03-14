@@ -243,6 +243,12 @@ p {
 .glow-green     { text-shadow: var(--glow-green); }
 .glow-blue      { text-shadow: var(--glow-blue); }
 
+/* Sub-page hero titles */
+.page-hero-inner h1 {
+  color: var(--phosphor);
+  text-shadow: var(--glow-green);
+}
+
 /* Fade-in animation for page content */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
