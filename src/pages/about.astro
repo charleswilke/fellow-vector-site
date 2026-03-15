@@ -54,7 +54,10 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
         <p class="about-lead">
           I help small and mid-sized businesses make practical, grounded use of this emerging
-          technology. I do this with less hype and a clear sense of what actually
+          technology.
+        </p>
+        <p class="about-lead">
+          I do this with less hype and a clear sense of what actually
           matters for our best work to effortlessly flow from us.
         </p>
         <p>
@@ -68,9 +71,14 @@ import SubstackFeed from '../components/SubstackFeed.astro';
         <h2>How I got here</h2>
 
         <p>
-          I came to this work through a lot of different doors. Games at Insomniac. Content and product
-          at GoDaddy. Projection design for theatrical productions <em>(<a href="https://charleswilke.com/jersey-boys.html" target="_blank" rel="noopener">Jersey Boys</a>, <a href="https://charleswilke.com/alice-in-wonderland.html" target="_blank" rel="noopener">Alice in Wonderland</a>)</em>, shows where the visual language had to carry emotional weight in the dark.
-          Music. A <a href="https://charleswilke.substack.com" target="_blank" rel="noopener">Substack</a> where I've been thinking out loud about what AI actually means for
+          I came to this work through a lot of different doors. 
+          <br />
+            Games at Insomniac, 
+            content and product at GoDaddy.
+            </p>
+            <p>I've done projection design for theatrical productions 
+            <em>(<a href="https://charleswilke.com/jersey-boys.html" target="_blank" rel="noopener">Jersey Boys</a>, <a href="https://charleswilke.com/alice-in-wonderland.html" target="_blank" rel="noopener">Alice in Wonderland</a>)</em>,
+            a <a href="http://charleswilke.com/mixtape" target="_blank" rel="noopener">mixtape</a>, an <a href="https://charleswilke.com/gwor" target="_blank" rel="noopener">album</a>, and a <a href="https://charleswilke.substack.com" target="_blank" rel="noopener">Substack</a> where I've been thinking out loud about what AI actually means for
           people who make things for a living.
         </p>
 
@@ -151,7 +159,7 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   .page-hero {
     position: relative;
     border-bottom: 1px solid var(--border);
-    padding: var(--sp-2xl) 0 var(--sp-xl);
+    padding: var(--sp-2xl) 0 var(--sp-sm);
     overflow: hidden;
   }
 
@@ -313,6 +321,12 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
   .portrait-mobile {
     display: none;
+  }
+
+  @media (min-width: 769px) {
+    .section {
+      padding-top: var(--sp-lg);
+    }
   }
 
   @media (max-width: 768px) {
