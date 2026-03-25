@@ -133,6 +133,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="cta-bg" aria-hidden="true">
       <img src="/signal.jpg" alt="" class="cta-splash" />
     </div>
+    <div class="cta-bulb" aria-hidden="true">
+      <img src="/bulb.jpg" alt="" />
+    </div>
     <div class="container cta-inner">
       <h2 class="text-phosphor glow-green">Ready to find your signal?</h2>
       <p class="text-muted">
@@ -421,18 +424,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--sp-lg);
+    max-width: 60%;
+  }
+
+  .cta-bulb {
+    position: absolute;
+    right: 5%;
+    bottom: -15%;
+    top: auto;
+    transform: none;
+    width: 320px;
+    mix-blend-mode: screen;
+  }
+
+  .cta-bulb img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   .cta-buttons {
     display: flex;
     gap: var(--sp-md);
     flex-wrap: wrap;
-    justify-content: center;
   }
 
   @media (max-width: 768px) {
+    .cta-inner {
+      max-width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+
+    .cta-buttons {
+      justify-content: center;
+    }
+
+    .cta-bulb {
+      position: absolute;
+      right: 50%;
+      transform: translateX(50%);
+      bottom: -12%;
+      top: auto;
+      width: 200px;
+    }
+
     .why-grid {
       grid-template-columns: 1fr;
       gap: var(--sp-xl);
