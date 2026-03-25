@@ -22,12 +22,34 @@ const year = new Date().getFullYear();
       <a href="mailto:cwilke@fellowvector.com" class="footer-signal text-phosphor">// signal active</a>
     </div>
   </div>
+  <div class="footer-bulb" aria-hidden="true">
+    <img src="/bulb.jpg" alt="" />
+  </div>
 </footer>
+
+<script>
+  if (window.location.pathname !== '/') {
+    const bulb = document.querySelector('.footer-bulb');
+    if (bulb) {
+      function peek() {
+        bulb.classList.add('peek');
+        setTimeout(() => {
+          bulb.classList.remove('peek');
+          const delay = (120 + Math.random() * 120) * 1000; // 2-4 minutes
+          setTimeout(peek, delay);
+        }, 3000);
+      }
+      peek();
+    }
+  }
+</script>
 
 <style>
   #site-footer {
+    position: relative;
     border-top: 1px solid var(--border);
     padding: var(--sp-xl) 0;
+    overflow: hidden;
   }
 
   .footer-inner {
@@ -88,6 +110,27 @@ const year = new Date().getFullYear();
   @keyframes pulse {
     0%, 100% { opacity: 0.5; }
     50%       { opacity: 1; text-shadow: var(--glow-green); }
+  }
+
+  .footer-bulb {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 120px;
+    mix-blend-mode: screen;
+    transform: translateY(100%);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+  }
+
+  .footer-bulb.peek {
+    transform: translateY(25%);
+  }
+
+  .footer-bulb img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 
   @media (max-width: 640px) {

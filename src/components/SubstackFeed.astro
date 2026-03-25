@@ -70,7 +70,7 @@ const { limit = 3, variant = 'compact' } = Astro.props;
                 <div class="feed-body">
                   <div class="feed-date text-muted">${date}</div>
                   <div class="feed-title">${title}</div>
-                  ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}…</p>` : ''}
+                  ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}</p>` : ''}
                   <span class="feed-read">Read on Substack →</span>
                 </div>
               </a>
@@ -85,7 +85,7 @@ const { limit = 3, variant = 'compact' } = Astro.props;
                 <span class="feed-date text-muted">${date}</span>
               </div>
               <div class="feed-title">${title}</div>
-              ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}…</p>` : ''}
+              ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}</p>` : ''}
             </a>
           </li>
         `;
