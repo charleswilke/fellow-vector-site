@@ -15,8 +15,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="label">// establish connection</div>
       <h1>Book a Call</h1>
       <p class="text-muted page-hero-sub">
-        Ready to engage or just exploring? This is where we start.
-        Pick a time. Let's talk.
+        What would you do with <span class="shimmer shimmer-1">more time</span>?<br />
+        What would you make with <span class="shimmer shimmer-2">more focus</span>?<br />
+        What's keeping you from <span class="shimmer shimmer-3">your joy</span>?
       </p>
     </div>
   </section>
@@ -28,8 +29,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="booking-info-block">
           <div class="label">// what to expect</div>
           <p>
-            A 30-minute exploratory call. No pitch, no pressure. We'll talk about where you are,
-            what you're trying to figure out, and whether Fellow Vector can help.
+            A 30-minute exploratory call. No pitch, no pressure. We'll talk about what's
+            taking up your time, where you wish you had more bandwidth, and how AI
+            might help you close that gap.
           </p>
         </div>
 
@@ -41,7 +43,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="booking-info-block">
           <div class="label">// good fits</div>
           <ul class="info-list">
-            <li>You're navigating AI adoption and need a thinking partner</li>
+            <li>You know AI could free up your time but aren't sure where to start</li>
             <li>You're seeking a speaker for an upcoming event</li>
             <li>You want to bring a webinar or workshop to your team</li>
             <li>You're not sure what you need... but you know you need something</li>
@@ -273,5 +275,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
 
     .booking-sidebar { position: static; }
+  }
+
+  .shimmer {
+    color: var(--phosphor);
+    animation: shimmer 6s ease-in-out infinite;
+    opacity: 0.6;
+  }
+
+  .shimmer-1 { animation-delay: 0s; }
+  .shimmer-2 { animation-delay: 2s; }
+  .shimmer-3 { animation-delay: 4s; }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.6; text-shadow: none; }
+    50% { opacity: 1; text-shadow: 0 0 8px var(--phosphor), 0 0 16px rgba(0, 255, 136, 0.3); }
   }
 </style>
