@@ -31,7 +31,13 @@ import SubstackFeed from '../components/SubstackFeed.astro';
             <span class="corner tr"></span>
             <span class="corner bl"></span>
             <span class="corner br"></span>
-            <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" />
+            <div class="portrait-glitch-container">
+              <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" />
+              <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" />
+              <div class="glitch-slice s1"></div>
+              <div class="glitch-slice s2"></div>
+              <div class="glitch-slice s3"></div>
+            </div>
             <div class="portrait-scanlines" aria-hidden="true"></div>
             <div class="portrait-label">// charles</div>
           </div>
@@ -101,7 +107,13 @@ import SubstackFeed from '../components/SubstackFeed.astro';
           <span class="corner tr"></span>
           <span class="corner bl"></span>
           <span class="corner br"></span>
-          <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" />
+          <div class="portrait-glitch-container">
+            <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" />
+            <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" />
+            <div class="glitch-slice s1"></div>
+            <div class="glitch-slice s2"></div>
+            <div class="glitch-slice s3"></div>
+          </div>
           <div class="portrait-scanlines" aria-hidden="true"></div>
           <div class="portrait-label">// charles</div>
         </div>
@@ -214,9 +226,211 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     overflow: hidden;
   }
 
+  .portrait-glitch-container {
+    position: relative;
+    overflow: hidden;
+  }
+
   .portrait-img {
     display: block;
     width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Real photo underneath, always visible */
+  .portrait-reveal {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 1;
+  }
+
+  /* Glitch slices: horizontal bands that reveal the photo */
+  .glitch-slice {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background-image: url('/cw2.webp');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: normal;
+  }
+
+  .glitch-slice.s1 {
+    top: 15%;
+    height: 12%;
+    background-position: 0 15%;
+  }
+  .glitch-slice.s2 {
+    top: 45%;
+    height: 8%;
+    background-position: 0 45%;
+  }
+  .glitch-slice.s3 {
+    top: 72%;
+    height: 15%;
+    background-position: 0 72%;
+  }
+
+  /* Glitch runs by default, cursor pointer for click-to-flip */
+  .portrait-glitch-container {
+    cursor: pointer;
+  }
+
+  .portrait-img {
+    animation: glitch-flicker 12s steps(2) infinite;
+  }
+
+  .portrait-reveal {
+    animation: reveal-flash 18s steps(1) infinite;
+  }
+
+  .glitch-slice.s1 {
+    animation: slice-glitch-1 16s steps(1) infinite;
+  }
+  .glitch-slice.s2 {
+    animation: slice-glitch-2 20s steps(1) infinite;
+  }
+  .glitch-slice.s3 {
+    animation: slice-glitch-3 14s steps(1) infinite;
+  }
+
+  /* Hover: horizontal band that follows cursor — stepped/pixelated edges */
+  .portrait-wrap:hover .portrait-img {
+    --band-center: var(--my, 50%);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black calc(var(--band-center) - 28%),
+      rgba(0,0,0,0.85) calc(var(--band-center) - 28%),
+      rgba(0,0,0,0.85) calc(var(--band-center) - 24%),
+      rgba(0,0,0,0.6) calc(var(--band-center) - 24%),
+      rgba(0,0,0,0.6) calc(var(--band-center) - 20%),
+      rgba(0,0,0,0.3) calc(var(--band-center) - 20%),
+      rgba(0,0,0,0.3) calc(var(--band-center) - 16%),
+      transparent calc(var(--band-center) - 16%),
+      transparent calc(var(--band-center) + 16%),
+      rgba(0,0,0,0.3) calc(var(--band-center) + 16%),
+      rgba(0,0,0,0.3) calc(var(--band-center) + 20%),
+      rgba(0,0,0,0.6) calc(var(--band-center) + 20%),
+      rgba(0,0,0,0.6) calc(var(--band-center) + 24%),
+      rgba(0,0,0,0.85) calc(var(--band-center) + 24%),
+      rgba(0,0,0,0.85) calc(var(--band-center) + 28%),
+      black calc(var(--band-center) + 28%),
+      black 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black calc(var(--band-center) - 28%),
+      rgba(0,0,0,0.85) calc(var(--band-center) - 28%),
+      rgba(0,0,0,0.85) calc(var(--band-center) - 24%),
+      rgba(0,0,0,0.6) calc(var(--band-center) - 24%),
+      rgba(0,0,0,0.6) calc(var(--band-center) - 20%),
+      rgba(0,0,0,0.3) calc(var(--band-center) - 20%),
+      rgba(0,0,0,0.3) calc(var(--band-center) - 16%),
+      transparent calc(var(--band-center) - 16%),
+      transparent calc(var(--band-center) + 16%),
+      rgba(0,0,0,0.3) calc(var(--band-center) + 16%),
+      rgba(0,0,0,0.3) calc(var(--band-center) + 20%),
+      rgba(0,0,0,0.6) calc(var(--band-center) + 20%),
+      rgba(0,0,0,0.6) calc(var(--band-center) + 24%),
+      rgba(0,0,0,0.85) calc(var(--band-center) + 24%),
+      rgba(0,0,0,0.85) calc(var(--band-center) + 28%),
+      black calc(var(--band-center) + 28%),
+      black 100%
+    );
+  }
+  .portrait-wrap:hover .portrait-reveal {
+    animation: none;
+    opacity: 1;
+  }
+  .portrait-wrap:hover .glitch-slice {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Flip animation on the container */
+  .portrait-glitch-container {
+    transition: transform 0.3s ease;
+  }
+
+  .portrait-wrap.flipping .portrait-glitch-container {
+    transform: scaleX(0);
+  }
+
+  /* Flipped state: show real photo, hide drawn */
+  .portrait-wrap.flipped .portrait-img {
+    opacity: 0;
+    animation: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .portrait-wrap.flipped .portrait-reveal {
+    opacity: 1;
+    animation: none;
+  }
+  .portrait-wrap.flipped .glitch-slice {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Flipped hover: just show the photo clean */
+  .portrait-wrap.flipped:hover .portrait-img {
+    opacity: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .portrait-wrap.flipped:hover .portrait-reveal {
+    opacity: 1;
+  }
+
+  @keyframes glitch-flicker {
+    0%   { opacity: 1; }
+    94%  { opacity: 1; }
+    94.5%{ opacity: 0.7; transform: translateX(2px); }
+    95.5%{ opacity: 1; transform: translateX(0); }
+    97%  { opacity: 1; }
+    97.5%{ opacity: 0.85; transform: translateX(-1px); }
+    98%  { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes reveal-flash {
+    0%   { opacity: 0; }
+    92%  { opacity: 0; }
+    92.5%{ opacity: 1; }
+    94%  { opacity: 1; }
+    94.5%{ opacity: 0; }
+  }
+
+  @keyframes slice-glitch-1 {
+    0%   { opacity: 0; transform: translateX(0); }
+    93%  { opacity: 0; }
+    93.5%{ opacity: 1; transform: translateX(-4px); }
+    94.5%{ opacity: 1; transform: translateX(6px); }
+    95%  { opacity: 0; transform: translateX(0); }
+  }
+
+  @keyframes slice-glitch-2 {
+    0%   { opacity: 0; transform: translateX(0); }
+    91%  { opacity: 0; }
+    91.5%{ opacity: 1; transform: translateX(8px); }
+    92.5%{ opacity: 1; transform: translateX(-3px); }
+    93%  { opacity: 0; transform: translateX(0); }
+  }
+
+  @keyframes slice-glitch-3 {
+    0%   { opacity: 0; transform: translateX(0); }
+    95%  { opacity: 0; }
+    95.5%{ opacity: 1; transform: translateX(-6px); }
+    96.5%{ opacity: 0; transform: translateX(0); }
   }
 
   .portrait-scanlines {
@@ -363,3 +577,44 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     }
   }
 </style>
+
+<script>
+  let flipping = false;
+
+  document.querySelectorAll('.portrait-glitch-container').forEach((container) => {
+    // Click to flip with animation
+    container.addEventListener('click', () => {
+      if (flipping) return;
+      flipping = true;
+
+      const wraps = document.querySelectorAll('.portrait-wrap');
+      const willFlip = !wraps[0].classList.contains('flipped');
+
+      // Phase 1: collapse
+      wraps.forEach((w) => w.classList.add('flipping'));
+
+      setTimeout(() => {
+        // Phase 2: swap at midpoint
+        wraps.forEach((w) => w.classList.toggle('flipped', willFlip));
+
+        // Phase 3: expand
+        requestAnimationFrame(() => {
+          wraps.forEach((w) => w.classList.remove('flipping'));
+          setTimeout(() => { flipping = false; }, 300);
+        });
+      }, 300);
+    });
+
+    // Track mouse for band mask
+    container.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+      const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
+      const wrap = container.closest('.portrait-wrap');
+      if (wrap) {
+        wrap.style.setProperty('--mx', x);
+        wrap.style.setProperty('--my', y);
+      }
+    });
+  });
+</script>
