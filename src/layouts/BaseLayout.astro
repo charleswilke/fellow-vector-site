@@ -16,6 +16,35 @@ const {
 
 const siteUrl = 'https://fellowvector.com';
 const ogTitle = title === 'Fellow Vector' ? title : `${title} — Fellow Vector`;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      name: 'Fellow Vector',
+      url: siteUrl,
+      description: 'Consulting, speaking, and strategic guidance for businesses and leaders navigating the AI era.',
+      founder: {
+        '@type': 'Person',
+        name: 'Charles Wilke',
+        url: siteUrl,
+        jobTitle: 'AI Strategy Consultant & Speaker',
+        sameAs: [
+          'https://www.linkedin.com/in/charleswilke',
+        ],
+      },
+      serviceType: ['AI Consulting', 'Speaking', 'Workshops', 'Webinars'],
+      areaServed: 'Worldwide',
+    },
+    {
+      '@type': 'WebSite',
+      name: 'Fellow Vector',
+      url: siteUrl,
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -50,8 +79,11 @@ const ogTitle = title === 'Fellow Vector' ? title : `${title} — Fellow Vector`
       rel="stylesheet"
     />
 
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" sizes="32x32 16x16" href="/favicon.ico" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
 
   <body>
