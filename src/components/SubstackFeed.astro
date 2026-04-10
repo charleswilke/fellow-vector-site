@@ -16,6 +16,16 @@ const { limit = 3, variant = 'compact' } = Astro.props;
 </div>
 
 <script>
+  function esc(str) {
+    const el = document.createElement('span');
+    el.textContent = str;
+    return el.innerHTML;
+  }
+
+  function escAttr(str) {
+    return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
   async function loadFeed(container) {
     const limit = parseInt(container.dataset.limit) || 3;
     const variant = container.dataset.variant || 'compact';
@@ -35,18 +45,19 @@ const { limit = 3, variant = 'compact' } = Astro.props;
       const excerptLength = variant === 'full' ? 280 : 160;
 
       list.innerHTML = items.map((item, i) => {
-        const title = item.querySelector('title')?.textContent ?? '';
-        const link = item.querySelector('link')?.textContent ?? '#';
+        const title = esc(item.querySelector('title')?.textContent ?? '');
+        const rawLink = item.querySelector('link')?.textContent ?? '#';
+        const link = escAttr(rawLink.startsWith('http') ? rawLink : '#');
         const pubDate = item.querySelector('pubDate')?.textContent ?? '';
         const description = item.querySelector('description')?.textContent ?? '';
-        const imageUrl = item.querySelector('enclosure')?.getAttribute('url') ?? '';
+        const rawImageUrl = item.querySelector('enclosure')?.getAttribute('url') ?? '';
+        const imageUrl = escAttr(rawImageUrl.startsWith('http') ? rawImageUrl : '');
 
         const date = pubDate
-          ? new Date(pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+          ? esc(new Date(pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }))
           : '';
 
-        const excerpt = description.replace(/<[^>]*>/g, '').trim().slice(0, excerptLength);
-        const index = String(i + 1).padStart(2, '0');
+        const excerpt = esc(description.replace(/<[^>]*>/g, '').trim().slice(0, excerptLength));
 
         if (variant === 'full') {
           const imageHtml = imageUrl ? `
@@ -116,11 +127,6 @@ const { limit = 3, variant = 'compact' } = Astro.props;
     font-family: var(--font-crt);
     font-size: 1.5rem;
     animation: blink 1s step-end infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
   }
 
   .feed-list {

@@ -56,11 +56,6 @@
     animation: blink 1.4s step-end infinite;
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
-
   #fv-dissolve {
     position: fixed;
     inset: 0;
@@ -83,10 +78,15 @@
 
     if (!introEl || !screenEl || !textEl || !dissolveEl) return;
 
-    // Skip if already seen within the expiry window
+    // Skip if already seen within the expiry window or user prefers reduced motion
     const stored = localStorage.getItem(SEEN_KEY);
-    if (stored && Date.now() < Number(stored)) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if ((stored && Date.now() < Number(stored)) || reducedMotion) {
       introEl.style.display = 'none';
+      if (reducedMotion) {
+        const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+        localStorage.setItem(SEEN_KEY, String(expiry));
+      }
       return;
     }
 

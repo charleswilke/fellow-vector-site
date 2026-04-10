@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 ---
 
 <BaseLayout
@@ -7,20 +8,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   description="Schedule a call with Fellow Vector to discuss consulting, speaking, or webinar engagements."
 >
 
-  <section class="page-hero">
-    <div class="page-hero-bg" aria-hidden="true">
-      <img src="/book.webp" alt="" class="page-hero-splash" />
-    </div>
-    <div class="container page-hero-inner">
-      <div class="label">// establish connection</div>
-      <h1>Book a Call</h1>
-      <p class="text-muted page-hero-sub">
-        What would you do with <span class="shimmer shimmer-1">more time</span>?<br />
-        What would you make with <span class="shimmer shimmer-2">more focus</span>?<br />
-        What's keeping you from <span class="shimmer shimmer-3">your joy</span>?
-      </p>
-    </div>
-  </section>
+  <PageHero label="// establish connection" title="Book a Call" image="/book.webp" imageOpacity={0.45}>
+    <p class="text-muted page-hero-sub">
+      What would you do with <span class="shimmer shimmer-1">more time</span>?<br />
+      What would you make with <span class="shimmer shimmer-2">more focus</span>?<br />
+      What's keeping you from <span class="shimmer shimmer-3">your joy</span>?
+    </p>
+  </PageHero>
 
   <section class="section">
     <div class="container booking-layout">
@@ -119,53 +113,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <style>
-  .page-hero {
-    position: relative;
-    border-bottom: 1px solid var(--border);
-    padding: var(--sp-2xl) 0 var(--sp-xl);
-    overflow: hidden;
-  }
-
-  .page-hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  .page-hero-splash {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    opacity: 0.45;
-  }
-
-  .page-hero-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to right,
-        var(--bg) 20%,
-        rgba(8, 9, 15, 0.7) 55%,
-        rgba(8, 9, 15, 0.25) 100%
-      ),
-      linear-gradient(to top,
-        var(--bg) 0%,
-        transparent 35%
-      );
-  }
-
-  .page-hero-inner {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-sm);
-  }
-
-  .page-hero-inner h1 { margin-top: var(--sp-xs); margin-bottom: var(--sp-sm); }
-
   .page-hero-sub {
     font-size: 1rem;
     max-width: 52ch;

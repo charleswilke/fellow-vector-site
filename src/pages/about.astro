@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import SubstackFeed from '../components/SubstackFeed.astro';
 ---
 
@@ -8,16 +9,9 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   description="Charles Wilke is a writer, designer, and generative AI consultant helping small and mid-sized businesses make practical, grounded use of emerging technology."
 >
 
-  <section class="page-hero">
-    <div class="page-hero-bg" aria-hidden="true">
-      <img src="/about.webp" alt="" class="page-hero-splash" />
-    </div>
-    <div class="container page-hero-inner">
-      <div class="label">// about the operator</div>
-      <h1>Charles Wilke</h1>
-      <p class="page-hero-sub text-muted">Writer. Designer. Generative AI Consultant.</p>
-    </div>
-  </section>
+  <PageHero label="// about the operator" title="Charles Wilke" image="/about.webp">
+    <p class="page-hero-sub text-muted">Writer. Designer. Generative AI Consultant.</p>
+  </PageHero>
 
   <section class="section">
     <div class="container about-grid">
@@ -32,8 +26,8 @@ import SubstackFeed from '../components/SubstackFeed.astro';
             <span class="corner bl"></span>
             <span class="corner br"></span>
             <div class="portrait-glitch-container">
-              <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" />
-              <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" />
+              <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" width="808" height="1200" />
+              <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" />
               <div class="glitch-slice s1"></div>
               <div class="glitch-slice s2"></div>
               <div class="glitch-slice s3"></div>
@@ -108,8 +102,8 @@ import SubstackFeed from '../components/SubstackFeed.astro';
           <span class="corner bl"></span>
           <span class="corner br"></span>
           <div class="portrait-glitch-container">
-            <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" />
-            <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" />
+            <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" width="808" height="1200" loading="lazy" />
+            <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" loading="lazy" />
             <div class="glitch-slice s1"></div>
             <div class="glitch-slice s2"></div>
             <div class="glitch-slice s3"></div>
@@ -166,53 +160,6 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 </BaseLayout>
 
 <style>
-  .page-hero {
-    position: relative;
-    border-bottom: 1px solid var(--border);
-    padding: var(--sp-2xl) 0 var(--sp-sm);
-    overflow: hidden;
-  }
-
-  .page-hero-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  .page-hero-splash {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    opacity: 0.5;
-  }
-
-  .page-hero-bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to right,
-        var(--bg) 20%,
-        rgba(8, 9, 15, 0.65) 55%,
-        rgba(8, 9, 15, 0.2) 100%
-      ),
-      linear-gradient(to top,
-        var(--bg) 0%,
-        transparent 35%
-      );
-  }
-
-  .page-hero-inner {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-sm);
-  }
-
-  .page-hero-inner h1 { margin-top: var(--sp-xs); margin-bottom: var(--sp-xs); }
-
   .page-hero-sub {
     font-size: 0.8rem;
     letter-spacing: 0.14em;

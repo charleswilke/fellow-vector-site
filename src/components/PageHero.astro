@@ -1,0 +1,78 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  image: string;
+  imageOpacity?: number;
+}
+
+const { label, title, image, imageOpacity = 0.5 } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true">
+    <img src={image} alt="" class="page-hero-splash" width="2752" height="1536" style={`opacity: ${imageOpacity}`} />
+  </div>
+  <div class="container page-hero-inner">
+    <div class="label">{label}</div>
+    <h1>{title}</h1>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: var(--sp-2xl) 0 var(--sp-xl);
+    overflow: hidden;
+  }
+
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .page-hero-splash {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .page-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right,
+        var(--bg) 22%,
+        rgba(8, 9, 15, 0.65) 55%,
+        rgba(8, 9, 15, 0.2) 100%
+      ),
+      linear-gradient(to top,
+        var(--bg) 0%,
+        transparent 35%
+      );
+  }
+
+  .page-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-sm);
+  }
+
+  .page-hero-inner :global(h1) {
+    margin-top: var(--sp-xs);
+    margin-bottom: var(--sp-sm);
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: var(--sp-md) 0 var(--sp-sm);
+    }
+  }
+</style>

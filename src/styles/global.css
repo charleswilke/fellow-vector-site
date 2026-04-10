@@ -249,6 +249,12 @@ p {
   text-shadow: var(--glow-green);
 }
 
+/* Shared blink animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* Fade-in animation for page content */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
@@ -257,4 +263,37 @@ p {
 
 .fade-in {
   animation: fadeIn 0.6s ease forwards;
+}
+
+/* ── Skip to content ── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: var(--sp-lg);
+  z-index: 10000;
+  background: var(--phosphor);
+  color: var(--bg);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: var(--sp-sm);
+  outline: 2px solid var(--electric);
+  outline-offset: 2px;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,0 +1,338 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="404 — Signal Lost"
+  description="The page you're looking for doesn't exist."
+>
+
+  <section class="lost-section">
+    <div class="container lost-inner">
+
+      <div class="lost-code glow-green">404</div>
+
+      <div class="lost-terminal">
+        <pre id="lost-output" class="lost-screen" aria-live="polite"></pre>
+        <div class="lost-input-row">
+          <span class="lost-prompt text-phosphor">$&gt;</span>
+          <input
+            id="lost-input"
+            class="lost-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Terminal input"
+            placeholder="type 'help' for commands..."
+          />
+        </div>
+      </div>
+
+      <div class="lost-nav">
+        <p class="text-muted">Or navigate the old-fashioned way:</p>
+        <div class="lost-links">
+          <a href="/" class="btn btn-ghost">Home</a>
+          <a href="/services" class="btn btn-ghost">Services</a>
+          <a href="/about" class="btn btn-ghost">About</a>
+          <a href="/book" class="btn btn-primary">Book a Call</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Background noise -->
+    <canvas id="noise-canvas" class="noise-bg" aria-hidden="true"></canvas>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .lost-section {
+    position: relative;
+    min-height: calc(100vh - 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .noise-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .lost-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-xl);
+    padding: var(--sp-2xl) 0;
+    text-align: center;
+  }
+
+  .lost-code {
+    font-family: var(--font-crt);
+    font-size: clamp(6rem, 18vw, 14rem);
+    line-height: 1;
+    color: var(--phosphor);
+    animation: flicker-404 4s ease-in-out infinite;
+    user-select: none;
+  }
+
+  @keyframes flicker-404 {
+    0%, 100% { opacity: 1; text-shadow: var(--glow-green); }
+    92%      { opacity: 1; }
+    93%      { opacity: 0.4; text-shadow: none; }
+    94%      { opacity: 1; text-shadow: var(--glow-green); }
+    96%      { opacity: 1; }
+    96.5%    { opacity: 0.6; transform: translateX(2px); }
+    97%      { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Terminal */
+  .lost-terminal {
+    width: 100%;
+    max-width: 560px;
+    border: 1px solid var(--border);
+    background: rgba(14, 16, 24, 0.85);
+    padding: var(--sp-lg);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  .lost-screen {
+    font-family: var(--font-crt);
+    font-size: 0.95rem;
+    color: var(--phosphor);
+    line-height: 1.6;
+    min-height: 6rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .lost-input-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    border-top: 1px solid var(--border);
+    padding-top: var(--sp-sm);
+  }
+
+  .lost-prompt {
+    font-family: var(--font-crt);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .lost-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    caret-color: var(--phosphor);
+  }
+
+  .lost-input::placeholder {
+    color: var(--fg-muted);
+    opacity: 0.4;
+  }
+
+  .lost-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-md);
+  }
+
+  .lost-nav p {
+    font-size: 0.8rem;
+    max-width: none;
+  }
+
+  .lost-links {
+    display: flex;
+    gap: var(--sp-md);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 640px) {
+    .lost-terminal {
+      padding: var(--sp-md);
+    }
+  }
+</style>
+
+<script>
+  const output = document.getElementById('lost-output');
+  const input = document.getElementById('lost-input') as HTMLInputElement;
+  const canvas = document.getElementById('noise-canvas') as HTMLCanvasElement;
+
+  // Static noise background
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = canvas.offsetWidth;
+    let h = canvas.height = canvas.offsetHeight;
+
+    function drawNoise() {
+      const img = ctx.createImageData(w, h);
+      const d = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const v = Math.random() * 255;
+        d[i] = d[i+1] = d[i+2] = v;
+        d[i+3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+    }
+
+    // Animate noise at low framerate for subtle effect
+    let noiseFrame = 0;
+    function loopNoise() {
+      noiseFrame++;
+      if (noiseFrame % 6 === 0) drawNoise();
+      requestAnimationFrame(loopNoise);
+    }
+    loopNoise();
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = canvas.offsetWidth;
+      h = canvas.height = canvas.offsetHeight;
+    });
+  }
+
+  // Terminal logic
+  const history = [];
+  let historyIdx = -1;
+
+  const RESPONSES = {
+    help: `AVAILABLE COMMANDS:
+  home      — return to base
+  services  — view offerings
+  about     — meet the operator
+  book      — schedule a call
+  writing   — read the signal log
+  ping      — check signal status
+  whoami    — who are you?
+  ls        — list what's here
+  clear     — clear terminal
+  sudo      — try it, I dare you`,
+
+    home:     () => { window.location.href = '/'; },
+    services: () => { window.location.href = '/services'; },
+    about:    () => { window.location.href = '/about'; },
+    book:     () => { window.location.href = '/book'; },
+    writing:  () => { window.location.href = '/writing'; },
+
+    ping: `PINGING fellowvector.com...
+  64 bytes: seq=1 ttl=64 time=0.042ms
+  64 bytes: seq=2 ttl=64 time=0.038ms
+  >> signal is strong. you're just on the wrong frequency.`,
+
+    whoami: `>> you are a human on the internet
+>> looking for a page that does not exist
+>> but you found something better: a terminal
+>> type 'book' to talk to an actual human`,
+
+    ls: `drwxr-xr-x  /services
+drwxr-xr-x  /about
+drwxr-xr-x  /writing
+drwxr-xr-x  /book
+-rw-r--r--  404.txt        (you are here)
+-rw-r--r--  lost-signal.md (corrupted)`,
+
+    clear: 'CLEAR',
+
+    sudo: `>> nice try.
+>> this terminal does not grant root access.
+>> Fellow Vector operates on trust, not privilege escalation.`,
+  };
+
+  const FALLBACKS = [
+    `>> command not recognized: "{cmd}"
+>> the signal is strong, but this frequency is empty.
+>> type 'help' for available commands.`,
+    `>> "{cmd}" is not a known transmission.
+>> perhaps you meant something else?
+>> type 'help' to see what's available.`,
+    `>> unrecognized input: "{cmd}"
+>> the void stares back, unimpressed.
+>> try 'help' for guidance.`,
+  ];
+
+  function print(text) {
+    output.textContent += (output.textContent ? '\n' : '') + text;
+    output.scrollTop = output.scrollHeight;
+  }
+
+  // Boot message
+  print(`FELLOW VECTOR // SIGNAL LOST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+>> the requested frequency does not exist.
+>> carrier wave terminated at this address.
+>> type 'help' for available commands.`);
+
+  if (input) {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const cmd = input.value.trim().toLowerCase();
+        input.value = '';
+        if (!cmd) return;
+
+        history.unshift(cmd);
+        historyIdx = -1;
+        print(`\n$> ${cmd}`);
+
+        const response = RESPONSES[cmd];
+        if (typeof response === 'function') {
+          print(`>> navigating...`);
+          setTimeout(response, 400);
+        } else if (response === 'CLEAR') {
+          output.textContent = '';
+        } else if (response) {
+          print(response);
+        } else {
+          const fb = FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
+          print(fb.replace(/\{cmd\}/g, cmd));
+        }
+      }
+
+      // History navigation
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (history.length && historyIdx < history.length - 1) {
+          historyIdx++;
+          input.value = history[historyIdx];
+        }
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIdx > 0) {
+          historyIdx--;
+          input.value = history[historyIdx];
+        } else {
+          historyIdx = -1;
+          input.value = '';
+        }
+      }
+    });
+
+    // Auto-focus the input
+    input.focus();
+    document.addEventListener('click', () => input.focus());
+  }
+</script>
