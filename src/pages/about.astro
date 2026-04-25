@@ -21,18 +21,18 @@ import SubstackFeed from '../components/SubstackFeed.astro';
         <div class="about-intro">
           <!-- Portrait shown inline on mobile, floated right -->
           <div class="portrait-wrap portrait-mobile" aria-hidden="true">
-            <span class="corner tl"></span>
-            <span class="corner tr"></span>
-            <span class="corner bl"></span>
-            <span class="corner br"></span>
             <div class="portrait-glitch-container">
-              <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" width="808" height="1200" />
+              <span class="corner tl"></span>
+              <span class="corner tr"></span>
+              <span class="corner bl"></span>
+              <span class="corner br"></span>
+              <img src="/cw4.webp" alt="Charles Wilke" class="portrait-img" width="1254" height="1254" />
               <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" />
               <div class="glitch-slice s1"></div>
               <div class="glitch-slice s2"></div>
               <div class="glitch-slice s3"></div>
+              <div class="portrait-scanlines" aria-hidden="true"></div>
             </div>
-            <div class="portrait-scanlines" aria-hidden="true"></div>
             <div class="portrait-label">// charles</div>
           </div>
 
@@ -97,18 +97,18 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
         <!-- Portrait -->
         <div class="portrait-wrap portrait-sidebar">
-          <span class="corner tl"></span>
-          <span class="corner tr"></span>
-          <span class="corner bl"></span>
-          <span class="corner br"></span>
           <div class="portrait-glitch-container">
-            <img src="/cwilke.webp" alt="Charles Wilke" class="portrait-img" width="808" height="1200" loading="lazy" />
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <img src="/cw4.webp" alt="Charles Wilke" class="portrait-img" width="1254" height="1254" loading="lazy" />
             <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" loading="lazy" />
             <div class="glitch-slice s1"></div>
             <div class="glitch-slice s2"></div>
             <div class="glitch-slice s3"></div>
+            <div class="portrait-scanlines" aria-hidden="true"></div>
           </div>
-          <div class="portrait-scanlines" aria-hidden="true"></div>
           <div class="portrait-label">// charles</div>
         </div>
 
@@ -169,18 +169,19 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   /* ── Portrait ── */
   .portrait-wrap {
     position: relative;
-    border: 1px solid var(--phosphor-dim);
-    overflow: hidden;
   }
 
   .portrait-glitch-container {
     position: relative;
     overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--phosphor-dim);
   }
 
   .portrait-img {
     display: block;
     width: 100%;
+    height: auto;
     position: relative;
     z-index: 1;
   }
@@ -396,13 +397,35 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   }
 
   .portrait-label {
+    margin-top: -1px;
     padding: 0.4rem 0.75rem;
     font-size: 0.65rem;
     letter-spacing: 0.16em;
+    text-align: center;
+    border: 1px solid var(--phosphor-dim);
+    /* Default (cw4 cream): dark text on phosphor */
+    color: #08090f;
+    background: var(--phosphor);
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+
+  /* When cw2 photo is revealed, flip back to phosphor-on-dark */
+  .portrait-wrap:hover .portrait-label,
+  .portrait-wrap.flipped .portrait-label {
     color: var(--phosphor);
     background: rgba(0, 0, 0, 0.6);
-    text-align: center;
-    border-top: 1px solid var(--phosphor-dim);
+  }
+
+  /* Default (cw4 cream): dark wedges in the photo corners */
+  .portrait-wrap .corner.tl { border-top-color: #08090f; border-left-color: #08090f; }
+  .portrait-wrap .corner.tr { border-top-color: #08090f; border-right-color: #08090f; }
+  .portrait-wrap .corner.bl { border-bottom-color: #08090f; border-left-color: #08090f; }
+  .portrait-wrap .corner.br { border-bottom-color: #08090f; border-right-color: #08090f; }
+
+  /* When cw2 is revealed, wedges go back to phosphor */
+  .portrait-wrap:hover .corner,
+  .portrait-wrap.flipped .corner {
+    border-color: var(--phosphor) !important;
   }
 
   .corner {
@@ -414,8 +437,8 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
   .corner.tl { top: 7px;    left: 7px;   border-top:    1px solid var(--phosphor); border-left:   1px solid var(--phosphor); }
   .corner.tr { top: 7px;    right: 7px;  border-top:    1px solid var(--phosphor); border-right:  1px solid var(--phosphor); }
-  .corner.bl { bottom: 34px; left: 7px;  border-bottom: 1px solid var(--phosphor); border-left:   1px solid var(--phosphor); }
-  .corner.br { bottom: 34px; right: 7px; border-bottom: 1px solid var(--phosphor); border-right:  1px solid var(--phosphor); }
+  .corner.bl { bottom: 7px;  left: 7px;  border-bottom: 1px solid var(--phosphor); border-left:   1px solid var(--phosphor); }
+  .corner.br { bottom: 7px;  right: 7px; border-bottom: 1px solid var(--phosphor); border-right:  1px solid var(--phosphor); }
 
   .about-grid {
     display: grid;
@@ -513,8 +536,8 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     .portrait-mobile {
       display: block;
       float: right;
-      width: 40%;
-      margin: 0 0 0.75rem 1.25rem;
+      width: 50%;
+      margin: 5px 0 0.75rem 1.25rem;
     }
 
     .about-intro::after {
