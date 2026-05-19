@@ -18,29 +18,26 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
       <div class="about-body">
 
-        <div class="about-intro">
-          <!-- Portrait shown inline on mobile, floated right -->
-          <div class="portrait-wrap portrait-mobile" aria-hidden="true">
-            <div class="portrait-glitch-container">
-              <span class="corner tl"></span>
-              <span class="corner tr"></span>
-              <span class="corner bl"></span>
-              <span class="corner br"></span>
-              <img src="/cw4.webp" alt="Charles Wilke" class="portrait-img" width="1254" height="1254" />
-              <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" />
-              <div class="glitch-slice s1"></div>
-              <div class="glitch-slice s2"></div>
-              <div class="glitch-slice s3"></div>
-              <div class="portrait-scanlines" aria-hidden="true"></div>
-            </div>
-            <div class="portrait-label">// charles</div>
+        <!-- Portrait floats right; body text wraps around it -->
+        <div class="portrait-wrap portrait-inline">
+          <div class="portrait-glitch-container">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <img src="/cw4.webp" alt="Charles Wilke" class="portrait-img" width="1254" height="1254" />
+            <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" />
+            <div class="glitch-slice s1"></div>
+            <div class="glitch-slice s2"></div>
+            <div class="glitch-slice s3"></div>
+            <div class="portrait-scanlines" aria-hidden="true"></div>
           </div>
-
-          <p>
-            In my day-to-day, I'm the architect of <a href="https://pos.toasttab.com/news/toast-expands-toast-iq-smart-ai-assistant" target="_blank" rel="noopener">Toast IQ</a>'s soul. A senior product designer and proud parent of Toast's first steps into this brave new world.
-          </p>
-
+          <div class="portrait-label">// charles</div>
         </div>
+
+        <p>
+          In my day-to-day, I'm the architect of <a href="https://pos.toasttab.com/news/toast-expands-toast-iq-smart-ai-assistant" target="_blank" rel="noopener">Toast IQ</a>'s constitution, its top-level system instructions.
+        </p>
 
         <p>
           Before that, I spent years making games at Insomniac and crafting content for product at GoDaddy.
@@ -94,23 +91,6 @@ import SubstackFeed from '../components/SubstackFeed.astro';
       </div>
 
       <aside class="about-sidebar">
-
-        <!-- Portrait -->
-        <div class="portrait-wrap portrait-sidebar">
-          <div class="portrait-glitch-container">
-            <span class="corner tl"></span>
-            <span class="corner tr"></span>
-            <span class="corner bl"></span>
-            <span class="corner br"></span>
-            <img src="/cw4.webp" alt="Charles Wilke" class="portrait-img" width="1254" height="1254" loading="lazy" />
-            <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" loading="lazy" />
-            <div class="glitch-slice s1"></div>
-            <div class="glitch-slice s2"></div>
-            <div class="glitch-slice s3"></div>
-            <div class="portrait-scanlines" aria-hidden="true"></div>
-          </div>
-          <div class="portrait-label">// charles</div>
-        </div>
 
         <div class="sidebar-block">
           <div class="label">// works with</div>
@@ -448,9 +428,25 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   }
 
   .about-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-md);
+    display: block;
+  }
+
+  .about-body > p,
+  .about-body > .about-lead {
+    margin: 0 0 var(--sp-md);
+  }
+
+  .about-body::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  .portrait-inline {
+    float: right;
+    width: 240px;
+    margin: 0 0 var(--sp-md) var(--sp-lg);
+    shape-outside: inset(0);
   }
 
   .about-lead {
@@ -501,10 +497,6 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     letter-spacing: 0.08em;
   }
 
-  .portrait-mobile {
-    display: none;
-  }
-
   @media (min-width: 769px) {
     .section {
       padding-top: var(--sp-lg);
@@ -529,21 +521,9 @@ import SubstackFeed from '../components/SubstackFeed.astro';
       position: static;
     }
 
-    .portrait-sidebar {
-      display: none;
-    }
-
-    .portrait-mobile {
-      display: block;
-      float: right;
+    .portrait-inline {
       width: 50%;
       margin: 5px 0 0.75rem 1.25rem;
-    }
-
-    .about-intro::after {
-      content: '';
-      display: table;
-      clear: both;
     }
   }
 </style>
