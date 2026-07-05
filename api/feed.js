@@ -2,6 +2,7 @@ export default async function handler(req, res) {
   try {
     const response = await fetch('https://charleswilke.substack.com/feed');
     if (!response.ok) {
+      res.setHeader('Cache-Control', 's-maxage=60');
       return res.status(502).json({ error: 'Failed to fetch feed' });
     }
     const xml = await response.text();
