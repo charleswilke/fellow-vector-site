@@ -1,15 +1,22 @@
 ---
-// CRT Intro — boot sequence overlay
-// Plays on first load per session, then dismissed
+// CRT Intro — secret-entrance sequence
+// Opens on an untuned static field. Moving the mouse tunes the signal
+// (a ghost of the mark surfaces in the noise); any key or click answers
+// the prompt; holding the sweet spot locks the frequency. All paths end
+// crossing through the membrane: a pixel dissolve blooming from the
+// interaction point while the static rushes past.
 ---
 
 <div id="crt-intro" role="presentation">
+  <canvas id="fv-static" aria-hidden="true"></canvas>
+  <canvas id="fv-glow" aria-hidden="true"></canvas>
   <div id="crt-screen">
     <pre id="crt-text" aria-live="polite"></pre>
-    <div id="crt-prompt">[ press any key or click to skip ]</div>
+    <div id="crt-prompt">&gt; awaiting response<span id="crt-cursor">&#9646;</span></div>
+    <div id="crt-hint">any key. or wait.</div>
   </div>
 </div>
-<canvas id="fv-dissolve"></canvas>
+<canvas id="fv-dissolve" aria-hidden="true"></canvas>
 
 <style>
   #crt-intro {
@@ -18,9 +25,6 @@
     z-index: 99999;
     background: #000;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     animation: rise 0.8s ease forwards;
   }
 
@@ -29,31 +33,87 @@
     to   { opacity: 1; }
   }
 
+  #fv-static {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+
+  /* phosphor bloom: blurred mirror of the static, screened over the sharp pixels */
+  #fv-glow {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(6px) contrast(1.3) brightness(1.5);
+    mix-blend-mode: screen;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
   #crt-screen {
-    width: min(600px, 90vw);
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    position: absolute;
+    inset: 0;
   }
 
   #crt-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(600px, 90vw);
+    height: 12rem;
+    margin: 0;
     font-family: 'VT323', monospace;
-    font-size: clamp(1.1rem, 2.8vw, 1.55rem);
+    font-size: clamp(1.15rem, 2.8vw, 1.6rem);
     color: #00ff88;
     text-shadow: 0 0 8px rgba(57, 255, 20, 0.85), 0 0 24px rgba(57, 255, 20, 0.3);
     line-height: 1.65;
-    white-space: pre;
-    min-height: 16rem;
+    white-space: pre-wrap;
   }
 
   #crt-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 17vh;
+    transform: translateX(-50%);
+    font-family: 'VT323', monospace;
+    font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+    color: rgba(0, 255, 136, 0.85);
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    white-space: nowrap;
+    opacity: 0;
+    animation: prompt-in 1s ease 1.1s forwards;
+  }
+
+  #crt-cursor {
+    display: inline-block;
+    margin-left: 0.3em;
+    animation: blink 1.1s step-end infinite;
+  }
+
+  #crt-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 13vh;
+    transform: translateX(-50%);
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    color: rgba(57, 255, 20, 0.45);
-    animation: blink 1.4s step-end infinite;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: rgba(0, 255, 136, 0.35);
+    white-space: nowrap;
+    opacity: 0;
+    animation: prompt-in 1s ease 2.4s forwards;
+  }
+
+  @keyframes prompt-in {
+    to { opacity: 1; }
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
   }
 
   #fv-dissolve {
@@ -63,6 +123,8 @@
     display: none;
     pointer-events: none;
     image-rendering: pixelated;
+    transition: transform 0.85s cubic-bezier(0.5, 0, 1, 0.5);
+    will-change: transform;
   }
 </style>
 
@@ -72,108 +134,318 @@
     const EXPIRY_DAYS = 30;
 
     const introEl    = document.getElementById('crt-intro') as HTMLElement;
-    const screenEl   = document.getElementById('crt-screen') as HTMLElement;
+    const staticEl   = document.getElementById('fv-static') as HTMLCanvasElement;
+    const glowEl     = document.getElementById('fv-glow') as HTMLCanvasElement;
     const textEl     = document.getElementById('crt-text') as HTMLElement;
+    const promptEl   = document.getElementById('crt-prompt') as HTMLElement;
+    const hintEl     = document.getElementById('crt-hint') as HTMLElement;
     const dissolveEl = document.getElementById('fv-dissolve') as HTMLCanvasElement;
 
-    if (!introEl || !screenEl || !textEl || !dissolveEl) return;
+    if (!introEl || !staticEl || !glowEl || !textEl || !promptEl || !hintEl || !dissolveEl) return;
 
-    // Skip if already seen within the expiry window or user prefers reduced motion
-    const stored = localStorage.getItem(SEEN_KEY);
+    // ?intro forces a replay (handy for testing / showing someone the door)
+    const params = new URLSearchParams(location.search);
+    const forced = params.has('intro');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if ((stored && Date.now() < Number(stored)) || reducedMotion) {
-      introEl.style.display = 'none';
-      if (reducedMotion) {
-        const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
-        localStorage.setItem(SEEN_KEY, String(expiry));
+    if (!forced) {
+      const stored = localStorage.getItem(SEEN_KEY);
+      if ((stored && Date.now() < Number(stored)) || reducedMotion) {
+        introEl.style.display = 'none';
+        if (reducedMotion) {
+          localStorage.setItem(SEEN_KEY, String(Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000));
+        }
+        return;
       }
-      return;
     }
 
-    let dismissed = false;
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      hintEl.textContent = 'tap. or wait.';
+    }
+
+    // CRT power-on sound: two takes, chosen at random; ?intro=a / ?intro=b auditions a specific one
+    const pick = params.get('intro');
+    const take = pick === 'a' || pick === 'b' ? pick : Math.random() < 0.5 ? 'a' : 'b';
+    const sfx = new Audio(`/audio/crt-on-${take}.mp3`);
+    sfx.preload = 'auto';
+    sfx.volume = 0.45;
+
+    type Phase = 'waiting' | 'admitting' | 'dissolving';
+    let phase: Phase = 'waiting';
 
     const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 
-    // ── Boot sequence lines ──
-    const BOOT = [
-      'FELLOW VECTOR  //  SIGNAL ACQUIRED',
-      '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-      '',
-      '>> initializing carrier wave...',
-      '>> scanning for signal source...',
-      '>> carrier detected',
-      '>> authenticating transmission...',
-      '>> decoding...',
-      '',
-      'CONNECTION ESTABLISHED.',
-      '',
-      'WELCOME.',
-    ];
+    // ── Static field ──
+    const GHOST = 'FELLOW VECTOR';
+    const SCALE = 3;          // noise rendered at 1/3 res, upscaled pixelated
+    const NOISE_FRAMES = 8;
 
-    async function typeAll() {
-      for (const line of BOOT) {
-        if (dismissed) return;
-        await typeLine(line);
-        textEl.textContent += '\n';
-        const pause = line === '' ? 80 : line.startsWith('>>') ? 200 : 340;
-        await wait(pause);
+    const sctx = staticEl.getContext('2d')!;
+    const gctx = glowEl.getContext('2d')!;
+    let W = 0, H = 0, lowW = 0, lowH = 0;
+    let noiseFrames: HTMLCanvasElement[] = [];
+    let ghostSize = 60;
+
+    function fitGhost() {
+      sctx.font = "100px 'VT323', monospace";
+      const measured = sctx.measureText(GHOST).width || 1;
+      ghostSize = Math.max(20, Math.min((lowW * 0.82 / measured) * 100, lowH * 0.5));
+    }
+
+    function initStatic() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      lowW = Math.ceil(W / SCALE);
+      lowH = Math.ceil(H / SCALE);
+      staticEl.width = lowW;
+      staticEl.height = lowH;
+      glowEl.width = lowW;
+      glowEl.height = lowH;
+      noiseFrames = [];
+      for (let f = 0; f < NOISE_FRAMES; f++) {
+        const c = document.createElement('canvas');
+        c.width = lowW;
+        c.height = lowH;
+        const cctx = c.getContext('2d')!;
+        const img = cctx.createImageData(lowW, lowH);
+        const d = img.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const v = Math.random() * 110;
+          d[i] = v * 0.2; d[i + 1] = v; d[i + 2] = v * 0.5; d[i + 3] = 255;
+        }
+        cctx.putImageData(img, 0, 0);
+        noiseFrames.push(c);
+      }
+      fitGhost();
+    }
+
+    initStatic();
+    // VT323 loads async; re-fit the ghost once real metrics are in
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitGhost);
+
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      if (phase !== 'waiting') return;
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(initStatic, 200);
+    });
+
+    // ── Tuning ──
+    // A hidden sweet spot; the ghost surfaces as the cursor nears it.
+    const target = { x: 0.25 + Math.random() * 0.5, y: 0.25 + Math.random() * 0.5 };
+    let mouse: { x: number; y: number } | null = null;
+    let lockStart = 0;
+
+    function mouseTuning(): number {
+      if (!mouse) return 0;
+      const dx = mouse.x - target.x * W;
+      const dy = mouse.y - target.y * H;
+      const radius = Math.hypot(W, H) * 0.45;
+      const m = Math.max(0, 1 - Math.hypot(dx, dy) / radius);
+      return m * m * (3 - 2 * m);
+    }
+
+    // ── Auto-proceed window ──
+    const startTime = performance.now();
+    let deadline = startTime + 6000;
+    const HARD_CAP = startTime + 20000;
+
+    document.addEventListener('mousemove', onMouseMove);
+    function onMouseMove(e: MouseEvent) {
+      mouse = { x: e.clientX, y: e.clientY };
+      if (phase === 'waiting') {
+        deadline = Math.min(Math.max(deadline, performance.now() + 3000), HARD_CAP);
       }
     }
+
+    // ── Render loop ──
+    let rafId = 0;
+    let skipFrame = false;
+
+    function renderStatic(now: number) {
+      if (phase === 'dissolving') return;
+      rafId = requestAnimationFrame(renderStatic);
+
+      if (phase === 'waiting' && now > deadline) {
+        admit('signal acquired.', mouse ?? { x: W / 2, y: H / 2 });
+        return;
+      }
+
+      skipFrame = !skipFrame;         // ~30fps flicker reads more like a real tube
+      if (skipFrame) return;
+
+      const m = mouseTuning();
+      const ambient = Math.max(0, 0.22 + 0.18 * Math.sin(now * 0.0011) + 0.1 * Math.sin(now * 0.00037));
+      const tuning = Math.max(m, ambient);
+
+      sctx.globalAlpha = 1;
+      sctx.fillStyle = '#000';
+      sctx.fillRect(0, 0, lowW, lowH);
+
+      const noiseAlpha = phase === 'admitting' ? 0.22 : Math.max(0.15, 0.85 - 0.6 * tuning);
+      sctx.globalAlpha = noiseAlpha;
+      sctx.drawImage(noiseFrames[(Math.random() * NOISE_FRAMES) | 0], 0, 0);
+
+      if (phase === 'waiting') {
+        const flick = 0.55 + 0.45 * Math.random();
+        const alpha = tuning * tuning * flick * 0.9;
+        if (alpha > 0.02) {
+          sctx.globalAlpha = alpha;
+          sctx.fillStyle = '#00ff88';
+          sctx.font = `${ghostSize}px 'VT323', monospace`;
+          sctx.textAlign = 'center';
+          sctx.textBaseline = 'middle';
+          const jx = (Math.random() - 0.5) * 3;
+          const jy = (Math.random() - 0.5) * 2;
+          sctx.fillText(GHOST, lowW / 2 + jx, lowH / 2 + jy);
+          // occasional horizontal tear through the ghost
+          if (Math.random() < 0.12) {
+            const sy = lowH / 2 + (Math.random() - 0.5) * ghostSize * 0.6;
+            const sh = 2 + Math.random() * 4;
+            const off = (Math.random() - 0.5) * 14;
+            sctx.drawImage(staticEl, 0, sy, lowW, sh, off, sy, lowW, sh);
+          }
+        }
+        sctx.globalAlpha = 1;
+
+        // hold the sweet spot ~1s and the signal locks on its own
+        if (m > 0.88) {
+          if (!lockStart) lockStart = now;
+          else if (now - lockStart > 900) admit('frequency locked.', mouse!);
+        } else {
+          lockStart = 0;
+        }
+      } else {
+        sctx.globalAlpha = 1;
+      }
+
+      // mirror the frame into the bloom layer
+      gctx.clearRect(0, 0, lowW, lowH);
+      gctx.drawImage(staticEl, 0, 0);
+    }
+    rafId = requestAnimationFrame(renderStatic);
+
+    // ── Admission ──
+    let origin = { x: 0, y: 0 };
 
     function typeLine(line: string): Promise<void> {
       return new Promise(resolve => {
         if (line === '') { resolve(); return; }
         let i = 0;
-        const speed = line.startsWith('━') ? 12 : 32;
         const iv = setInterval(() => {
-          if (dismissed) { clearInterval(iv); resolve(); return; }
+          if (phase !== 'admitting') { clearInterval(iv); resolve(); return; }
           textEl.textContent += line[i++];
           if (i >= line.length) { clearInterval(iv); resolve(); }
-        }, speed);
+        }, 26);
       });
     }
 
-    // ── Pixel dissolve ──
-    function runDissolve() {
-      const W = dissolveEl.width  = window.innerWidth;
-      const H = dissolveEl.height = window.innerHeight;
+    async function admit(firstLine: string, point: { x: number; y: number }) {
+      if (phase !== 'waiting') return;
+      phase = 'admitting';
+      origin = point;
+      // plays on gesture-triggered admissions; autoplay-blocked paths (timeout, lock-on) stay silent
+      sfx.play().catch(() => {});
+      localStorage.setItem(SEEN_KEY, String(Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000));
+      promptEl.style.display = 'none';
+      hintEl.style.display = 'none';
+
+      const time = new Date()
+        .toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+        .toLowerCase();
+      const LINES = [
+        firstLine,
+        '',
+        'you found the frequency. not many do.',
+        '',
+        `transmission opened ${time} local`,
+      ];
+
+      for (const line of LINES) {
+        if (phase !== 'admitting') return;
+        await typeLine(line);
+        textEl.textContent += '\n';
+        await wait(line === '' ? 60 : 300);
+      }
+      if (phase !== 'admitting') return;
+      await wait(1000);
+      crossThrough();
+    }
+
+    // ── Crossing through: radial pixel dissolve + zoom past the membrane ──
+    function crossThrough(point?: { x: number; y: number }) {
+      if (phase === 'dissolving') return;
+      phase = 'dissolving';
+      removeListeners();
+      cancelAnimationFrame(rafId);
+
+      const o = point ?? origin;
+      const DW = dissolveEl.width  = window.innerWidth;
+      const DH = dissolveEl.height = window.innerHeight;
       const ctx = dissolveEl.getContext('2d')!;
+      ctx.imageSmoothingEnabled = false;
 
-      const BLOCK    = 2;
-      const cols     = Math.ceil(W / BLOCK);
-      const rows     = Math.ceil(H / BLOCK);
-      const total    = cols * rows;
-      const DURATION = 700;
-
-      // Fill black + show canvas synchronously — covers intro in same paint
+      // snapshot the static membrane, then swap it in for the intro in one paint
       ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, W, H);
+      ctx.fillRect(0, 0, DW, DH);
+      ctx.drawImage(staticEl, 0, 0, DW, DH);
+      // bake the phosphor bloom into the snapshot so brightness holds through the crossing
+      if ('filter' in ctx) {
+        ctx.save();
+        ctx.filter = 'blur(6px) contrast(1.3) brightness(1.5)';
+        ctx.globalCompositeOperation = 'screen';
+        ctx.globalAlpha = 0.6;
+        ctx.drawImage(staticEl, 0, 0, DW, DH);
+        ctx.restore();
+      }
       dissolveEl.style.display = 'block';
       introEl.style.display = 'none';
 
-      // Shuffle block order (Fisher-Yates)
+      // membrane rushes past the viewer, expanding from the crossing point
+      dissolveEl.style.transformOrigin = `${o.x}px ${o.y}px`;
+      dissolveEl.getBoundingClientRect(); // commit styles so the transition runs
+      dissolveEl.style.transform = 'scale(1.12)';
+
+      const BLOCK    = 2;
+      const cols     = Math.ceil(DW / BLOCK);
+      const rows     = Math.ceil(DH / BLOCK);
+      const total    = cols * rows;
+      const DURATION = 850;
+
+      // radial ordering with jitter: counting sort into distance rings
+      const RINGS = 512;
+      const maxD = Math.max(
+        Math.hypot(o.x, o.y),
+        Math.hypot(DW - o.x, o.y),
+        Math.hypot(o.x, DH - o.y),
+        Math.hypot(DW - o.x, DH - o.y),
+      );
+      const JITTER = maxD * 0.18;
+      const ring   = new Uint16Array(total);
+      const counts = new Uint32Array(RINGS);
+      for (let r = 0; r < rows; r++) {
+        const dy = r * BLOCK + 1 - o.y;
+        for (let c = 0; c < cols; c++) {
+          const i = r * cols + c;
+          const dx = c * BLOCK + 1 - o.x;
+          const d = Math.hypot(dx, dy) + (Math.random() - 0.5) * JITTER;
+          let k = (d / (maxD + JITTER * 0.5) * RINGS) | 0;
+          if (k < 0) k = 0; else if (k >= RINGS) k = RINGS - 1;
+          ring[i] = k;
+          counts[k]++;
+        }
+      }
+      const cursor = new Uint32Array(RINGS);
+      for (let k = 1; k < RINGS; k++) cursor[k] = cursor[k - 1] + counts[k - 1];
       const order = new Uint32Array(total);
-      for (let i = 0; i < total; i++) order[i] = i;
-      for (let i = total - 1; i > 0; i--) {
-        const j = (Math.random() * (i + 1)) | 0;
-        const tmp = order[i]; order[i] = order[j]; order[j] = tmp;
-      }
+      for (let i = 0; i < total; i++) order[cursor[ring[i]]++] = i;
 
-      // Pre-clear ~15% of blocks so the first visible frame already has holes in it
-      const preCleared = (total * 0.15) | 0;
-      for (let i = 0; i < preCleared; i++) {
-        const idx = order[i];
-        ctx.clearRect((idx % cols) * BLOCK, ((idx / cols) | 0) * BLOCK, BLOCK, BLOCK);
-      }
-
-      let prevCleared = preCleared;
+      let prevCleared = 0;
       const start = performance.now();
 
       function frame(now: number) {
-        const t      = Math.min((now - start) / DURATION, 1);
-        // ease-out: site appears quickly, remaining blocks linger
-        const eased   = 1 - (1 - t) * (1 - t);
-        const cleared = (preCleared + eased * (total - preCleared)) | 0;
+        const t = Math.min((now - start) / DURATION, 1);
+        const eased = 1 - (1 - t) * (1 - t);
+        const cleared = (eased * total) | 0;
 
         for (let i = prevCleared; i < cleared; i++) {
           const idx = order[i];
@@ -185,33 +457,39 @@
           requestAnimationFrame(frame);
         } else {
           dissolveEl.style.display = 'none';
+          introEl.remove();
         }
       }
 
       requestAnimationFrame(frame);
     }
 
-    // ── Dismiss ──
-    function dismiss() {
-      if (dismissed) return;
-      dismissed = true;
-      const expiry = Date.now() + EXPIRY_DAYS * 24 * 60 * 60 * 1000;
-      localStorage.setItem(SEEN_KEY, String(expiry));
-      runDissolve();
+    // ── Interaction: the keypress IS the entrance ──
+    function onInteract(x?: number, y?: number) {
+      const pt = (x != null && y != null) ? { x, y } : (mouse ?? { x: W / 2, y: H / 2 });
+      if (phase === 'waiting') admit('signal acquired.', pt);
+      else if (phase === 'admitting') crossThrough(pt);
     }
 
-    // ── Start — rise from black, then show text ──
-    setTimeout(async () => {
-      if (dismissed) return;
-      screenEl.style.opacity = '1';
-      await typeAll();
-      if (dismissed) return;
-      await wait(1600);
-      dismiss();
-    }, 900);
+    const onClick = (e: MouseEvent) => onInteract(e.clientX, e.clientY);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || /^F\d+$/.test(e.key)) return;
+      onInteract();
+    };
+    const onTouch = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (t) onInteract(t.clientX, t.clientY);
+    };
 
-    document.addEventListener('click',     dismiss, { once: true });
-    document.addEventListener('keydown',   dismiss, { once: true });
-    introEl.addEventListener('touchstart', dismiss, { once: true, passive: true });
+    function removeListeners() {
+      document.removeEventListener('click', onClick);
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousemove', onMouseMove);
+      introEl.removeEventListener('touchstart', onTouch);
+    }
+
+    document.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKey);
+    introEl.addEventListener('touchstart', onTouch, { passive: true });
   })();
 </script>
