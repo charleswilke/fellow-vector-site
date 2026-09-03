@@ -34,35 +34,33 @@ const { limit = 3, variant = 'compact' } = Astro.props;
     const error = container.querySelector('.feed-error');
 
     try {
+      // /api/feed returns pre-trimmed JSON: { items: [{ title, link, date, excerpt, image }] }
       const res = await fetch('/api/feed');
       if (!res.ok) throw new Error('Feed fetch failed');
-      const xml = await res.text();
-      const doc = new DOMParser().parseFromString(xml, 'application/xml');
-      const items = Array.from(doc.querySelectorAll('item')).slice(0, limit);
+      const data = await res.json();
+      const items = (Array.isArray(data.items) ? data.items : []).slice(0, limit);
 
       if (!items.length) throw new Error('No items');
 
       const excerptLength = variant === 'full' ? 280 : 160;
 
-      list.innerHTML = items.map((item, i) => {
-        const title = esc(item.querySelector('title')?.textContent ?? '');
-        const rawLink = item.querySelector('link')?.textContent ?? '#';
-        const link = escAttr(rawLink.startsWith('http') ? rawLink : '#');
-        const pubDate = item.querySelector('pubDate')?.textContent ?? '';
-        const description = item.querySelector('description')?.textContent ?? '';
-        const rawImageUrl = item.querySelector('enclosure')?.getAttribute('url') ?? '';
-        const imageUrl = escAttr(rawImageUrl.startsWith('http') ? rawImageUrl : '');
+      list.innerHTML = items.map((item) => {
+        const title = esc(item.title ?? '');
+        const rawLink = item.link ?? '';
+        const link = escAttr(/^https?:\/\//.test(rawLink) ? rawLink : '#');
+        const rawImageUrl = item.image ?? '';
+        const imageUrl = escAttr(/^https:\/\//.test(rawImageUrl) ? rawImageUrl : '');
 
-        const date = pubDate
-          ? esc(new Date(pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }))
+        const date = item.date
+          ? esc(new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }))
           : '';
 
-        const excerpt = esc(description.replace(/<[^>]*>/g, '').trim().slice(0, excerptLength));
+        const excerpt = esc((item.excerpt ?? '').slice(0, excerptLength));
 
         if (variant === 'full') {
           const imageHtml = imageUrl ? `
             <div class="feed-thumb">
-              <img src="${imageUrl}" alt="" class="feed-thumb-img" loading="lazy" />
+              <img src="${imageUrl}" alt="" class="feed-thumb-img" loading="lazy" decoding="async" width="640" height="360" />
               <div class="feed-thumb-overlay" aria-hidden="true"></div>
               <div class="feed-thumb-scanlines" aria-hidden="true"></div>
               <div class="feed-thumb-corners" aria-hidden="true">
