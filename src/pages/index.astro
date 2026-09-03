@@ -1,5 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import splash from '../assets/splash.webp';
+import focus from '../assets/focus.webp';
+import signal from '../assets/signal.webp';
+import bulb from '../assets/bulb.webp';
 ---
 
 <BaseLayout
@@ -26,7 +31,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
 
     <div class="hero-bg" aria-hidden="true">
-      <img src="/splash.webp" alt="" class="hero-splash" width="1600" height="893" />
+      <Image
+        src={splash}
+        alt=""
+        class="hero-splash"
+        widths={[480, 800, 1200, 1600]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
     </div>
   </section>
 
@@ -44,7 +57,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- ── What we do ── -->
   <section class="section focus-section">
     <div class="focus-bg" aria-hidden="true">
-      <img src="/focus.webp" alt="" class="focus-splash" width="1600" height="893" loading="lazy" />
+      <Image src={focus} alt="" class="focus-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
     </div>
     <div class="container">
       <div class="section-head">
@@ -136,10 +149,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <!-- ── CTA ── -->
   <section class="cta-section">
     <div class="cta-bg" aria-hidden="true">
-      <img src="/signal.webp" alt="" class="cta-splash" width="1600" height="893" loading="lazy" />
+      <Image src={signal} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
     </div>
     <div class="cta-bulb" aria-hidden="true">
-      <img src="/bulb.webp" alt="" width="1600" height="1600" loading="lazy" />
+      <Image src={bulb} alt="" widths={[400, 640]} sizes="(max-width: 768px) 200px, 320px" loading="lazy" />
     </div>
     <div class="container cta-inner">
       <h2 class="text-phosphor glow-green">What's keeping you from the work that brings you joy?</h2>

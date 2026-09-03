@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SubstackFeed from '../components/SubstackFeed.astro';
+import writingsHero from '../assets/writings.webp';
 ---
 
 <BaseLayout
@@ -9,7 +10,7 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   description="Charles Wilke writes about AI, design, and what it means to do meaningful work in a rapidly changing world. Published on Substack."
 >
 
-  <PageHero label="// signal log" title="Exploring L.ai.bor" image="/writings.webp" imageOpacity={0.55}>
+  <PageHero label="// signal log" title="Exploring L.ai.bor" image={writingsHero} imageOpacity={0.55}>
     <p class="text-muted page-hero-sub">
       Thinking out loud about AI, work, humanity, and what it means to do good in a world that keeps changing the rules.
     </p>

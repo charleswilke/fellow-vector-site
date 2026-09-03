@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import servicesHero from '../assets/services.webp';
+import patchbay from '../assets/patchbay.webp';
 
 const services = [
   {
@@ -58,7 +61,7 @@ const services = [
 >
 
   <!-- ── Page header ── -->
-  <PageHero label="// what we offer" title="Services" image="/services.webp" imageOpacity={0.55}>
+  <PageHero label="// what we offer" title="Services" image={servicesHero} imageOpacity={0.55}>
     <p class="text-muted page-hero-sub">
       Every engagement starts with a question: what matters most to you, and
       what's standing between you and that? From there, we find the right format.
@@ -103,7 +106,7 @@ const services = [
   <!-- ── CTA ── -->
   <section class="cta-section">
     <div class="cta-bg" aria-hidden="true">
-      <img src="/patchbay.webp" alt="" class="cta-splash" width="1600" height="893" loading="lazy" />
+      <Image src={patchbay} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
     </div>
     <div class="container cta-inner">
       <h2 class="text-phosphor glow-green">Not sure where to start?</h2>

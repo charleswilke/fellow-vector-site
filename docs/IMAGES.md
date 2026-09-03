@@ -5,16 +5,22 @@
 Every image on the site was generated in Leonardo AI and follows a deliberate visual narrative.
 Each image represents a different moment in the metaphor of "entering through a CRT television."
 
-| Page / Section       | File            | Concept                                      |
-|----------------------|-----------------|----------------------------------------------|
-| Home hero            | `splash.jpg`    | Outside the CRT glass — the threshold        |
-| Services hero        | `services.jpg`  | Inside the electron gun — signal being made  |
-| About hero           | `about.jpg`     | Oscilloscope — the human reading the signal  |
-| Book hero            | `book.jpg`      | Radio tuner dial — finding the frequency     |
-| Writing hero         | `writings.jpg`  | Teletype internals — signal becoming language|
-| Home: focus section  | `focus.jpg`     | Precision lens — clarity from complexity     |
-| Home: CTA            | `signal.jpg`    | Phosphor light trails — pure transmission    |
-| Services: CTA        | `patchbay.jpg`  | Patch bay — connections waiting to be made   |
+| Page / Section       | File             | Concept                                      |
+|----------------------|------------------|----------------------------------------------|
+| Home hero            | `splash.webp`    | Outside the CRT glass — the threshold        |
+| Services hero        | `services.webp`  | Inside the electron gun — signal being made  |
+| About hero           | `about.webp`     | Oscilloscope — the human reading the signal  |
+| Book hero            | `book.webp`      | Radio tuner dial — finding the frequency     |
+| Writing hero         | `writings.webp`  | Teletype internals — signal becoming language|
+| Home: focus section  | `focus.webp`     | Precision lens — clarity from complexity     |
+| Home: CTA            | `signal.webp`    | Phosphor light trails — pure transmission    |
+| Services: CTA        | `patchbay.webp`  | Patch bay — connections waiting to be made   |
+
+All of these live in `src/assets/` and are rendered through Astro's `<Image>` component
+(`astro:assets`), which generates a responsive `srcset` at 480/800/1200/1600px and hashed
+filenames at build time. Import the file in frontmatter and pass the import, not a path string.
+`PageHero` takes the imported image as its `image` prop. Only `og.jpg` and the favicons stay in
+`public/`, because social scrapers need a stable absolute URL.
 
 **The arc:** threshold → machinery → interpretation → connection.
 Each image moves the viewer further inside the signal world.
@@ -95,14 +101,18 @@ The aesthetic is specifically **analog signal era** — 1940s–1980s broadcast 
 Cinematic, photorealistic, [additional technical details].
 ```
 
-**Output:** Always generate at 16:9 landscape. Place in `public/` with a descriptive filename.
+**Output:** Always generate at 16:9 landscape, export as WebP at 1600px wide, and place in
+`src/assets/` with a descriptive filename. The build handles the smaller sizes.
 
 ---
 
 ## Portrait
 
-`cwilke.jpg` is an illustrated portrait of Charles Wilke (ink drawing style, cream background).
-It's displayed on the about page in the sidebar with:
+`cw4.webp` is an illustrated portrait of Charles Wilke (ink drawing style, cream background),
+with `cw2.webp` (a photo) revealed underneath by glitch slices, hover, and click-to-flip.
+Both are `<Image>` renders at 320/480/640px. The glitch slices paint `cw2` as a CSS background,
+so `about.astro` resolves one optimized URL with `getImage()` and passes it as `--cw2-bg`.
+It's displayed on the about page, floated into the body text, with:
 - A vignette overlay (dark edges → natural cream center)
 - Corner bracket markers in phosphor green
 - A `// charles wilke` label footer

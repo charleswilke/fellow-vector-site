@@ -1,7 +1,15 @@
 ---
+import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SubstackFeed from '../components/SubstackFeed.astro';
+import aboutHero from '../assets/about.webp';
+import cw4 from '../assets/cw4.webp';
+import cw2 from '../assets/cw2.webp';
+
+// The glitch slices paint cw2 as a CSS background; resolve one optimized URL for them.
+// 480 matches a width in the <Image> srcset below, so the browser reuses that file.
+const cw2Bg = await getImage({ src: cw2, width: 480 });
 ---
 
 <BaseLayout
@@ -9,7 +17,7 @@ import SubstackFeed from '../components/SubstackFeed.astro';
   description="Charles Wilke is a writer, designer, and generative AI consultant helping small and mid-sized businesses make practical, grounded use of emerging technology."
 >
 
-  <PageHero label="// about the operator" title="Charles Wilke" image="/about.webp">
+  <PageHero label="// about the operator" title="Charles Wilke" image={aboutHero}>
     <p class="page-hero-sub text-muted">Writer. Designer. Generative AI Consultant.</p>
   </PageHero>
 
@@ -20,13 +28,28 @@ import SubstackFeed from '../components/SubstackFeed.astro';
 
         <!-- Portrait floats right; body text wraps around it -->
         <div class="portrait-wrap portrait-inline">
-          <div class="portrait-glitch-container">
+          <div class="portrait-glitch-container" style={`--cw2-bg: url(${cw2Bg.src})`}>
             <span class="corner tl"></span>
             <span class="corner tr"></span>
             <span class="corner bl"></span>
             <span class="corner br"></span>
-            <img src="/cw4.webp" alt="Charles Wilke" class="portrait-img" width="1254" height="1254" />
-            <img src="/cw2.webp" alt="" class="portrait-reveal" aria-hidden="true" width="800" height="800" />
+            <Image
+              src={cw4}
+              alt="Charles Wilke"
+              class="portrait-img"
+              widths={[320, 480, 640]}
+              sizes="(max-width: 768px) 50vw, 240px"
+              loading="eager"
+            />
+            <Image
+              src={cw2}
+              alt=""
+              class="portrait-reveal"
+              aria-hidden="true"
+              widths={[320, 480, 640]}
+              sizes="(max-width: 768px) 50vw, 240px"
+              loading="eager"
+            />
             <div class="glitch-slice s1"></div>
             <div class="glitch-slice s2"></div>
             <div class="glitch-slice s3"></div>
@@ -182,7 +205,7 @@ import SubstackFeed from '../components/SubstackFeed.astro';
     left: 0;
     width: 100%;
     z-index: 2;
-    background-image: url('/cw2.webp');
+    background-image: var(--cw2-bg);
     background-size: 100% auto;
     background-repeat: no-repeat;
     opacity: 0;

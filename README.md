@@ -35,18 +35,22 @@ src/
     book.astro        — booking page
   styles/
     global.css        — design system, CRT texture, component styles
+  assets/             — images rendered through astro:assets <Image> (responsive srcset, hashed)
+    splash.webp         — hero background (CRT glass, home)
+    services.webp       — services header (electron gun)
+    about.webp          — about header (oscilloscope)
+    book.webp           — book header (radio tuner dial)
+    writings.webp       — writing header (teletype internals)
+    focus.webp          — services grid background (lens)
+    signal.webp         — CTA background (phosphor light trails)
+    patchbay.webp       — services CTA background (patch bay)
+    bulb.webp           — vacuum tube that peeks into CTAs and the footer
+    cw4.webp, cw2.webp  — portrait (illustration + photo reveal)
 
-public/
-  splash.jpg          — hero background (CRT glass, home)
-  services.jpg        — services header (electron gun)
-  about.jpg           — about header (oscilloscope)
-  book.jpg            — book header (radio tuner dial)
-  focus.jpg           — services grid background (lens)
-  signal.jpg          — CTA background (phosphor light trails)
-  patchbay.jpg        — services CTA background (patch bay)
-  cwilke.jpg          — portrait illustration
+public/                 — served as-is, no processing
   og.jpg              — OG / social share image (1200x630)
   favicon.svg         — phosphor waveform mark
+  fonts/, audio/      — self-hosted fonts, CRT power-on sound
 ```
 
 ---

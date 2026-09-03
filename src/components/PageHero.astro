@@ -1,8 +1,11 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   label: string;
   title: string;
-  image: string;
+  image: ImageMetadata;
   imageOpacity?: number;
 }
 
@@ -11,7 +14,17 @@ const { label, title, image, imageOpacity = 0.5 } = Astro.props;
 
 <section class="page-hero">
   <div class="page-hero-bg" aria-hidden="true">
-    <img src={image} alt="" class="page-hero-splash" width="1600" height="893" style={`opacity: ${imageOpacity}`} />
+    <!-- Sub-page LCP candidate: eager + high priority, responsive widths for full-bleed -->
+    <Image
+      src={image}
+      alt=""
+      class="page-hero-splash"
+      widths={[480, 800, 1200, 1600]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      style={`opacity: ${imageOpacity}`}
+    />
   </div>
   <div class="container page-hero-inner">
     <div class="label">{label}</div>
