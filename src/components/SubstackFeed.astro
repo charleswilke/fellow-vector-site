@@ -121,6 +121,10 @@ const { limit = 3, variant = 'compact' } = Astro.props;
     padding: var(--sp-md) 0;
   }
 
+  /* Reserve roughly the rendered height so content below doesn't jump when posts arrive */
+  .substack-feed[data-variant="compact"] .feed-loading { min-height: 24rem; }
+  .substack-feed[data-variant="full"]    .feed-loading { min-height: 60vh; }
+
   .feed-cursor {
     font-family: var(--font-crt);
     font-size: 1.5rem;

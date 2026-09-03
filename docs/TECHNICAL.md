@@ -24,15 +24,17 @@
 
 ## CRT Intro Animation
 
-`CRTIntro.astro` runs a boot sequence on first page load per session.
+`CRTIntro.astro` is the secret-entrance sequence: an untuned static field, a hidden
+sweet spot that surfaces the mark, and a radial pixel dissolve through the membrane.
 
-- Uses `sessionStorage` key `fv_intro_seen` — set to `'1'` on dismiss
-- To test again: DevTools → Application → Session Storage → delete the key
-- Dismiss triggers on: click, keydown, touchstart, or auto after sequence completes
-- **iOS note:** The collapse animation (`crt-collapse` keyframes) must NOT use
-  `filter: brightness()` combined with `transform` — this breaks on WebKit.
-  Current animation uses only `transform` + `opacity`.
-- `animationend` has an 800ms fallback timeout in case the event doesn't fire (iOS).
+- Plays once per 30 days: `localStorage` key `fv_intro_seen` holds an expiry timestamp
+- Skipped on `/book` (visitors arriving to book a call go straight to the form) and
+  under `prefers-reduced-motion` (which also marks it seen)
+- `?intro` on any URL forces a replay; `?intro=a` / `?intro=b` auditions a specific power-on sound
+- Dismiss triggers: click, key, touch, holding the sweet spot ~1s, or auto after 6–20s
+- The dissolve clears 2px blocks in radial order (4px on coarse pointers to protect frame rate).
+  Canvas dimensions are clamped to ≥1px so a zero-size viewport can't throw.
+- **iOS note:** never combine `filter` and `transform` in one keyframe animation — WebKit breaks.
 
 ---
 

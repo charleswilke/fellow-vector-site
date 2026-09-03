@@ -173,6 +173,7 @@ import bulb from '../assets/bulb.webp';
   .hero {
     position: relative;
     min-height: calc(100vh - 64px);
+    min-height: calc(100svh - 64px); /* mobile: don't overshoot the visible area under the toolbar */
     display: flex;
     align-items: center;
     overflow: hidden;

@@ -80,6 +80,9 @@ const structuredData = {
     <link rel="icon" type="image/x-icon" sizes="32x32 16x16" href="/favicon.ico" />
 
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+    <!-- Per-page head extras (preconnects, etc.) -->
+    <slot name="head" />
   </head>
 
   <body>

@@ -146,6 +146,13 @@
     // ?intro forces a replay (handy for testing / showing someone the door)
     const params = new URLSearchParams(location.search);
     const forced = params.has('intro');
+
+    // /book is where people arrive to act; don't make them wait at the door
+    if (!forced && location.pathname.startsWith('/book')) {
+      introEl.style.display = 'none';
+      return;
+    }
+
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!forced) {
       const stored = localStorage.getItem(SEEN_KEY);
@@ -194,8 +201,9 @@
     function initStatic() {
       W = window.innerWidth;
       H = window.innerHeight;
-      lowW = Math.ceil(W / SCALE);
-      lowH = Math.ceil(H / SCALE);
+      // clamp to 1px: a zero-size viewport (prerender, hidden tab) would make createImageData throw
+      lowW = Math.max(1, Math.ceil(W / SCALE));
+      lowH = Math.max(1, Math.ceil(H / SCALE));
       staticEl.width = lowW;
       staticEl.height = lowH;
       glowEl.width = lowW;
@@ -405,7 +413,8 @@
       dissolveEl.getBoundingClientRect(); // commit styles so the transition runs
       dissolveEl.style.transform = 'scale(1.12)';
 
-      const BLOCK    = 2;
+      // coarser blocks on touch devices: a quarter of the clearRect calls per frame
+      const BLOCK    = window.matchMedia('(pointer: coarse)').matches ? 4 : 2;
       const cols     = Math.ceil(DW / BLOCK);
       const rows     = Math.ceil(DH / BLOCK);
       const total    = cols * rows;

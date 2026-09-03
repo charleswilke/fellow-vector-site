@@ -8,12 +8,15 @@ import bookHero from '../assets/book.webp';
   title="Book a Call"
   description="Schedule a call with Fellow Vector to discuss consulting, speaking, or webinar engagements."
 >
+  <!-- The booking embed is this page's main content; open the connections before its script asks -->
+  <link slot="head" rel="preconnect" href="https://app.cal.com" />
+  <link slot="head" rel="preconnect" href="https://cal.com" />
 
   <PageHero label="// establish connection" title="Book a Call" image={bookHero} imageOpacity={0.45}>
     <p class="text-muted page-hero-sub">
-      What would you do with <span class="shimmer shimmer-1">more time</span>?<br />
-      What could you make with <span class="shimmer shimmer-2">more focus</span>?<br />
-      What's keeping you from <span class="shimmer shimmer-3">your joy</span>?
+      What would you do with <span class="shimmer shimmer-1" data-text="more time">more time</span>?<br />
+      What could you make with <span class="shimmer shimmer-2" data-text="more focus">more focus</span>?<br />
+      What's keeping you from <span class="shimmer shimmer-3" data-text="your joy">your joy</span>?
     </p>
   </PageHero>
 
@@ -225,10 +228,27 @@ import bookHero from '../assets/book.webp';
     .booking-sidebar { position: static; }
   }
 
+  /* The glow lives on a pseudo-element so the loop only animates opacity
+     (compositor-only) instead of repainting text-shadow every frame. */
   .shimmer {
+    position: relative;
     color: var(--phosphor);
-    animation: shimmer 6s ease-in-out infinite;
     opacity: 0.6;
+    animation: shimmer 6s ease-in-out infinite;
+  }
+
+  .shimmer::after {
+    content: attr(data-text) / "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    color: transparent;
+    text-shadow: 0 0 8px var(--phosphor), 0 0 16px rgba(0, 255, 136, 0.3);
+    opacity: 0;
+    animation: shimmer-glow 6s ease-in-out infinite;
+    animation-delay: inherit;
+    pointer-events: none;
   }
 
   .shimmer-1 { animation-delay: 0s; }
@@ -236,7 +256,12 @@ import bookHero from '../assets/book.webp';
   .shimmer-3 { animation-delay: 4s; }
 
   @keyframes shimmer {
-    0%, 100% { opacity: 0.6; text-shadow: none; }
-    50% { opacity: 1; text-shadow: 0 0 8px var(--phosphor), 0 0 16px rgba(0, 255, 136, 0.3); }
+    0%, 100% { opacity: 0.6; }
+    50%      { opacity: 1; }
+  }
+
+  @keyframes shimmer-glow {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
   }
 </style>

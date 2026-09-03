@@ -146,6 +146,12 @@ const { pathname } = Astro.url;
   }
 
   @media (max-width: 640px) {
+    /* backdrop blur costs GPU time on every scroll frame; near-opaque flat reads the same on phones */
+    #site-nav {
+      backdrop-filter: none;
+      background: rgba(8, 9, 15, 0.96);
+    }
+
     .nav-toggle {
       display: flex;
     }

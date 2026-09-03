@@ -22,7 +22,7 @@ const year = new Date().getFullYear();
 
     <div class="footer-meta">
       <span class="text-muted">&copy; {year} Fellow Vector</span>
-      <a href="mailto:cwilke@fellowvector.com" class="footer-signal text-phosphor">// signal active</a>
+      <a href="mailto:cwilke@fellowvector.com" class="footer-signal text-phosphor" data-text="// signal active">// signal active</a>
     </div>
   </div>
   <div class="footer-bulb" aria-hidden="true">
@@ -103,16 +103,37 @@ const year = new Date().getFullYear();
     letter-spacing: 0.08em;
   }
 
+  /* Runs on every page forever, so it animates opacity only. The glow sits on a
+     pseudo-element that fades in, instead of repainting text-shadow each frame. */
   .footer-signal {
+    position: relative;
     font-size: 0.65rem;
     letter-spacing: 0.14em;
     opacity: 0.5;
     animation: pulse 3s ease-in-out infinite;
   }
 
+  .footer-signal::after {
+    content: attr(data-text) / "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    color: transparent;
+    text-shadow: var(--glow-green);
+    opacity: 0;
+    animation: pulse-glow 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
   @keyframes pulse {
     0%, 100% { opacity: 0.5; }
-    50%       { opacity: 1; text-shadow: var(--glow-green); }
+    50%      { opacity: 1; }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
   }
 
   .footer-bulb {
