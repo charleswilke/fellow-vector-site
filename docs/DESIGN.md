@@ -21,7 +21,7 @@ Defined in `src/styles/global.css` as CSS custom properties:
 --bg-surface:    #0e1018   /* card/panel backgrounds */
 --bg-raised:     #141620   /* elevated surfaces */
 --fg:            #dde1ec   /* body text */
---fg-muted:      #6b7390   /* secondary text, labels */
+--fg-muted:      #a2abc2   /* secondary text, labels */
 --phosphor:      #00ff88   /* primary accent — phosphor green */
 --phosphor-dim:  #00804a   /* dimmed phosphor, borders */
 --electric:      #00ccff   /* secondary accent — electric blue */
@@ -64,7 +64,7 @@ Applied globally via `body::before` (vignette) and `body::after` (scanlines) in 
 These are `position: fixed` overlays that sit on top of all content at z-index 9000–9001.
 
 - **Scanlines**: `repeating-linear-gradient` at 4px intervals, 7% opacity black
-- **Vignette**: radial gradient from transparent center to 55% black at edges
+- **Vignette**: radial gradient from transparent center to 30% black at edges
 
 These should never be removed. They're the connective tissue of the aesthetic.
 
@@ -115,7 +115,7 @@ Short uppercase identifiers that precede section headings:
 ```html
 <div class="label">// section name</div>
 ```
-Always use the `//` prefix. Color is `--phosphor` at 0.7 opacity.
+Always use the `//` prefix. Color is `--phosphor` at 0.85 opacity.
 
 ### Buttons
 Two variants:
@@ -142,7 +142,10 @@ Cards use `--bg-surface` background with `--border` border.
 --sp-2xl: 8rem
 ```
 
-Section padding is always `var(--sp-2xl) 0`. Container max-width is `1100px`.
+Default section padding is `var(--sp-2xl) 0`. The homepage uses
+`clamp(3rem, 6vw, var(--sp-xl)) 0` for its content and CTA sections (48–64px per side),
+with `var(--sp-lg)` between the services introduction and cards.
+Container max-width is `1100px`.
 
 ---
 

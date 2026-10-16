@@ -27,7 +27,7 @@
   --bg-surface:    #0e1018;
   --bg-raised:     #141620;
   --fg:            #dde1ec;
-  --fg-muted:      #6b7390;
+  --fg-muted:      #a2abc2;
   --phosphor:      #00ff88;
   --phosphor-dim:  #00804a;
   --electric:      #00ccff;
@@ -106,7 +106,7 @@ body::before {
   background: radial-gradient(
     ellipse at center,
     transparent 55%,
-    rgba(0, 0, 0, 0.55) 100%
+    rgba(0, 0, 0, 0.3) 100%
   );
   pointer-events: none;
   z-index: 9001;
@@ -244,7 +244,7 @@ p {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--phosphor);
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 /* Divider */
