@@ -51,6 +51,8 @@
   --sp-lg:  2rem;
   --sp-xl:  4rem;
   --sp-2xl: 8rem;
+  --section-space: clamp(2.5rem, 5vw, 4rem);
+  --layout-gap: clamp(1.5rem, 4vw, 3rem);
 }
 
 *, *::before, *::after {
@@ -147,27 +149,33 @@ p {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 var(--sp-lg);
+  padding: 0 clamp(1.25rem, 3vw, var(--sp-lg));
 }
 
 .section {
-  padding: var(--sp-2xl) 0;
+  padding: var(--section-space) 0;
+}
+
+section[id] {
+  scroll-margin-top: 80px;
 }
 
 /* ── Components ── */
 
 .btn {
+  --btn-inline-space: 1.75rem;
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.75rem 1.75rem;
+  padding: 0.75rem var(--btn-inline-space);
   border: 1px solid var(--phosphor);
   color: var(--phosphor);
   background: transparent;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+    text-shadow 0.2s, box-shadow 0.2s, transform 0.25s ease-out;
   text-decoration: none;
   clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
 }
@@ -180,15 +188,60 @@ p {
 }
 
 .btn-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--phosphor);
   color: var(--bg);
   font-weight: bold;
+  padding-inline-end: calc(var(--btn-inline-space) + 1.25em);
 }
 
-.btn-primary:hover {
-  background: transparent;
-  color: var(--phosphor);
-  text-shadow: var(--glow-green);
+.btn-primary::before {
+  content: '>' / '';
+  position: absolute;
+  right: var(--btn-inline-space);
+  top: 50%;
+  opacity: 0;
+  transform: translate(-4px, -50%);
+  transition: opacity 0.12s, transform 0.15s ease-out;
+  pointer-events: none;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.5rem;
+  width: calc(100% + 3rem);
+  background: var(--phosphor);
+  /* Invert the fill and lettering together so both sides of the wipe stay readable. */
+  mix-blend-mode: difference;
+  transform: translateX(-110%) skewX(-12deg);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.btn-primary:is(:hover, :focus-visible) {
+  background: var(--phosphor);
+  color: var(--bg);
+  text-shadow: none;
+  transform: translateX(3px);
+}
+
+.btn-primary:is(:hover, :focus-visible)::after {
+  transform: translateX(0) skewX(-12deg);
+}
+
+.btn-primary:is(:hover, :focus-visible)::before {
+  opacity: 1;
+  transform: translate(0, -50%);
+  transition-delay: 0.4s;
+}
+
+.btn-primary:focus-visible {
+  border-color: var(--electric);
 }
 
 .btn-ghost {
@@ -205,8 +258,9 @@ p {
 }
 
 .btn-lg {
+  --btn-inline-space: 2.5rem;
   font-size: 1rem;
-  padding: 1.1rem 2.5rem;
+  padding-block: 1.1rem;
 }
 
 /* Card */
@@ -251,7 +305,7 @@ p {
 .divider {
   border: none;
   border-top: 1px solid var(--border);
-  margin: var(--sp-xl) 0;
+  margin: var(--sp-lg) 0;
 }
 
 /* Utility */
@@ -309,10 +363,15 @@ p {
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+  .btn-primary:is(:hover, :focus-visible) {
+    transform: none;
+  }
+
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }

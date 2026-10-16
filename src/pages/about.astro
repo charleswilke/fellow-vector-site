@@ -38,7 +38,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
               alt="Charles Wilke"
               class="portrait-img"
               widths={[320, 480, 640]}
-              sizes="(max-width: 768px) 50vw, 240px"
+              sizes="(max-width: 600px) 180px, 240px"
               loading="eager"
             />
             <Image
@@ -47,7 +47,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
               class="portrait-reveal"
               aria-hidden="true"
               widths={[320, 480, 640]}
-              sizes="(max-width: 768px) 50vw, 240px"
+              sizes="(max-width: 600px) 180px, 240px"
               loading="eager"
             />
             <div class="glitch-slice s1"></div>
@@ -444,8 +444,8 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
 
   .about-grid {
     display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: var(--sp-2xl);
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: var(--layout-gap);
     align-items: start;
   }
 
@@ -512,33 +512,24 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
     letter-spacing: 0.08em;
   }
 
-  @media (min-width: 769px) {
-    .section {
-      padding-top: var(--sp-lg);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .page-hero {
-      padding: var(--sp-md) 0 var(--sp-sm);
-    }
-
-    .section {
-      padding-top: var(--sp-lg);
-    }
-
+  @media (max-width: 959px) {
     .about-grid {
       grid-template-columns: 1fr;
-      gap: var(--sp-xl);
+      gap: var(--sp-lg);
     }
 
     .about-sidebar {
       position: static;
     }
 
+  }
+
+  @media (max-width: 600px) {
     .portrait-inline {
-      width: 50%;
-      margin: 5px 0 0.75rem 1.25rem;
+      float: none;
+      width: 180px;
+      max-width: 100%;
+      margin: 0 0 var(--sp-lg);
     }
   }
 </style>

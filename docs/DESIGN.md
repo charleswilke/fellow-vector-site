@@ -125,6 +125,13 @@ Two variants:
 Buttons use `clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)`
 for a subtle beveled corner effect.
 
+Primary buttons wipe from green to dark, left to right, on hover and keyboard focus,
+with a 3px forward nudge. An angled overlay uses local difference blending to keep
+the label readable throughout the sweep. Reduced motion skips the animated sweep
+and nudge; keyboard focus also highlights the border in electric blue. A decorative
+`>` appears after the wipe completes, with its space reserved to prevent layout shifts.
+Under reduced motion, the final state and chevron appear immediately.
+
 ### Cards
 `.card` has a left border accent that animates height to 100% on hover.
 Cards use `--bg-surface` background with `--border` border.
@@ -142,10 +149,17 @@ Cards use `--bg-surface` background with `--border` border.
 --sp-2xl: 8rem
 ```
 
-Default section padding is `var(--sp-2xl) 0`. The homepage uses
-`clamp(3rem, 6vw, var(--sp-xl)) 0` for its content and CTA sections (48–64px per side),
-with `var(--sp-lg)` between the services introduction and cards.
-Container max-width is `1100px`.
+Section and CTA padding use `--section-space: clamp(2.5rem, 5vw, 4rem)`
+(40–64px per side). Layout gutters use `--layout-gap: clamp(1.5rem, 4vw, 3rem)`.
+Container max-width is `1100px`, with 20–32px responsive side padding.
+
+Service sections use border separators rather than dividers with extra margins.
+Their labels stack above the content below 960px. Keep section buttons sized to their
+labels, and give anchored sections an 80px scroll offset for the fixed navigation.
+
+Sub-page heroes use the same section spacing at every breakpoint. The homepage hero
+has a bounded height instead of requiring a full viewport. Avoid adding large fixed
+heights or combining section padding with generously spaced dividers.
 
 ---
 

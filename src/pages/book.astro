@@ -124,15 +124,15 @@ import bookHero from '../assets/book.webp';
 
   .booking-layout {
     display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: var(--sp-2xl);
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: var(--layout-gap);
     align-items: start;
   }
 
   .booking-sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-xl);
+    gap: var(--sp-lg);
     position: sticky;
     top: 80px;
   }
@@ -219,13 +219,34 @@ import bookHero from '../assets/book.webp';
     min-height: 600px;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     .booking-layout {
       grid-template-columns: 1fr;
-      gap: var(--sp-xl);
+      gap: var(--sp-lg);
     }
 
-    .booking-sidebar { position: static; }
+    .booking-sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--sp-lg);
+    }
+
+    .booking-info-block:last-child {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .booking-sidebar {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .booking-info-block:last-child {
+      grid-column: auto;
+      grid-row: auto;
+    }
   }
 
   /* The glow lives on a pseudo-element so the loop only animates opacity

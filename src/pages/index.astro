@@ -174,14 +174,14 @@ import portrait from '../assets/cw4.webp';
 <style>
   .section,
   .cta-section {
-    padding: clamp(3rem, 6vw, var(--sp-xl)) 0;
+    padding: var(--section-space) 0;
   }
 
   /* ── Hero ── */
   .hero {
     position: relative;
-    min-height: calc(100vh - 64px);
-    min-height: calc(100svh - 64px); /* mobile: don't overshoot the visible area under the toolbar */
+    min-height: clamp(26rem, 70vh, 38rem);
+    min-height: clamp(26rem, 70svh, 38rem);
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -223,9 +223,9 @@ import portrait from '../assets/cw4.webp';
     z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--sp-lg);
-    padding-top: var(--sp-2xl);
-    padding-bottom: var(--sp-2xl);
+    gap: clamp(1rem, 2.5vw, var(--sp-lg));
+    padding-top: var(--section-space);
+    padding-bottom: var(--section-space);
   }
 
   .hero-label { animation: fadeIn 0.6s 0.2s both; }

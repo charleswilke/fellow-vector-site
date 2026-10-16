@@ -37,7 +37,7 @@ const { label, title, image, imageOpacity = 0.5 } = Astro.props;
   .page-hero {
     position: relative;
     border-bottom: 1px solid var(--border);
-    padding: var(--sp-2xl) 0 var(--sp-xl);
+    padding: var(--section-space) 0;
     overflow: hidden;
   }
 
@@ -79,13 +79,9 @@ const { label, title, image, imageOpacity = 0.5 } = Astro.props;
   }
 
   .page-hero-inner :global(h1) {
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
     margin-top: var(--sp-xs);
     margin-bottom: var(--sp-sm);
   }
 
-  @media (max-width: 768px) {
-    .page-hero {
-      padding: var(--sp-md) 0 var(--sp-sm);
-    }
-  }
 </style>

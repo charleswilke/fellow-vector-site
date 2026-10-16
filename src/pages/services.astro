@@ -22,7 +22,7 @@ const services = [
       'Ongoing advice as you test, learn, and refine your approach',
     ],
     outcome: 'The aim: a clear set of priorities and a practical path from experimenting with AI to using it in your day-to-day work.',
-    cta: { href: '/book', label: 'Book a Consulting Call' },
+    cta: { href: '/book', label: 'Discuss Consulting' },
   },
   {
     id: 'speaking',
@@ -73,21 +73,39 @@ const services = [
     <p class="text-muted page-hero-sub">
       AI strategy, team workshops, and speaking, built around the work you want
       more time for. I'm Charles Wilke, based in Omaha. You work with me directly,
-      from the first conversation through the engagement.
+      starting with an exploratory conversation.
     </p>
   </PageHero>
 
+  <section class="section conversation-section">
+    <div class="container conversation-layout">
+      <div class="conversation-heading">
+        <div class="label">// first contact</div>
+        <h2>Start with a conversation.</h2>
+      </div>
+      <div class="conversation-body">
+        <p>
+          A 30-minute conversation about your work, your team, and where you're
+          getting stuck. We'll explore where AI could help and whether it makes
+          sense to work together.
+        </p>
+        <p class="text-muted">
+          From there, we can shape the next step: consulting, hands-on training,
+          or a talk for your audience.
+        </p>
+        <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Services ── -->
-  {services.map((svc, i) => (
-    <section id={svc.id} class={`service-section section${i === services.length - 1 ? ' last-service' : ''}`}>
-      <div class={`container service-layout ${i % 2 !== 0 ? 'reverse' : ''}`}>
+  {services.map((svc) => (
+    <section id={svc.id} class="service-section section">
+      <div class="container service-layout">
 
         <div class="service-meta">
           <div class="label" style={`color: var(--${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'})`}>
             {svc.label}
-          </div>
-          <div class={`service-index text-${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'} glow-${svc.color === 'electric' ? 'blue' : svc.color === 'phosphor' ? 'green' : ''}`}>
-            0{i + 1}
           </div>
         </div>
 
@@ -106,11 +124,27 @@ const services = [
 
           <p>{svc.outcome}</p>
 
+          {svc.id === 'webinars' && (
+            <figure class="recommendation">
+              <div class="label">// from a colleague</div>
+              <blockquote>
+                <p>
+                  “He was always proactively experimenting … spearheading an AI
+                  education project to ensure our entire team was up to date
+                  and proficient in new tools.”
+                </p>
+              </blockquote>
+              <figcaption>
+                <span class="recommendation-name">Estella Aditirto</span>
+                <span class="text-muted">Technical Writer, GoDaddy</span>
+              </figcaption>
+            </figure>
+          )}
+
           <a href={svc.cta.href} class="btn btn-primary">{svc.cta.label}</a>
         </div>
 
       </div>
-      <hr class="divider container" />
     </section>
   ))}
 
@@ -120,10 +154,10 @@ const services = [
       <Image src={patchbay} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
     </div>
     <div class="container cta-inner">
-      <h2 class="text-phosphor glow-green">Not sure where to start?</h2>
-      <p class="text-muted">Let's figure out what's eating your time,<br />and how to get it back.</p>
+      <h2 class="text-phosphor glow-green">Let's find a useful next step.</h2>
+      <p class="text-muted">Bring your questions and a task you'd like to make easier.<br />We'll start with a 30-minute exploratory conversation.</p>
       <div class="cta-buttons">
-        <a href="/book" class="btn btn-primary">Book a Call</a>
+        <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
         <a href="mailto:cwilke@fellowvector.com" class="btn btn-ghost">Send an Email</a>
       </div>
     </div>
@@ -137,14 +171,72 @@ const services = [
     max-width: 55ch;
   }
 
-  .last-service {
-    padding-bottom: 0;
+  .conversation-section {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .conversation-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .conversation-heading,
+  .conversation-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  .conversation-body .btn {
+    align-self: flex-start;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .recommendation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    margin: var(--sp-md) 0;
+    padding: var(--sp-lg);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--amber);
+    background: var(--bg-surface);
+  }
+
+  .recommendation .label {
+    color: var(--amber);
+  }
+
+  .recommendation figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-xs);
+    font-size: 0.85rem;
+  }
+
+  .recommendation-name {
+    color: var(--amber);
+  }
+
+  @media (max-width: 768px) {
+    .conversation-layout {
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+  }
+
+  .service-section + .service-section {
+    border-top: 1px solid var(--border);
   }
 
   .service-layout {
     display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: var(--sp-xl);
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: var(--layout-gap);
     align-items: start;
   }
 
@@ -157,13 +249,6 @@ const services = [
     top: 80px;
   }
 
-  .service-index {
-    font-family: var(--font-crt);
-    font-size: 4rem;
-    line-height: 1;
-    opacity: 0.15;
-  }
-
   .service-body {
     display: flex;
     flex-direction: column;
@@ -172,6 +257,12 @@ const services = [
 
   .service-body h2 {
     margin-top: var(--sp-xs);
+  }
+
+  .service-body > .btn {
+    align-self: flex-start;
+    max-width: 100%;
+    text-align: center;
   }
 
   .service-bullets {
@@ -198,8 +289,7 @@ const services = [
   .cta-section {
     position: relative;
     text-align: center;
-    padding: var(--sp-2xl) 0;
-    min-height: 480px;
+    padding: var(--section-space) 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -254,7 +344,7 @@ const services = [
     gap: var(--sp-md);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 959px) {
     .service-layout {
       grid-template-columns: 1fr;
       gap: var(--sp-md);
@@ -262,18 +352,8 @@ const services = [
 
     .service-meta {
       position: static;
-      flex-direction: row;
-      align-items: center;
+      padding-top: 0;
     }
 
-    .service-index { font-size: 2.5rem; }
-
-    .service-section.section {
-      padding: var(--sp-xl) 0;
-    }
-
-    .divider.container {
-      margin: var(--sp-md) auto;
-    }
   }
 </style>
