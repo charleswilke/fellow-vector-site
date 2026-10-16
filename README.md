@@ -74,6 +74,7 @@ npm run preview   # preview production build locally
 | [`docs/VOICE.md`](docs/VOICE.md) | Brand voice, copy principles, Charles's background |
 | [`docs/IMAGES.md`](docs/IMAGES.md) | Visual narrative, image prompting guide, treatments |
 | [`docs/TECHNICAL.md`](docs/TECHNICAL.md) | Architecture, iOS gotchas, deployment, patterns |
+| [`docs/SEARCH_CONSOLE.md`](docs/SEARCH_CONSOLE.md) | Search Console property, sitemap, ongoing checks, and SEO change log |
 
 ---
 
