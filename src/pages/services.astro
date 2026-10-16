@@ -9,62 +9,71 @@ const services = [
   {
     id: 'consulting',
     label: '01 // consulting',
-    title: 'Strategic Consulting',
+    title: 'AI Strategy & Consulting',
     color: 'phosphor',
-    description: `Are you a solo operator trying to figure out what AI actually means for your work?
-    An executive team navigating adoption across a whole organization? Either way the goal is the same: find where AI gives you bandwidth back, so you can focus on the work that actually matters. I meet you where you are.`,
+    description: `Start with the work that's eating your time. I help founders, operators, and
+    small and mid-sized businesses identify useful AI applications, assess the tools,
+    and plan adoption around their actual work. We look at where AI can help and where
+    your team's judgment matters most.`,
     bullets: [
-      'AI readiness assessments for organizations',
-      '1:1 strategy sessions for founders and leaders',
-      'Roadmap development for implementation',
-      'Ongoing advisory relationships',
+      'AI readiness assessments grounded in your current tools and workflows',
+      '1:1 strategy sessions to sort through use cases and tool choices',
+      'Implementation roadmaps with priorities and ways to evaluate results',
+      'Ongoing advice as you test, learn, and refine your approach',
     ],
+    outcome: 'The aim: a clear set of priorities and a practical path from experimenting with AI to using it in your day-to-day work.',
     cta: { href: '/book', label: 'Book a Consulting Call' },
   },
   {
     id: 'speaking',
     label: '02 // speaking',
-    title: 'Speaking & Keynotes',
+    title: 'AI Speaking & Keynotes',
     color: 'electric',
-    description: `I speak to audiences that are tired of hype. Whatever the venue, the goal is the same: move people from confusion
-    to clarity, from clarity to action, and from action to time reclaimed for the work they love.`,
+    description: `A clear signal for audiences sorting through AI noise. I speak about AI adoption,
+    human judgment, and what these tools mean for the work people care about.
+    Each talk connects that bigger picture to your audience's decisions,
+    drawing on my experience shaping an AI assistant used by real businesses.`,
     bullets: [
       'Conference keynotes and panel appearances',
       'Corporate events and executive briefings',
       'Industry association engagements',
       'Custom talk development for your audience',
     ],
+    outcome: 'The aim: a shared understanding of AI and better questions to bring back to the work, with concrete next steps for your audience.',
     cta: { href: '/book', label: 'Inquire About Speaking' },
   },
   {
     id: 'webinars',
     label: '03 // webinars',
-    title: 'Webinars & Workshops',
+    title: 'AI Training & Workshops',
     color: 'amber',
-    description: `For teams and communities that want their hands on the dials, in a sandbox where mistakes are free.
-    I design and deliver focused webinars and workshops that go deep on a specific topic,
-    with outcomes your group can apply the next morning.`,
+    description: `Get your hands on the dials. I design AI training, webinars, and workshops
+    around the tasks your team actually does. We practice giving clear instructions,
+    evaluating outputs, and fitting AI into a workflow without handing over the judgment.
+    There's room to experiment, ask questions, and find what works for your group.`,
     bullets: [
-      'Live webinars for teams and communities',
-      'Interactive workshops (virtual and in-person)',
-      'Custom curriculum for your specific domain',
-      'Cohort-based learning engagements',
+      'Live AI webinars for teams, associations, and communities',
+      'Interactive workshops, virtual or in person',
+      'Custom exercises and curriculum built around your domain',
+      'Cohort-based learning with space to practice and ask questions',
     ],
-    cta: { href: '/book', label: 'Discuss a Webinar' },
+    outcome: 'The aim: useful techniques your team has practiced, a clearer sense of what to check, and workflows to keep developing after the session.',
+    cta: { href: '/book', label: 'Discuss Team Training' },
   },
 ];
 ---
 
 <BaseLayout
-  title="Services"
-  description="Strategic consulting, speaking, and webinars from Fellow Vector. Helping businesses navigate the AI era."
+  title="AI Consulting, Workshops & Speaking"
+  description="AI strategy consulting, hands-on team training, and speaking with Charles Wilke. Practical guidance for small and mid-sized businesses, based in Omaha."
 >
 
   <!-- ── Page header ── -->
-  <PageHero label="// what we offer" title="Services" image={servicesHero} imageOpacity={0.55}>
+  <PageHero label="// what we offer" title="AI Consulting & Training" image={servicesHero} imageOpacity={0.55}>
     <p class="text-muted page-hero-sub">
-      Every engagement starts with a question: what matters most to you, and
-      what's standing between you and that? From there, we find the right format.
+      AI strategy, team workshops, and speaking, built around the work you want
+      more time for. I'm Charles Wilke, based in Omaha. You work with me directly,
+      from the first conversation through the engagement.
     </p>
   </PageHero>
 
@@ -94,6 +103,8 @@ const services = [
               </li>
             ))}
           </ul>
+
+          <p>{svc.outcome}</p>
 
           <a href={svc.cta.href} class="btn btn-primary">{svc.cta.label}</a>
         </div>
