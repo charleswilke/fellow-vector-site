@@ -40,12 +40,26 @@ export function parseFeed(xml) {
     const date  = toIso(tag(block, 'pubDate'));
     return {
       title:   tag(block, 'title'),
-      link:    /^https?:\/\//.test(link) ? link : '',
+      link:    readerLink(link),
       date,
       excerpt: excerpt(tag(block, 'description')),
       image,
     };
   }).filter(item => item.title && item.link);
+}
+
+function readerLink(link) {
+  if (!/^https?:\/\//.test(link)) return '';
+  try {
+    const url = new URL(link);
+    const post = url.pathname.match(/^\/p\/([^/]+)\/?$/);
+    if (url.hostname === 'charleswilke.substack.com' && post) {
+      return `https://charleswilke.com/read/${post[1]}`;
+    }
+    return link;
+  } catch {
+    return '';
+  }
 }
 
 function tag(block, name) {
