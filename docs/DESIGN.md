@@ -5,7 +5,7 @@
 The site aesthetic is built around one central metaphor: **entering through a CRT television**.
 The static, fuzz, and electric feeling of passing through that membrane into the future.
 Every visual and interaction decision traces back to this — the phosphor glow, the scanlines,
-the boot sequence, the imagery drawn from analog broadcast machinery.
+the first-visit signal accent, the imagery drawn from analog broadcast machinery.
 
 This is not a retro/nostalgia aesthetic. It's a **threshold aesthetic**. The CRT is the entry
 point into something forward-looking, not a celebration of the past.

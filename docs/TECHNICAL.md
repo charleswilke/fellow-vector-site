@@ -16,7 +16,7 @@
 |------|---------|
 | `src/layouts/BaseLayout.astro` | HTML shell, all meta/OG tags, font loading, CRTIntro |
 | `src/styles/global.css` | Design tokens, global resets, persistent CRT effects |
-| `src/components/CRTIntro.astro` | Boot sequence overlay — the entry experience |
+| `src/components/CRTIntro.astro` | Subtle first-visit navigation accent |
 | `src/components/Nav.astro` | Fixed navigation with mobile toggle |
 | `src/components/Footer.astro` | Footer with pulsing signal indicator |
 
@@ -24,24 +24,23 @@
 
 ## CRT Intro Animation
 
-`CRTIntro.astro` is the secret-entrance sequence: an untuned static field, a hidden
-sweet spot that surfaces the mark, and a radial pixel dissolve through the membrane.
+`CRTIntro.astro` adds a silent, 2.2-second phosphor sweep beneath the navigation,
+a soft logo glow, and a small “signal acquired” note beneath the logo. Content is
+visible and interactive throughout; the effect has no overlay, canvas, audio, or input handlers.
 
-- Plays once per 30 days: `localStorage` key `fv_intro_seen` holds an expiry timestamp
-- Skipped on `/book` (visitors arriving to book a call go straight to the form) and
-  under `prefers-reduced-motion` (which also marks it seen)
-- `?intro` on any URL forces a replay; `?intro=a` / `?intro=b` auditions a specific power-on sound
-- Dismiss triggers: click, key, touch, holding the sweet spot ~1s, or auto after 6–20s
-- The dissolve clears 2px blocks in radial order (4px on coarse pointers to protect frame rate).
-  Canvas dimensions are clamped to ≥1px so a zero-size viewport can't throw.
-- **iOS note:** never combine `filter` and `transform` in one keyframe animation — WebKit breaks.
+- Plays once per 30 days: `localStorage` key `fv_intro_seen` holds an expiry timestamp.
+- Existing expiry timestamps from the old intro remain valid.
+- Skipped on `/book` and under `prefers-reduced-motion`, even with `?intro`.
+- `?intro` replays the accent elsewhere for review. The old audio variants are no longer used.
+- Storage failures never block the page; the accent can run without persistence.
+- The animation attribute is removed after 2.3 seconds.
 
 ---
 
 ## Persistent CRT Overlays
 
 `body::before` (vignette) and `body::after` (scanlines) are `position: fixed` overlays.
-They sit at z-index 9000–9001, above all page content but below the intro (99999).
+They sit at z-index 9000–9001, above page content, and do not intercept input.
 
 **iOS safe area:** The overlays use explicit `top/left/right/bottom` instead of `inset`
 and `bottom: env(safe-area-inset-bottom, 0)` to prevent a gap at the bottom on iPhone.

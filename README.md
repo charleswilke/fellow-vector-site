@@ -23,7 +23,7 @@ imagery drawn from the inside of the machines that made the broadcast age possib
 ```
 src/
   components/
-    CRTIntro.astro    — boot sequence overlay, plays once per session
+    CRTIntro.astro    — silent first-visit navigation accent, plays once per 30 days
     Nav.astro         — fixed navigation
     Footer.astro      — site footer
   layouts/
