@@ -2,8 +2,8 @@
 
 ## The Narrative Arc
 
-Every image on the site was generated in Leonardo AI and follows a deliberate visual narrative.
-Each image represents a different moment in the metaphor of "entering through a CRT television."
+The atmospheric background images were generated in Leonardo AI and follow a deliberate visual narrative.
+Each background represents a different moment in the metaphor of "entering through a CRT television."
 
 | Page / Section       | File             | Concept                                      |
 |----------------------|------------------|----------------------------------------------|
@@ -120,6 +120,18 @@ It's displayed on the about page, floated into the body text, with:
 
 If the portrait is ever updated, maintain this treatment — it's intentional that it looks
 like it's being received through a signal rather than displayed as a traditional photo.
+
+---
+
+## Speaking Photography
+
+`charles-speaking.jpg` is a user-supplied photograph of Charles presenting **Spectator to
+Initiator**. It appears in the Services page's speaking section, with an electric-blue
+border and a caption linking to the deck at `https://charleswilke.com/s2i`.
+Keep the full frame so the speaker, audience, and presentation remain
+visible. Render it through Astro's `<Image>` component as responsive WebP, with descriptive
+alt text and lazy loading. Documentary photography complements the analog backgrounds;
+the generated-image subject and treatment rules above apply to backgrounds.
 
 ---
 

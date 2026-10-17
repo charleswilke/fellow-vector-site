@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import servicesHero from '../assets/services.webp';
 import patchbay from '../assets/patchbay.webp';
+import charlesSpeaking from '../assets/charles-speaking.jpg';
 
 const services = [
   {
@@ -112,6 +113,23 @@ const services = [
         <div class="service-body">
           <h2>{svc.title}</h2>
           <p>{svc.description}</p>
+
+          {svc.id === 'speaking' && (
+            <figure class="speaking-photo">
+              <Image
+                src={charlesSpeaking}
+                alt="Charles Wilke presenting Spectator to Initiator to a seated audience."
+                widths={[480, 800, 1200]}
+                sizes="(max-width: 959px) calc(100vw - 40px), 900px"
+                format="webp"
+                loading="lazy"
+              />
+              <figcaption>
+                <span>// Spectator to Initiator</span>
+                <a href="https://charleswilke.com/s2i" target="_blank" rel="noopener">View the talk deck ↗</a>
+              </figcaption>
+            </figure>
+          )}
 
           <ul class="service-bullets">
             {svc.bullets.map(b => (
@@ -257,6 +275,35 @@ const services = [
 
   .service-body h2 {
     margin-top: var(--sp-xs);
+  }
+
+  .speaking-photo {
+    margin: var(--sp-sm) 0;
+    border: 1px solid var(--electric-dim);
+    background: var(--bg-surface);
+  }
+
+  .speaking-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .speaking-photo figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-sm) var(--sp-md);
+    padding: var(--sp-md);
+    border-top: 1px solid var(--electric-dim);
+    color: var(--electric);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .speaking-photo figcaption a {
+    color: var(--electric);
+    text-underline-offset: 0.2em;
   }
 
   .service-body > .btn {
