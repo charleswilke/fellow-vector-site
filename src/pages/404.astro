@@ -10,7 +10,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section class="lost-section">
     <div class="container lost-inner">
 
-      <div class="lost-code glow-green">404</div>
+      <div class="lost-code glow-phosphor">404</div>
 
       <div class="lost-terminal">
         <pre id="lost-output" class="lost-screen" aria-live="polite"></pre>
@@ -88,10 +88,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   @keyframes flicker-404 {
-    0%, 100% { opacity: 1; text-shadow: var(--glow-green); }
+    0%, 100% { opacity: 1; text-shadow: var(--glow-phosphor); }
     92%      { opacity: 1; }
     93%      { opacity: 0.4; text-shadow: none; }
-    94%      { opacity: 1; text-shadow: var(--glow-green); }
+    94%      { opacity: 1; text-shadow: var(--glow-phosphor); }
     96%      { opacity: 1; }
     96.5%    { opacity: 0.6; transform: translateX(2px); }
     97%      { opacity: 1; transform: translateX(0); }

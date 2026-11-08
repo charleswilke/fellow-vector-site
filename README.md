@@ -3,8 +3,8 @@
 
 > *The future is already broadcasting.*
 
-Consulting, speaking, and webinar site for Fellow Vector — the practice of Charles Wilke.
-Built on Astro with a CRT signal aesthetic: phosphor green, scanlines, boot sequences, and
+AI tutoring, role-focused workshops, and speaking site for Fellow Vector — the practice of Charles Wilke.
+Built on Astro with a CRT signal aesthetic: amber phosphor, scanlines, boot sequences, and
 imagery drawn from the inside of the machines that made the broadcast age possible.
 
 ---
@@ -30,7 +30,7 @@ src/
     BaseLayout.astro  — HTML shell, meta tags, OG image, fonts
   pages/
     index.astro       — home
-    services.astro    — consulting, speaking, webinars
+    services.astro    — tutoring, speaking, role-focused workshops
     about.astro       — about Charles
     book.astro        — booking page
   styles/

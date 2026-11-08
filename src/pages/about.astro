@@ -14,11 +14,11 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
 
 <BaseLayout
   title="About"
-  description="Charles Wilke is a writer, designer, and generative AI consultant helping small and mid-sized businesses make practical, grounded use of emerging technology."
+  description="Meet Charles Wilke: writer, designer, and AI tutor. Fellow Vector helps individuals and teams build skills, judgment, and agency through hands-on learning."
 >
 
   <PageHero label="// about the operator" title="Charles Wilke" image={aboutHero}>
-    <p class="page-hero-sub text-muted">Writer. Designer. Generative AI Consultant.</p>
+    <p class="page-hero-sub text-muted">Writer. Designer. AI Tutor.</p>
   </PageHero>
 
   <section class="section">
@@ -68,37 +68,36 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
         </p>
 
         <p>
-          Through Fellow Vector, I partner with organizations to translate AI from an abstract trend into
-          a usable capability. 
+          Through Fellow Vector, I help people learn to use AI in the work they actually do.
+          I think of myself as a tutor: someone beside you while you try, ask questions,
+          get stuck, and figure out what to do next. AI driver's ed, if you like.
         </p>
         <p>
-          That might mean shaping content strategies, designing AI-assisted workflows,
-          building custom tools, or leading workshops that help teams understand how these systems can
-          support their real goals.
-        </p>
-
-        <p>
-          I help small and mid-sized businesses make practical, grounded use of this
-          technology. Not for efficiency's sake, but to reclaim time for the work that
-          actually brings them joy.
+          That might start with one person learning a tool or a team exploring what it
+          means for a particular role. It can reach all the way to building a full business
+          application. The scale can change; the learning stays part of the work.
         </p>
         <p>
-          Less hype, more attention to the conditions that let good work flow.
+          Capacity building is the point. I want you to understand what you've made,
+          decide whether it helps, and feel able to keep going.
         </p>
         <p>
-          I work alongside you, not above you. No black boxes, no mystique.
+          I'm pro-employee. Automation can give people room to do more meaningful work,
+          and it can also be used to replace them. That choice matters. My focus is on
+          strengthening people's skills and agency, with employees helping shape how
+          these tools fit their roles.
         </p>
         <p>
-          I believe these tools should shorten the distance between you and the things you care about most.
+          The terminal glow is an invitation. Apple II, Math Blaster, The Oregon Trail:
+          for a lot of us, a computer was a place to play, experiment, and learn.
+          I call it the C-prompt lifestyle. That curiosity still has somewhere to go.
         </p>
         <p>
-          Your craft, your people, your next meaningful thing.
+          You don't need to have grown up with those machines to join in.
+          Bring the work you know, the questions you have, and something you'd like to try.
         </p>
-
         <p>
-          Let's skip the trite "what can AI do" conversation. The better question is: what's keeping
-          you from your joy? What would you build, explore, or finally get to if the tedious stuff
-          just... took less time? That's where we start.
+          Your craft, your people, your next meaningful thing. That's where we start.
         </p>
 
         <a href="/book" class="btn btn-primary" style="margin-top: 1rem;">Book a Call with Charles</a>
@@ -106,7 +105,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
         <hr class="divider" />
 
         <p class="text-muted" style="font-size: 0.9rem;">
-          If you want to see what happens when this brain isn't consulting, check out the games,
+          For more of what I make and learn along the way, check out the games,
           albums, Substack series, and other strange artifacts at my personal site!
         </p>
         <a href="https://charleswilke.com" target="_blank" rel="noopener" class="btn btn-ghost">charleswilke.com</a>
@@ -117,9 +116,9 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
         <div class="sidebar-block">
           <div class="label">// works with</div>
           <ul class="sidebar-list">
-            <li>Small & mid-sized businesses</li>
-            <li>Founders & operators</li>
-            <li>Executive teams</li>
+            <li>Curious individuals</li>
+            <li>People learning AI in their roles</li>
+            <li>Teams building skills together</li>
             <li>Associations & communities</li>
             <li>Conference organizers</li>
           </ul>
@@ -128,8 +127,8 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
         <div class="sidebar-block">
           <div class="label">// disciplines</div>
           <ul class="sidebar-list">
-            <li>Generative AI consulting</li>
-            <li>Content strategy</li>
+            <li>One-to-one AI tutoring</li>
+            <li>Role-focused learning</li>
             <li>AI-assisted workflow design</li>
             <li>Custom tool development</li>
             <li>Workshops & speaking</li>
@@ -145,7 +144,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
         <div class="sidebar-block">
           <div class="label">// fellow vector is</div>
           <p class="sidebar-note">
-            Just Charles. One consultant, fully present in every engagement.<br />No handoffs, no junior staff.<br />You work with me directly.
+            Just Charles. Your tutor and fellow learner.<br />You work with me directly, with room to ask questions and try things out.
           </p>
         </div>
 
@@ -392,8 +391,8 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
     background: radial-gradient(
       ellipse at center,
       transparent 35%,
-      rgba(8, 9, 15, 0.7) 75%,
-      rgba(8, 9, 15, 0.92) 100%
+      rgba(16, 13, 9, 0.7) 75%,
+      rgba(16, 13, 9, 0.92) 100%
     );
     pointer-events: none;
   }
@@ -406,7 +405,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
     text-align: center;
     border: 1px solid var(--phosphor-dim);
     /* Default (cw4 cream): dark text on phosphor */
-    color: #08090f;
+    color: #100d09;
     background: var(--phosphor);
     transition: color 0.2s ease, background 0.2s ease;
   }
@@ -419,10 +418,10 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
   }
 
   /* Default (cw4 cream): dark wedges in the photo corners */
-  .portrait-wrap .corner.tl { border-top-color: #08090f; border-left-color: #08090f; }
-  .portrait-wrap .corner.tr { border-top-color: #08090f; border-right-color: #08090f; }
-  .portrait-wrap .corner.bl { border-bottom-color: #08090f; border-left-color: #08090f; }
-  .portrait-wrap .corner.br { border-bottom-color: #08090f; border-right-color: #08090f; }
+  .portrait-wrap .corner.tl { border-top-color: #100d09; border-left-color: #100d09; }
+  .portrait-wrap .corner.tr { border-top-color: #100d09; border-right-color: #100d09; }
+  .portrait-wrap .corner.bl { border-bottom-color: #100d09; border-left-color: #100d09; }
+  .portrait-wrap .corner.br { border-bottom-color: #100d09; border-right-color: #100d09; }
 
   /* When cw2 is revealed, wedges go back to phosphor */
   .portrait-wrap:hover .corner,

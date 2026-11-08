@@ -7,8 +7,11 @@ The static, fuzz, and electric feeling of passing through that membrane into the
 Every visual and interaction decision traces back to this — the phosphor glow, the scanlines,
 the first-visit signal accent, the imagery drawn from analog broadcast machinery.
 
-This is not a retro/nostalgia aesthetic. It's a **threshold aesthetic**. The CRT is the entry
-point into something forward-looking, not a celebration of the past.
+The terminal is a familiar entry point for learning something new. Charles calls this the
+**C-prompt lifestyle**: the curiosity of an Apple II, Math Blaster, or The Oregon Trail,
+brought into a present-day conversation about AI. The nostalgia is intentional and welcoming.
+Keep the phosphor glow, scanlines, typography, and machinery imagery. References should
+invite experimentation without making prior computer experience a requirement.
 
 ---
 
@@ -17,18 +20,18 @@ point into something forward-looking, not a celebration of the past.
 Defined in `src/styles/global.css` as CSS custom properties:
 
 ```css
---bg:            #08090f   /* near-black, slight blue-green tint */
---bg-surface:    #0e1018   /* card/panel backgrounds */
---bg-raised:     #141620   /* elevated surfaces */
---fg:            #dde1ec   /* body text */
---fg-muted:      #a2abc2   /* secondary text, labels */
---phosphor:      #00ff88   /* primary accent — phosphor green */
---phosphor-dim:  #00804a   /* dimmed phosphor, borders */
---electric:      #00ccff   /* secondary accent — electric blue */
---electric-dim:  #006b88   /* dimmed electric */
---amber:         #ffb300   /* tertiary accent — warm amber */
---border:        rgba(0, 255, 136, 0.12)
---border-hover:  rgba(0, 255, 136, 0.35)
+--bg:            #100d09   /* warm near-black */
+--bg-surface:    #17120c   /* card/panel backgrounds */
+--bg-raised:     #211a10   /* elevated surfaces */
+--fg:            #f1e5cd   /* body text */
+--fg-muted:      #c5b496   /* secondary text, labels */
+--phosphor:      #ffbd59   /* primary accent — amber phosphor */
+--phosphor-dim:  #996626   /* dimmed phosphor, borders */
+--electric:      #f4d99a   /* secondary accent — pale gold */
+--electric-dim:  #9e8150   /* dimmed electric */
+--amber:         #ed9851   /* tertiary accent — burnt orange */
+--border:        rgba(255, 189, 89, 0.12)
+--border-hover:  rgba(255, 189, 89, 0.35)
 ```
 
 **Color usage rules:**
@@ -119,16 +122,16 @@ Always use the `//` prefix. Color is `--phosphor` at 0.85 opacity.
 
 ### Buttons
 Two variants:
-- `.btn.btn-primary` — filled phosphor green, dark text
+- `.btn.btn-primary` — filled amber phosphor, dark text
 - `.btn.btn-ghost` — transparent, muted border, used for secondary actions
 
 Buttons use `clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)`
 for a subtle beveled corner effect.
 
-Primary buttons wipe from green to dark, left to right, on hover and keyboard focus,
+Primary buttons wipe from amber to dark, left to right, on hover and keyboard focus,
 with a 3px forward nudge. An angled overlay uses local difference blending to keep
 the label readable throughout the sweep. Reduced motion skips the animated sweep
-and nudge; keyboard focus also highlights the border in electric blue. A decorative
+and nudge; keyboard focus also highlights the border in pale gold. A decorative
 `>` appears after the wipe completes, with its space reserved to prevent layout shifts.
 Under reduced motion, the final state and chevron appear immediately.
 
@@ -166,11 +169,11 @@ heights or combining section padding with generously spaced dividers.
 ## Glow Effects
 
 ```css
---glow-green: 0 0 6px rgba(0, 255, 136, 0.5), 0 0 18px rgba(0, 255, 136, 0.15)
---glow-blue:  0 0 6px rgba(0, 204, 255, 0.5), 0 0 18px rgba(0, 204, 255, 0.15)
+--glow-phosphor: 0 0 6px rgba(255, 189, 89, 0.5), 0 0 18px rgba(255, 189, 89, 0.15)
+--glow-highlight:  0 0 6px rgba(244, 217, 154, 0.5), 0 0 18px rgba(244, 217, 154, 0.15)
 ```
 
-Apply with utility classes `.glow-green` and `.glow-blue`. Use on headlines, active nav
+Apply with utility classes `.glow-phosphor` and `.glow-highlight`. Use on headlines, active nav
 links, and key UI moments. Don't overuse — glow should feel earned.
 
 ---
@@ -182,3 +185,11 @@ links, and key UI moments. Don't overuse — glow should feel earned.
 - Don't introduce new fonts. The two-font system is load-efficient and aesthetically locked.
 - Don't use CSS animations that combine `filter` and `transform` — breaks on iOS WebKit.
 - Don't add emojis anywhere. Ever.
+
+
+## Amber Terminal Palette (November 2026)
+
+The primary glow is amber (#ffbd59), with pale-gold highlights and warm cream text.
+Near-black brown surfaces keep the terminal contrast without the previous cool green cast.
+Decorative machine imagery uses a light sepia treatment; portraits and speaking photos
+retain their original colors. Keep the scanlines, restrained glow, and sharp edges.

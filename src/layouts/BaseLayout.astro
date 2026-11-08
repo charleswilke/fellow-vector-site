@@ -11,7 +11,7 @@ interface Props {
 
 const {
   title = 'Fellow Vector',
-  description = 'Consulting, speaking, and strategic guidance for businesses and leaders navigating the AI era.',
+  description = 'Hands-on AI tutoring, role-focused workshops, and speaking that help individuals and teams build skills, judgment, and agency.',
 } = Astro.props;
 
 const siteUrl = 'https://fellowvector.com';
@@ -25,18 +25,18 @@ const structuredData = {
       '@type': 'ProfessionalService',
       name: 'Fellow Vector',
       url: siteUrl,
-      description: 'Consulting, speaking, and strategic guidance for businesses and leaders navigating the AI era.',
+      description: 'Hands-on AI tutoring, role-focused workshops, and speaking that help individuals and teams build skills, judgment, and agency.',
       founder: {
         '@type': 'Person',
         '@id': 'https://charleswilke.com/#person',
         name: 'Charles Wilke',
         url: 'https://charleswilke.com/',
-        jobTitle: 'AI Strategy Consultant & Speaker',
+        jobTitle: 'AI Tutor, Designer & Speaker',
         sameAs: [
           'https://www.linkedin.com/in/charles-wilke/',
         ],
       },
-      serviceType: ['AI Consulting', 'Speaking', 'Workshops', 'Webinars'],
+      serviceType: ['AI Tutoring', 'Role-Focused Workshops', 'Speaking', 'Webinars'],
       areaServed: 'Worldwide',
     },
     {

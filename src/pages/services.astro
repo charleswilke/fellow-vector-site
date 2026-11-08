@@ -6,75 +6,76 @@ import servicesHero from '../assets/services.webp';
 import patchbay from '../assets/patchbay.webp';
 import charlesSpeaking from '../assets/charles-speaking.jpg';
 
+// Keep the existing section IDs so saved links still reach the right offering.
 const services = [
   {
     id: 'consulting',
-    label: '01 // consulting',
-    title: 'AI Strategy & Consulting',
+    label: '01 // one-to-one tutoring',
+    title: 'One-to-One AI Tutoring',
     color: 'phosphor',
-    description: `Start with the work that's eating your time. I help founders, operators, and
-    small and mid-sized businesses identify useful AI applications, assess the tools,
-    and plan adoption around their actual work. We look at where AI can help and where
-    your team's judgment matters most.`,
+    description: `Start with something you want to understand or do. I work alongside you,
+    using your questions and real tasks as the lesson. You might be opening an AI tool
+    for the first time or working toward a full business application. The starting point
+    is your role, your curiosity, and what would make you more capable.`,
     bullets: [
-      'AI readiness assessments grounded in your current tools and workflows',
-      '1:1 strategy sessions to sort through use cases and tool choices',
-      'Implementation roadmaps with priorities and ways to evaluate results',
-      'Ongoing advice as you test, learn, and refine your approach',
+      'Learn the tools through a task that matters to you',
+      'Practice giving context, asking useful questions, and checking results',
+      'Build workflows and applications together, with room to understand each step',
+      'Develop the judgment to know when AI helps and when to take another approach',
     ],
-    outcome: 'The aim: a clear set of priorities and a practical path from experimenting with AI to using it in your day-to-day work.',
-    cta: { href: '/book', label: 'Discuss Consulting' },
+    outcome: 'The aim: something useful you understand, skills you can use again, and a clearer next step to practice on your own.',
+    cta: { href: '/book', label: 'Talk About Tutoring' },
   },
   {
     id: 'speaking',
     label: '02 // speaking',
     title: 'AI Speaking & Keynotes',
     color: 'electric',
-    description: `A clear signal for audiences sorting through AI noise. I speak about AI adoption,
-    human judgment, and what these tools mean for the work people care about.
-    Each talk connects that bigger picture to your audience's decisions,
-    drawing on my experience shaping an AI assistant used by real businesses.`,
+    description: `A shared starting point for people sorting through AI noise. I speak about
+    learning by doing, human judgment, and how automation can expand what people are able
+    to do. Each talk connects the bigger picture to your audience's own work, with room
+    for curiosity and honest questions about what these changes mean for employees.`,
     bullets: [
-      'Conference keynotes and panel appearances',
-      'Corporate events and executive briefings',
-      'Industry association engagements',
-      'Custom talk development for your audience',
+      'Conference keynotes and panel conversations',
+      'Talks for teams, associations, and communities',
+      'AI, meaningful work, and employee agency',
+      'Examples and next steps shaped around your audience',
     ],
-    outcome: 'The aim: a shared understanding of AI and better questions to bring back to the work, with concrete next steps for your audience.',
+    outcome: 'The aim: a clearer understanding of the tools, better questions, and something your audience feels ready to try.',
     cta: { href: '/book', label: 'Inquire About Speaking' },
   },
   {
     id: 'webinars',
-    label: '03 // webinars',
-    title: 'AI Training & Workshops',
+    label: '03 // learning together',
+    title: 'Role-Focused Workshops',
     color: 'amber',
-    description: `Get your hands on the dials. I design AI training, webinars, and workshops
-    around the tasks your team actually does. We practice giving clear instructions,
-    evaluating outputs, and fitting AI into a workflow without handing over the judgment.
-    There's room to experiment, ask questions, and find what works for your group.`,
+    description: `Build capacity with the people doing the work. I shape hands-on sessions
+    around a specific role or a task your team recognizes. We practice, compare results,
+    and talk through the choices together. The work can grow from a useful everyday
+    workflow into a full business application, with the people who use it involved throughout.`,
     bullets: [
-      'Live AI webinars for teams, associations, and communities',
-      'Interactive workshops, virtual or in person',
-      'Custom exercises and curriculum built around your domain',
-      'Cohort-based learning with space to practice and ask questions',
+      'Live workshops and webinars, virtual or in person',
+      'Exercises built around your role, tools, and experience level',
+      'Practice with instructions, output review, and responsible use of work information',
+      'Shared learning that keeps employee knowledge and judgment at the center',
     ],
-    outcome: 'The aim: useful techniques your team has practiced, a clearer sense of what to check, and workflows to keep developing after the session.',
-    cta: { href: '/book', label: 'Discuss Team Training' },
+    outcome: 'The aim: people who can use and question the tools, explain their choices, and keep developing what they have learned.',
+    cta: { href: '/book', label: 'Plan a Workshop' },
   },
 ];
 ---
 
 <BaseLayout
-  title="AI Consulting, Workshops & Speaking"
-  description="AI strategy consulting, hands-on team training, and speaking with Charles Wilke. Practical guidance for small and mid-sized businesses, based in Omaha."
+  title="AI Tutoring, Workshops & Speaking"
+  description="Learn AI one-to-one or with your team. Practical tutoring, role-focused workshops, and talks with Charles Wilke, from first steps to full business applications."
 >
 
   <!-- ── Page header ── -->
-  <PageHero label="// what we offer" title="AI Consulting & Training" image={servicesHero} imageOpacity={0.55}>
+  <PageHero label="// ways to learn" title="AI Tutoring & Workshops" image={servicesHero} imageOpacity={0.55}>
     <p class="text-muted page-hero-sub">
-      AI strategy, team workshops, and speaking, built around the work you want
-      more time for. I'm Charles Wilke, based in Omaha. You work with me directly,
-      starting with an exploratory conversation.
+      Think AI driver's ed: learn the controls, practice on real work, and
+      build your judgment along the way. I'm Charles Wilke, based in Omaha.
+      You learn with me directly, one-to-one or with your team.
     </p>
   </PageHero>
 
@@ -86,13 +87,13 @@ const services = [
       </div>
       <div class="conversation-body">
         <p>
-          A 30-minute conversation about your work, your team, and where you're
-          getting stuck. We'll explore where AI could help and whether it makes
-          sense to work together.
+          A 30-minute conversation about what you want to learn, the work you
+          do, and where you're getting stuck. You don't need a technical
+          background or a finished project brief.
         </p>
         <p class="text-muted">
-          From there, we can shape the next step: consulting, hands-on training,
-          or a talk for your audience.
+          From there, we can shape a useful next step: individual tutoring,
+          learning together as a team, or a talk for your audience.
         </p>
         <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
       </div>
@@ -172,8 +173,8 @@ const services = [
       <Image src={patchbay} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
     </div>
     <div class="container cta-inner">
-      <h2 class="text-phosphor glow-green">Let's find a useful next step.</h2>
-      <p class="text-muted">Bring your questions and a task you'd like to make easier.<br />We'll start with a 30-minute exploratory conversation.</p>
+      <h2 class="text-phosphor glow-phosphor">Let's find a useful next step.</h2>
+      <p class="text-muted">Bring your questions and something you'd like to learn to do.<br />We'll start with a 30-minute exploratory conversation.</p>
       <div class="cta-buttons">
         <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
         <a href="mailto:cwilke@fellowvector.com" class="btn btn-ghost">Send an Email</a>
@@ -370,8 +371,8 @@ const services = [
     height: 100%;
     background: radial-gradient(
       ellipse at center,
-      rgba(8, 9, 15, 0.3) 0%,
-      rgba(8, 9, 15, 0.88) 100%
+      rgba(16, 13, 9, 0.3) 0%,
+      rgba(16, 13, 9, 0.88) 100%
     );
   }
 

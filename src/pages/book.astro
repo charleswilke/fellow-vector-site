@@ -6,7 +6,7 @@ import bookHero from '../assets/book.webp';
 
 <BaseLayout
   title="Book a Call"
-  description="Schedule a call with Fellow Vector to discuss consulting, speaking, or webinar engagements."
+  description="Talk with Charles Wilke about what you want to learn. Start with a 30-minute conversation about AI tutoring, a role-focused workshop, or a talk."
 >
   <!-- The booking embed is this page's main content; open the connections before its script asks -->
   <link slot="head" rel="preconnect" href="https://app.cal.com" />
@@ -14,9 +14,9 @@ import bookHero from '../assets/book.webp';
 
   <PageHero label="// establish connection" title="Book a Call" image={bookHero} imageOpacity={0.45}>
     <p class="text-muted page-hero-sub">
-      What would you do with <span class="shimmer shimmer-1" data-text="more time">more time</span>?<br />
-      What could you make with <span class="shimmer shimmer-2" data-text="more focus">more focus</span>?<br />
-      What's keeping you from <span class="shimmer shimmer-3" data-text="your joy">your joy</span>?
+      Bring <span class="shimmer shimmer-1" data-text="your questions">your questions</span>.<br />
+      Start with <span class="shimmer shimmer-2" data-text="your work">your work</span>.<br />
+      Make room to <span class="shimmer shimmer-3" data-text="learn by doing">learn by doing</span>.
     </p>
   </PageHero>
 
@@ -27,9 +27,9 @@ import bookHero from '../assets/book.webp';
         <div class="booking-info-block">
           <div class="label">// what to expect</div>
           <p>
-            A 30-minute exploratory call. No pitch, no pressure. We'll talk about what's
-            taking up your time, where you wish you had more bandwidth, and how AI
-            might help you close that gap.
+            A 30-minute exploratory call. No pitch, no pressure. We'll talk about
+            what you want to learn, your experience so far, and a task or idea you'd
+            like to explore. Together, we'll find a sensible place to start.
           </p>
         </div>
 
@@ -41,10 +41,10 @@ import bookHero from '../assets/book.webp';
         <div class="booking-info-block">
           <div class="label">// good fits</div>
           <ul class="info-list">
-            <li>You know AI could free up your time but aren't sure where to start</li>
-            <li>You're seeking a speaker for an upcoming event</li>
-            <li>You want to bring a webinar or workshop to your team</li>
-            <li>You're not sure what you need... but you know you need something</li>
+            <li>You want a patient guide while you learn to use AI</li>
+            <li>You want to build a workflow or application and understand how it works</li>
+            <li>Your team wants hands-on practice built around a specific role</li>
+            <li>You're looking for a talk that gives people a useful starting point</li>
           </ul>
         </div>
       </div>
@@ -100,7 +100,7 @@ import bookHero from '../assets/book.webp';
       config: {
         layout: "month_view",
         theme: "dark",
-        brandColor: "#00ff88",
+        brandColor: "#ffbd59",
       }
     });
 
@@ -265,7 +265,7 @@ import bookHero from '../assets/book.webp';
     top: 0;
     white-space: nowrap;
     color: transparent;
-    text-shadow: 0 0 8px var(--phosphor), 0 0 16px rgba(0, 255, 136, 0.3);
+    text-shadow: 0 0 8px var(--phosphor), 0 0 16px rgba(255, 189, 89, 0.3);
     opacity: 0;
     animation: shimmer-glow 6s ease-in-out infinite;
     animation-delay: inherit;

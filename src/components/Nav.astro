@@ -1,6 +1,6 @@
 ---
 const navLinks = [
-  { href: '/services', label: 'Services' },
+  { href: '/services', label: 'Learn' },
   { href: '/about',    label: 'About'    },
   { href: '/writing',  label: 'Writings'  },
   { href: '/book',     label: 'Book a Call' },
@@ -45,7 +45,7 @@ const { pathname } = Astro.url;
     left: 0;
     right: 0;
     z-index: 8000;
-    background: rgba(8, 9, 15, 0.85);
+    background: rgba(16, 13, 9, 0.85);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--border);
   }
@@ -74,7 +74,7 @@ const { pathname } = Astro.url;
 
   .nav-logo:hover {
     color: var(--phosphor);
-    text-shadow: var(--glow-green);
+    text-shadow: var(--glow-phosphor);
   }
 
   .logo-bracket {
@@ -118,7 +118,7 @@ const { pathname } = Astro.url;
   .nav-link:hover,
   .nav-link.active {
     color: var(--phosphor);
-    text-shadow: var(--glow-green);
+    text-shadow: var(--glow-phosphor);
   }
 
   .nav-link:hover::after,
@@ -149,7 +149,7 @@ const { pathname } = Astro.url;
     /* backdrop blur costs GPU time on every scroll frame; near-opaque flat reads the same on phones */
     #site-nav {
       backdrop-filter: none;
-      background: rgba(8, 9, 15, 0.96);
+      background: rgba(16, 13, 9, 0.96);
     }
 
     .nav-toggle {
