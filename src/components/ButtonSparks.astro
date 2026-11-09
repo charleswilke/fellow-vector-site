@@ -24,6 +24,37 @@
     let frame = 0;
     let last = 0;
     let emission = 0;
+    let dirty: { left: number; top: number; right: number; bottom: number } | null = null;
+    const frameInterval = 1000 / 60;
+
+    // Bake the haze once; each pulse only scales and fades this small texture.
+    const hazeTexture = document.createElement('canvas');
+    hazeTexture.width = 128;
+    hazeTexture.height = 64;
+    const hazeCtx = hazeTexture.getContext('2d')!;
+    hazeCtx.scale(64, 32);
+    const haze = hazeCtx.createRadialGradient(1, 1, 0, 1, 1, 1);
+    haze.addColorStop(0, 'rgba(255, 244, 196, 0.13)');
+    haze.addColorStop(0.25, 'rgba(255, 189, 89, 0.22)');
+    haze.addColorStop(0.55, 'rgba(255, 133, 42, 0.05)');
+    haze.addColorStop(1, 'rgba(255, 133, 42, 0)');
+    hazeCtx.fillStyle = haze;
+    hazeCtx.fillRect(0, 0, 2, 2);
+
+    const clear = () => {
+      if (!dirty) return;
+      ctx.clearRect(dirty.left, dirty.top, dirty.right - dirty.left, dirty.bottom - dirty.top);
+      dirty = null;
+    };
+    const include = (left: number, top: number, right: number, bottom: number) => {
+      if (!dirty) dirty = { left, top, right, bottom };
+      else {
+        dirty.left = Math.min(dirty.left, left);
+        dirty.top = Math.min(dirty.top, top);
+        dirty.right = Math.max(dirty.right, right);
+        dirty.bottom = Math.max(dirty.bottom, bottom);
+      }
+    };
 
     const resize = () => {
       const dpr = Math.min(devicePixelRatio || 1, 2);
@@ -33,6 +64,7 @@
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      dirty = null;
     };
     resize();
     new ResizeObserver(resize).observe(canvas);
@@ -64,9 +96,14 @@
 
     const tick = (now: number) => {
       frame = 0;
+      // A 120/144 Hz display does not need twice the canvas work for this effect.
+      if (last && now - last < frameInterval - 0.5) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
       const dt = last ? Math.min((now - last) / 1000, 0.04) : 1 / 60;
       last = now;
-      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      clear();
       const active = new Set([...hovered, ...focused]);
       emission += dt * 90;
       const count = Math.floor(emission);
@@ -78,11 +115,16 @@
         if (!charge) continue;
         // Read the actual CSS wipe position so sparks stay attached through its easing,
         // including a quick exit/re-entry while the transition is reversing.
-        const fill = getComputedStyle(button, '::after');
-        const matrix = new DOMMatrixReadOnly(fill.transform === 'none' ? undefined : fill.transform);
         const scale = rect.width / button.offsetWidth;
-        const leadingX = rect.left + (parseFloat(fill.left) + parseFloat(fill.width) + matrix.m41) * scale;
+        let leadingX = rect.right;
+        if (!charge.hit) {
+          const fill = getComputedStyle(button, '::after');
+          const matrix = new DOMMatrixReadOnly(fill.transform === 'none' ? undefined : fill.transform);
+          leadingX = rect.left + (parseFloat(fill.left) + parseFloat(fill.width) + matrix.m41) * scale;
+        }
         const progress = Math.max(0, Math.min(1, (leadingX - rect.left) / rect.width));
+        // Include the largest outline bloom, even during the initial surge.
+        include(rect.left - 60, rect.top - 60, rect.right + 60, rect.bottom + 60);
         if (!charge.hit && leadingX >= rect.right - 4) {
           charge.hit = true;
           charge.surge = 1;
@@ -123,18 +165,12 @@
               const flow = now * 0.028 - i * 0.9 + edge * 2.4;
               const pulse = 0.7 + Math.sin(flow) * 0.2 + Math.sin(flow * 1.7 + i) * 0.1;
               const taper = Math.sin((i + 0.5) / (segments + 1) * Math.PI);
-              ctx.save();
-              ctx.translate(left + (right - left) * i / segments,
-                y + Math.sin(flow * 0.8) * 0.65);
-              ctx.scale(20 + pulse * 5, 4 + pulse * 2.5);
-              const haze = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-              haze.addColorStop(0, `rgba(255, 244, 196, ${0.13 * pulse * taper})`);
-              haze.addColorStop(0.25, `rgba(255, 189, 89, ${0.22 * pulse * taper})`);
-              haze.addColorStop(0.55, `rgba(255, 133, 42, ${0.05 * pulse * taper})`);
-              haze.addColorStop(1, 'rgba(255, 133, 42, 0)');
-              ctx.fillStyle = haze;
-              ctx.fillRect(-1, -1, 2, 2);
-              ctx.restore();
+              const x = left + (right - left) * i / segments;
+              const centerY = y + Math.sin(flow * 0.8) * 0.65;
+              const radiusX = 20 + pulse * 5;
+              const radiusY = 4 + pulse * 2.5;
+              ctx.globalAlpha = pulse * taper;
+              ctx.drawImage(hazeTexture, x - radiusX, centerY - radiusY, radiusX * 2, radiusY * 2);
             }
           }
           ctx.restore();
@@ -164,8 +200,12 @@
         ctx.lineWidth = remaining > 0.65 ? 2 : 1.3;
         ctx.beginPath();
         ctx.moveTo(spark.x, spark.y);
-        ctx.lineTo(spark.x - spark.vx * 0.035, spark.y - spark.vy * 0.035);
+        const tailX = spark.x - spark.vx * 0.035;
+        const tailY = spark.y - spark.vy * 0.035;
+        ctx.lineTo(tailX, tailY);
         ctx.stroke();
+        include(Math.min(spark.x, tailX) - 16, Math.min(spark.y, tailY) - 16,
+          Math.max(spark.x, tailX) + 16, Math.max(spark.y, tailY) + 16);
       }
       ctx.restore();
       if (active.size || sparks.length) frame = requestAnimationFrame(tick);
@@ -179,7 +219,7 @@
       cancelAnimationFrame(frame);
       frame = 0; last = 0; emission = 0;
       hovered.clear(); focused.clear(); charges.clear(); sparks.length = 0;
-      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      clear();
     };
     document.querySelectorAll<HTMLElement>('.btn-primary').forEach(button => {
       button.addEventListener('pointerenter', event => {
