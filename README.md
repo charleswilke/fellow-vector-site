@@ -4,8 +4,8 @@
 > *The future is already broadcasting.*
 
 AI tutoring, role-focused workshops, and speaking site for Fellow Vector — the practice of Charles Wilke.
-Built on Astro with a CRT signal aesthetic: amber phosphor, scanlines, boot sequences, and
-imagery drawn from the inside of the machines that made the broadcast age possible.
+Built on Astro with a warm school-computer-room aesthetic: amber phosphor, gentle
+scanlines, tactile keyboard navigation, paper labels, and Charles's CW bulb character.
 
 ---
 
@@ -44,12 +44,16 @@ src/
     focus.webp          — services grid background (lens)
     signal.webp         — CTA background (phosphor light trails)
     patchbay.webp       — services CTA background (patch bay)
-    bulb.webp           — vacuum tube that peeks into CTAs and the footer
-    cw4.webp, cw2.webp  — portrait (illustration + photo reveal)
+    cw-bulb-amber.webp   — CW character peeking above service cards, CTAs, and footer
+    floppy-disk-note-v1.webp — full disk behind the desktop hero note
+    floppy-label.webp   — standalone mobile note
+    nav-keycap.webp     — tactile keyboard texture
+    cw4.webp, cw2.webp  — illustrated label portrait and bio photograph
 
 public/                 — served as-is, no processing
   og.jpg              — OG / social share image (1200x630)
-  favicon.svg         — phosphor waveform mark
+  favicon.svg         — smiling amber pixel bulb, also supplied as ICO
+  apple-touch-icon.png — home-screen version of the smiling bulb
   fonts/, audio/      — self-hosted fonts, CRT power-on sound
 ```
 

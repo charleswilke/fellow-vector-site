@@ -78,8 +78,9 @@ const structuredData = {
     <link rel="preload" href="/fonts/vt323-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" sizes="32x32 16x16" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=amber-bulb-1" />
+    <link rel="icon" type="image/x-icon" sizes="48x48 32x32 16x16" href="/favicon.ico?v=amber-bulb-1" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=amber-bulb-1" />
 
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
@@ -91,6 +92,7 @@ const structuredData = {
     <a href="#main-content" class="skip-link">Skip to content</a>
     <CRTIntro />
     <Nav />
+    <div class="crt-glass" aria-hidden="true"></div>
 
     <main id="main-content">
       <slot />
@@ -102,6 +104,8 @@ const structuredData = {
 
 <style is:global>
   #main-content {
-    padding-top: 64px; /* nav height */
+    position: relative;
+    z-index: 1;
+    padding-top: var(--nav-height);
   }
 </style>

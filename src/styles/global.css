@@ -22,10 +22,12 @@
 }
 
 :root {
-  /* Amber CRT palette: warm phosphor, cream highlights, brown-black surfaces. */
-  --bg:            #100d09;
-  --bg-surface:    #17120c;
-  --bg-raised:     #211a10;
+  /* Warm smoked glass, cream paper, and amber phosphor. */
+  --bg:            #241c13;
+  --bg-rgb:        36, 28, 19;
+  --bg-glow:       #392d1d;
+  --bg-surface:    #2b2218;
+  --bg-raised:     #35291c;
   --fg:            #f1e5cd;
   --fg-muted:      #c5b496;
   --phosphor:      #ffbd59;
@@ -53,6 +55,16 @@
   --sp-2xl: 8rem;
   --section-space: clamp(2.5rem, 5vw, 4rem);
   --layout-gap: clamp(1.5rem, 4vw, 3rem);
+  --nav-height: 88px;
+  --scanline-opacity: 0.045;
+}
+
+@media (max-width: 760px) {
+  :root { --nav-height: 144px; }
+}
+
+@media (max-width: 480px) {
+  :root { --nav-height: 200px; }
 }
 
 *, *::before, *::after {
@@ -67,6 +79,7 @@ html {
 
 body {
   background-color: var(--bg);
+  background-image: radial-gradient(ellipse 80rem 52rem at 56% 22rem, var(--bg-glow), transparent 80%);
   color: var(--fg);
   font-family: var(--font-mono);
   line-height: 1.75;
@@ -87,9 +100,9 @@ body::after {
   background: repeating-linear-gradient(
     0deg,
     transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.07) 2px,
-    rgba(0, 0, 0, 0.07) 4px
+    transparent 3px,
+    rgba(0, 0, 0, var(--scanline-opacity)) 3px,
+    rgba(0, 0, 0, var(--scanline-opacity)) 4px
   );
   pointer-events: none;
   z-index: 9000;
@@ -108,12 +121,56 @@ body::before {
   background: radial-gradient(
     ellipse at center,
     transparent 55%,
-    rgba(0, 0, 0, 0.3) 100%
+    rgba(11, 9, 6, 0.18) 100%
   );
   pointer-events: none;
   z-index: 9001;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+}
+
+/* Reflections sit behind the content, like window light on curved CRT glass. */
+.crt-glass {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100svh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.crt-glass::before {
+  content: '';
+  position: absolute;
+  top: -36%;
+  right: -9%;
+  width: 66%;
+  height: 132%;
+  border-radius: 38% 48% 44% 51%;
+  transform: rotate(-22deg);
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(242, 227, 195, 0.035) 10%,
+    rgba(242, 227, 195, 0.17) 14%, rgba(242, 227, 195, 0.09) 34%,
+    transparent 35%, transparent 38%, rgba(242, 227, 195, 0.14) 39%,
+    rgba(242, 227, 195, 0.065) 60%, transparent 65%);
+  filter: blur(11px);
+  mask-image: radial-gradient(ellipse at 45% 43%, #000 15%, rgba(0, 0, 0, 0.7) 42%, transparent 73%);
+}
+
+.crt-glass::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--nav-height) + 8px);
+  left: 4%;
+  width: 92%;
+  height: 17%;
+  border-radius: 50%;
+  border-top: 1px solid rgba(246, 229, 194, 0.13);
+  background: radial-gradient(ellipse at 58% -20%, rgba(246, 229, 194, 0.11), transparent 67%);
+  filter: blur(2px);
 }
 
 /* ── Typography ── */
@@ -157,7 +214,7 @@ p {
 }
 
 section[id] {
-  scroll-margin-top: 80px;
+  scroll-margin-top: calc(var(--nav-height) + 16px);
 }
 
 /* ── Components ── */
@@ -377,7 +434,6 @@ section[id] {
 }
 
 /* Warm the decorative machine imagery without changing portraits or talk photos. */
-:where(.hero-splash, .focus-splash, .cta-splash, .page-hero-splash,
-       .cta-bulb img, .footer-bulb img) {
+:where(.hero-splash, .focus-splash, .cta-splash, .page-hero-splash) {
   filter: sepia(0.85) saturate(0.85);
 }

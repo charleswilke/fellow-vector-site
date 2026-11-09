@@ -1,5 +1,7 @@
 # build output
 dist/
+# Local screenshots, build logs, and generated source studies
+output/
 # generated types
 .astro/
 

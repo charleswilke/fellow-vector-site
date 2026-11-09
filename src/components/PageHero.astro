@@ -61,8 +61,8 @@ const { label, title, image, imageOpacity = 0.5 } = Astro.props;
     background:
       linear-gradient(to right,
         var(--bg) 22%,
-        rgba(16, 13, 9, 0.65) 55%,
-        rgba(16, 13, 9, 0.2) 100%
+        rgba(var(--bg-rgb), 0.65) 55%,
+        rgba(var(--bg-rgb), 0.2) 100%
       ),
       linear-gradient(to top,
         var(--bg) 0%,

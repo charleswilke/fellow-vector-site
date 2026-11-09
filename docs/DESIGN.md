@@ -2,10 +2,24 @@
 
 ## Concept
 
-The site aesthetic is built around one central metaphor: **entering through a CRT television**.
-The static, fuzz, and electric feeling of passing through that membrane into the future.
-Every visual and interaction decision traces back to this — the phosphor glow, the scanlines,
-the first-visit signal accent, the imagery drawn from analog broadcast machinery.
+The site evokes **a warm CRT in a school computer room**: somewhere welcoming to try,
+ask questions, and learn by doing. Amber phosphor, softly reflected window light,
+tactile keyboard keys, and paper notes make that setting part of the interface.
+The CW lightbulb is a small illustrated embodiment of Charles and peeks over the
+service cards beside the homepage's “Build your capacity” introduction.
+Charles's name and role sign the paper note beside his illustrated portrait; the
+bulb is not given a separate floating identification caption.
+The homepage hero pairs the headline, offer, and actions on the left with the
+signed note mounted on a full 5.25-inch floppy at the right. Its square jacket
+anchors the label, which carries live text and Charles's illustrated portrait.
+Generous padding and column spacing let these elements breathe. Below 760px,
+show the paper label alone after the copy and actions, keeping the note and
+portrait larger while saving vertical space.
+“Learn by doing” stays on one line, with its size responding to the copy column.
+Keep the hero actions in one row; the longer primary label can wrap within its
+button on narrow screens while “Book a Call” stays alongside it.
+The bulb belongs to the following services section: crop its lower half at the
+cards' top edge so it peeks into the introduction without covering text or links.
 
 The terminal is a familiar entry point for learning something new. Charles calls this the
 **C-prompt lifestyle**: the curiosity of an Apple II, Math Blaster, or The Oregon Trail,
@@ -15,14 +29,23 @@ invite experimentation without making prior computer experience a requirement.
 
 ---
 
+## Favicon
+
+The favicon is a smiling amber pixel bulb on warm ink, simplified for tiny browser
+tabs. `public/favicon.svg` is the source; the ICO contains 16, 32, and 48px versions,
+and the Apple touch icon is 180px. Versioned icon links refresh the previous mark.
+
+---
+
 ## Color Tokens
 
 Defined in `src/styles/global.css` as CSS custom properties:
 
 ```css
---bg:            #100d09   /* warm near-black */
---bg-surface:    #17120c   /* card/panel backgrounds */
---bg-raised:     #211a10   /* elevated surfaces */
+--bg:            #241c13   /* warm smoked glass */
+--bg-glow:       #392d1d   /* soft ambient illumination */
+--bg-surface:    #2b2218   /* card/panel backgrounds */
+--bg-raised:     #35291c   /* elevated surfaces */
 --fg:            #f1e5cd   /* body text */
 --fg-muted:      #c5b496   /* secondary text, labels */
 --phosphor:      #ffbd59   /* primary accent — amber phosphor */
@@ -66,8 +89,10 @@ Loaded from Google Fonts in `src/layouts/BaseLayout.astro`.
 Applied globally via `body::before` (vignette) and `body::after` (scanlines) in `global.css`.
 These are `position: fixed` overlays that sit on top of all content at z-index 9000–9001.
 
-- **Scanlines**: `repeating-linear-gradient` at 4px intervals, 7% opacity black
-- **Vignette**: radial gradient from transparent center to 30% black at edges
+- **Scanlines**: one horizontal line every 4px, 4.5% opacity black
+- **Vignette**: radial gradient from transparent center to 18% warm black at edges
+- **Glass reflections**: fixed, static, diffuse window highlights behind page content;
+  decorative only, with no pointer tracking or input interception
 
 These should never be removed. They're the connective tissue of the aesthetic.
 
@@ -121,6 +146,12 @@ Short uppercase identifiers that precede section headings:
 Always use the `//` prefix. Color is `--phosphor` at 0.85 opacity.
 
 ### Buttons
+The main navigation uses four equal-width keyboard keys with 1px seams and a close-fitting
+beige moulding. The plastic texture is an alpha WebP; labels are native link text.
+Key faces and labels travel 3px on press and rebound on release. Quick taps keep a brief
+85ms pressed state; reduced motion uses shading without travel. Native navigation,
+modified clicks, and keyboard activation continue to work normally.
+
 Two variants:
 - `.btn.btn-primary` — filled amber phosphor, dark text
 - `.btn.btn-ghost` — transparent, muted border, used for secondary actions
@@ -138,6 +169,12 @@ Under reduced motion, the final state and chevron appear immediately.
 ### Cards
 `.card` has a left border accent that animates height to 100% on hover.
 Cards use `--bg-surface` background with `--border` border.
+
+The RSS feed uses cream paper reading cards with dark brown text, an inset article
+image, publication/date metadata, and an always-visible reading link. Keep original
+artwork colors; do not add thumbnail-specific scanlines, phosphor tints, or dimming
+on top of the global CRT texture. The full feed is two columns above 700px and one
+column below; the compact About feed uses smaller paper notes without thumbnails.
 
 ---
 
@@ -158,7 +195,11 @@ Container max-width is `1100px`, with 20–32px responsive side padding.
 
 Service sections use border separators rather than dividers with extra margins.
 Their labels stack above the content below 960px. Keep section buttons sized to their
-labels, and give anchored sections an 80px scroll offset for the fixed navigation.
+labels. Anchor offsets and sticky sidebars use `--nav-height` plus 16px.
+The fixed header is 88px on desktop, 144px below 760px, and 200px below 480px, where
+the four keys form a two-by-two keyboard. All four links stay visible.
+The Fellow Vector wordmark includes the subtitle “AI Tutoring & Workshops” on every
+page, set in smaller body type directly underneath the display lettering.
 
 Sub-page heroes use the same section spacing at every breakpoint. The homepage hero
 has a bounded height instead of requiring a full viewport. Avoid adding large fixed
@@ -180,7 +221,8 @@ links, and key UI moments. Don't overuse — glow should feel earned.
 
 ## What to Avoid
 
-- Don't add rounded corners (`border-radius`) to structural elements. Hard edges are intentional.
+- Keep structural elements sharp. Small radii are reserved for the physical keyboard
+  moulding and keycaps, following the approved computer-room reference.
 - Don't use color backgrounds on sections except `--bg-surface` for alt sections.
 - Don't introduce new fonts. The two-font system is load-efficient and aesthetically locked.
 - Don't use CSS animations that combine `filter` and `transform` — breaks on iOS WebKit.
@@ -190,6 +232,7 @@ links, and key UI moments. Don't overuse — glow should feel earned.
 ## Amber Terminal Palette (November 2026)
 
 The primary glow is amber (#ffbd59), with pale-gold highlights and warm cream text.
-Near-black brown surfaces keep the terminal contrast without the previous cool green cast.
+Smoked-brown surfaces and diffuse reflections keep the terminal contrast while making
+the space feel more warmly lit.
 Decorative machine imagery uses a light sepia treatment; portraits and speaking photos
 retain their original colors. Keep the scanlines, restrained glow, and sharp edges.

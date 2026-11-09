@@ -1,25 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="0.8" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-
-  <!-- Background -->
-  <rect width="32" height="32" fill="#100d09"/>
-
-  <!-- Waveform trace -->
-  <polyline
-    points="2,16 5,16 7,10 9,22 11,8 13,24 15,14 17,18 19,11 21,21 23,16 26,16"
-    fill="none"
-    stroke="#ffbd59"
-    stroke-width="1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    filter="url(#glow)"
-  />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <title>Fellow Vector smiling bulb</title>
+  <g fill="#241c13">
+    <rect x="1" width="14" height="16" />
+    <rect y="1" width="16" height="14" />
+  </g>
+  <g fill="#ffbd59">
+    <path d="M5 1h6v1h2v1h1v5h-1v1h-1v1h-1v2H5v-2H4V9H3V8H2V3h1V2h2Z" />
+    <path d="M5 13h6v1H5Zm1 1h4v1H6Z" />
+  </g>
+  <path fill="#241c13" d="M5 4h1v2H5Zm5 0h1v2h-1ZM5 7h1v1H5Zm5 0h1v1h-1ZM6 8h4v1H6Z" />
 </svg>

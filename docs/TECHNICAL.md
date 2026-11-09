@@ -17,7 +17,7 @@
 | `src/layouts/BaseLayout.astro` | HTML shell, all meta/OG tags, font loading, CRTIntro |
 | `src/styles/global.css` | Design tokens, global resets, persistent CRT effects |
 | `src/components/CRTIntro.astro` | Subtle first-visit navigation accent |
-| `src/components/Nav.astro` | Fixed navigation with mobile toggle |
+| `src/components/Nav.astro` | Fixed navigation with four equal-width tactile keys |
 | `src/components/Footer.astro` | Footer with pulsing signal indicator |
 
 ---
@@ -41,6 +41,13 @@ visible and interactive throughout; the effect has no overlay, canvas, audio, or
 
 `body::before` (vignette) and `body::after` (scanlines) are `position: fixed` overlays.
 They sit at z-index 9000–9001, above page content, and do not intercept input.
+Scanlines are one pixel tall at four-pixel intervals, at 4.5% opacity. The fixed
+`.crt-glass` layer sits behind the content at z-index 0 and supplies static window
+reflections. Main content and footer sit at z-index 1.
+
+The shared `--nav-height` token controls main-content padding, sticky sidebars, and
+anchor offsets. Header heights are 88px, 144px below 760px, and 200px below 480px.
+Navigation stays visible as a two-by-two keyboard on small phones.
 
 **iOS safe area:** The overlays use explicit `top/left/right/bottom` instead of `inset`
 and `bottom: env(safe-area-inset-bottom, 0)` to prevent a gap at the bottom on iPhone.
@@ -56,6 +63,17 @@ loop seam is always off-screen on any viewport width. Do NOT use JavaScript dupl
 (previous approach) — it causes a visible snap on loop.
 
 ---
+
+## RSS Feed
+
+`SubstackFeed.astro` loads `/api/feed` and renders full reading cards on Writing or
+compact paper notes on About. Styles live in `src/styles/feed.css` because the
+post markup is created at runtime. Loading and error states preserve an archive
+link; hidden states must remain hidden despite the list's flex/grid styling.
+
+In production, Vercel runs `api/feed.js`. The `local-feed-preview` Astro integration
+in `astro.config.mjs` adapts that same handler to the local dev server. It runs only
+in the dev-server setup hook and uses the same upstream RSS, parser, and reader links.
 
 ## Image Backgrounds
 

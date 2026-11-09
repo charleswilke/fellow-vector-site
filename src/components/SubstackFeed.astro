@@ -1,17 +1,20 @@
 ---
+import '../styles/feed.css';
+
 // Props:
 //   limit   — number of posts to show (default 3)
 //   variant — "compact" (sidebar) | "full" (writings page)
 const { limit = 3, variant = 'compact' } = Astro.props;
 ---
 
-<div class="substack-feed" data-limit={limit} data-variant={variant}>
-  <div class="feed-loading">
-    <span class="text-phosphor feed-cursor">_</span>
+<div class="substack-feed" data-limit={limit} data-variant={variant} aria-label="Recent essays from Exploring L.ai.bor">
+  <div class="feed-loading" role="status">
+    <span>Loading the latest essays<span class="feed-cursor" aria-hidden="true">_</span></span>
   </div>
   <ul class="feed-list" hidden></ul>
-  <div class="feed-error" hidden>
-    <span class="text-muted">// signal lost — could not load posts</span>
+  <div class="feed-error" role="status" hidden>
+    <p>The latest essays couldn’t load.</p>
+    <a href="https://charleswilke.substack.com/archive?sort=new" target="_blank" rel="noopener">Browse the archive ↗</a>
   </div>
 </div>
 
@@ -51,9 +54,11 @@ const { limit = 3, variant = 'compact' } = Astro.props;
         const rawImageUrl = item.image ?? '';
         const imageUrl = escAttr(/^https:\/\//.test(rawImageUrl) ? rawImageUrl : '');
 
-        const date = item.date
-          ? esc(new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }))
-          : '';
+        const parsedDate = new Date(item.date ?? '');
+        const date = Number.isNaN(parsedDate.getTime()) ? '' : esc(parsedDate.toLocaleDateString('en-US', {
+          year: 'numeric', month: 'short', day: 'numeric',
+        }));
+        const dateHtml = date ? `<time class="feed-date" datetime="${parsedDate.toISOString()}">${date}</time>` : '';
 
         const excerpt = esc((item.excerpt ?? '').slice(0, excerptLength));
 
@@ -61,26 +66,18 @@ const { limit = 3, variant = 'compact' } = Astro.props;
           const imageHtml = imageUrl ? `
             <div class="feed-thumb">
               <img src="${imageUrl}" alt="" class="feed-thumb-img" loading="lazy" decoding="async" width="640" height="360" />
-              <div class="feed-thumb-overlay" aria-hidden="true"></div>
-              <div class="feed-thumb-scanlines" aria-hidden="true"></div>
-              <div class="feed-thumb-corners" aria-hidden="true">
-                <span class="fc tl"></span>
-                <span class="fc tr"></span>
-                <span class="fc bl"></span>
-                <span class="fc br"></span>
-              </div>
             </div>
-          ` : '<div class="feed-thumb feed-thumb--empty"></div>';
+          ` : '<div class="feed-thumb feed-thumb--empty" aria-hidden="true"><span>Exploring<br />L.ai.bor_</span></div>';
 
           return `
             <li class="feed-item feed-item--full">
               <a href="${link}" target="_blank" rel="noopener" class="feed-link">
                 ${imageHtml}
                 <div class="feed-body">
-                  <div class="feed-date text-muted">${date}</div>
-                  <div class="feed-title">${title}</div>
-                  ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}</p>` : ''}
-                  <span class="feed-read">Read essay →</span>
+                  <div class="feed-meta"><span class="feed-publication">Exploring L.ai.bor</span>${dateHtml}</div>
+                  <h2 class="feed-title">${title}</h2>
+                  ${excerpt ? `<p class="feed-excerpt">${excerpt}</p>` : ''}
+                  <span class="feed-read">Read essay <span aria-hidden="true">↗</span></span>
                 </div>
               </a>
             </li>
@@ -91,10 +88,10 @@ const { limit = 3, variant = 'compact' } = Astro.props;
           <li class="feed-item">
             <a href="${link}" target="_blank" rel="noopener" class="feed-link">
               <div class="feed-meta">
-                <span class="feed-date text-muted">${date}</span>
+                ${dateHtml}
               </div>
               <div class="feed-title">${title}</div>
-              ${excerpt ? `<p class="feed-excerpt text-muted">${excerpt}</p>` : ''}
+              ${excerpt ? `<p class="feed-excerpt">${excerpt}</p>` : ''}
             </a>
           </li>
         `;
@@ -110,224 +107,3 @@ const { limit = 3, variant = 'compact' } = Astro.props;
 
   document.querySelectorAll('.substack-feed').forEach(loadFeed);
 </script>
-
-<style is:global>
-  .substack-feed {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .feed-loading {
-    padding: var(--sp-md) 0;
-  }
-
-  /* Reserve roughly the rendered height so content below doesn't jump when posts arrive */
-  .substack-feed[data-variant="compact"] .feed-loading { min-height: 24rem; }
-  .substack-feed[data-variant="full"]    .feed-loading { min-height: 60vh; }
-
-  .feed-cursor {
-    font-family: var(--font-crt);
-    font-size: 1.5rem;
-    animation: blink 1s step-end infinite;
-  }
-
-  .feed-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* ── Compact (sidebar) ── */
-  .feed-list:not(:has(.feed-item--full)) {
-    gap: var(--sp-md);
-  }
-
-  .feed-item {
-    border-left: 1px solid var(--border);
-    transition: border-color 0.2s;
-  }
-
-  .feed-item:hover {
-    border-left-color: var(--phosphor);
-  }
-
-  .feed-link {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-xs);
-    padding: var(--sp-sm) var(--sp-md);
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .feed-meta {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-sm);
-  }
-
-  .feed-date {
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    letter-spacing: 0.05em;
-  }
-
-  .feed-title {
-    font-size: 0.95rem;
-    color: var(--fg);
-    line-height: 1.4;
-    transition: color 0.2s;
-  }
-
-  .feed-item:hover .feed-title {
-    color: var(--phosphor);
-  }
-
-  .feed-excerpt {
-    font-size: 0.8rem;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  /* ── Full (writings page) — 2-col card grid ── */
-  .feed-list:has(.feed-item--full) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--sp-lg);
-  }
-
-  .feed-item--full {
-    border: 1px solid var(--border);
-    background: var(--bg-surface);
-    transition: border-color 0.2s;
-  }
-
-  .feed-item--full:hover {
-    border-color: var(--phosphor-dim);
-  }
-
-  .feed-item--full .feed-link {
-    flex-direction: column;
-    gap: 0;
-    padding: 0;
-  }
-
-  /* Thumbnail */
-  .feed-thumb {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .feed-thumb--empty {
-    background: var(--bg-raised);
-  }
-
-  .feed-thumb-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(0.2) brightness(0.8);
-    transition: filter 0.3s, transform 0.5s;
-  }
-
-  .feed-item--full:hover .feed-thumb-img {
-    filter: grayscale(0) brightness(0.95);
-    transform: scale(1.03);
-  }
-
-  /* Phosphor tint */
-  .feed-thumb-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 189, 89, 0.15) 0%,
-      rgba(244, 217, 154, 0.08) 100%
-    );
-    mix-blend-mode: screen;
-    pointer-events: none;
-  }
-
-  /* Scanlines */
-  .feed-thumb-scanlines {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      transparent,
-      transparent 3px,
-      rgba(0, 0, 0, 0.15) 3px,
-      rgba(0, 0, 0, 0.15) 4px
-    );
-  }
-
-  /* Corner brackets */
-  .feed-thumb-corners { position: absolute; inset: 0; pointer-events: none; }
-  .fc {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-  }
-  .fc.tl { top: 8px;    left: 8px;   border-top:    1px solid var(--phosphor); border-left:   1px solid var(--phosphor); opacity: 0.5; }
-  .fc.tr { top: 8px;    right: 8px;  border-top:    1px solid var(--phosphor); border-right:  1px solid var(--phosphor); opacity: 0.5; }
-  .fc.bl { bottom: 8px; left: 8px;   border-bottom: 1px solid var(--phosphor); border-left:   1px solid var(--phosphor); opacity: 0.5; }
-  .fc.br { bottom: 8px; right: 8px;  border-bottom: 1px solid var(--phosphor); border-right:  1px solid var(--phosphor); opacity: 0.5; }
-
-  .feed-item--full:hover .fc { opacity: 1; }
-
-  .feed-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-sm);
-    flex: 1;
-    padding: var(--sp-lg);
-  }
-
-  .feed-item--full .feed-date {
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-  }
-
-  .feed-item--full .feed-title {
-    font-size: 1.05rem;
-    font-weight: 400;
-    line-height: 1.35;
-    transition: color 0.2s;
-  }
-
-  .feed-item--full:hover .feed-title {
-    color: var(--phosphor);
-  }
-
-  .feed-item--full .feed-excerpt {
-    font-size: 0.82rem;
-    line-height: 1.6;
-  }
-
-  .feed-read {
-    font-size: 0.75rem;
-    color: var(--phosphor);
-    letter-spacing: 0.06em;
-    opacity: 0;
-    transition: opacity 0.2s;
-    margin-top: auto;
-    padding-top: var(--sp-sm);
-  }
-
-  .feed-item--full:hover .feed-read {
-    opacity: 1;
-  }
-
-  @media (max-width: 768px) {
-    .feed-list:has(.feed-item--full) {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

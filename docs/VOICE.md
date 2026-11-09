@@ -97,6 +97,11 @@ business applications; tutoring is an approach, not a limit on project complexit
 "AI driver's ed" is the north star: help people learn to drive the machine themselves.
 Use the metaphor lightly. The actual offer is one-to-one tutoring, role-focused workshops,
 and speaking. Do not invent a certification, fixed course, pricing, or guarantee.
+Name one-to-one AI tutoring and hands-on team workshops explicitly in the homepage
+hero. Lead with “Practical AI skills for your everyday work.” Save the driver's-ed
+metaphor for supporting explanations about practicing together and building judgment.
+Concrete examples such as writing, research, and building tools help people picture
+the work.
 
 The point of view is pro-employee. Acknowledge that automation can empower people or replace
 them, and be clear that Fellow Vector focuses on employee agency and capability. Do not

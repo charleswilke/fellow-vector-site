@@ -115,52 +115,66 @@ const services = [
           <h2>{svc.title}</h2>
           <p>{svc.description}</p>
 
-          {svc.id === 'speaking' && (
-            <figure class="speaking-photo">
-              <Image
-                src={charlesSpeaking}
-                alt="Charles Wilke presenting Spectator to Initiator to a seated audience."
-                widths={[480, 800, 1200]}
-                sizes="(max-width: 959px) calc(100vw - 40px), 900px"
-                format="webp"
-                loading="lazy"
-              />
-              <figcaption>
-                <span>// Spectator to Initiator</span>
-                <a href="https://charleswilke.com/s2i" target="_blank" rel="noopener">View the talk deck ↗</a>
-              </figcaption>
-            </figure>
-          )}
+          <div class:list={['service-content', { 'speaking-content': svc.id === 'speaking' }]}>
+            {svc.id === 'speaking' && (
+              <figure class="speaking-photo">
+                <a
+                  class="speaking-photo-link"
+                  href={charlesSpeaking.src}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="View the full-size photo of Charles presenting Spectator to Initiator"
+                >
+                  <Image
+                    src={charlesSpeaking}
+                    alt="Charles Wilke presenting Spectator to Initiator, with the projected talk and seated audience visible."
+                    widths={[480, 800, 1200]}
+                    sizes="(max-width: 700px) calc(100vw - 64px), (max-width: 959px) 55vw, 500px"
+                    format="webp"
+                    loading="lazy"
+                  />
+                  <span class="speaking-photo-zoom" aria-hidden="true">View photo ↗</span>
+                </a>
+                <figcaption>
+                  <span class="speaking-photo-label">In the room / Charles Wilke</span>
+                  <cite>Spectator to Initiator</cite>
+                  <a href="https://charleswilke.com/s2i" target="_blank" rel="noopener">Explore the talk deck <span aria-hidden="true">↗</span></a>
+                </figcaption>
+              </figure>
+            )}
 
-          <ul class="service-bullets">
-            {svc.bullets.map(b => (
-              <li>
-                <span class={`bullet-mark text-${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'}`}>▸</span>
-                {b}
-              </li>
-            ))}
-          </ul>
+            <div class="service-details">
+              <ul class="service-bullets">
+                {svc.bullets.map(b => (
+                  <li>
+                    <span class={`bullet-mark text-${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'}`}>▸</span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
 
-          <p>{svc.outcome}</p>
+              <p>{svc.outcome}</p>
 
-          {svc.id === 'webinars' && (
-            <figure class="recommendation">
-              <div class="label">// from a colleague</div>
-              <blockquote>
-                <p>
-                  “He was always proactively experimenting … spearheading an AI
-                  education project to ensure our entire team was up to date
-                  and proficient in new tools.”
-                </p>
-              </blockquote>
-              <figcaption>
-                <span class="recommendation-name">Estella Aditirto</span>
-                <span class="text-muted">Technical Writer, GoDaddy</span>
-              </figcaption>
-            </figure>
-          )}
+              {svc.id === 'webinars' && (
+                <figure class="recommendation">
+                  <div class="label">// from a colleague</div>
+                  <blockquote>
+                    <p>
+                      “He was always proactively experimenting … spearheading an AI
+                      education project to ensure our entire team was up to date
+                      and proficient in new tools.”
+                    </p>
+                  </blockquote>
+                  <figcaption>
+                    <span class="recommendation-name">Estella Aditirto</span>
+                    <span class="text-muted">Technical Writer, GoDaddy</span>
+                  </figcaption>
+                </figure>
+              )}
 
-          <a href={svc.cta.href} class="btn btn-primary">{svc.cta.label}</a>
+              <a href={svc.cta.href} class="btn btn-primary">{svc.cta.label}</a>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -265,7 +279,7 @@ const services = [
     gap: var(--sp-sm);
     padding-top: var(--sp-sm);
     position: sticky;
-    top: 80px;
+    top: calc(var(--nav-height) + 16px);
   }
 
   .service-body {
@@ -278,10 +292,60 @@ const services = [
     margin-top: var(--sp-xs);
   }
 
+  .service-content,
+  .service-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    min-width: 0;
+  }
+
+  .speaking-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.85fr);
+    align-items: start;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    margin-top: var(--sp-md);
+  }
+
   .speaking-photo {
-    margin: var(--sp-sm) 0;
-    border: 1px solid var(--electric-dim);
-    background: var(--bg-surface);
+    margin: 0;
+    padding: 0.75rem 0.75rem 0;
+    background: #eaddbf;
+    color: #382414;
+    box-shadow: 0 1px 0 #ad9772, 0 3px 0 rgba(16, 10, 5, 0.35),
+      0 8px 24px rgba(16, 10, 5, 0.18);
+    transform: rotate(-0.6deg);
+  }
+
+  .speaking-photo-link {
+    display: block;
+    position: relative;
+    background: #b9b5a5;
+    outline: 1px solid rgba(56, 36, 20, 0.18);
+  }
+
+  .speaking-photo-link:focus-visible {
+    outline: 2px solid #382414;
+    outline-offset: 4px;
+  }
+
+  .speaking-photo-zoom {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(36, 28, 19, 0.88);
+    color: var(--fg);
+    font-size: 0.7rem;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+
+  .speaking-photo-link:is(:hover, :focus-visible) .speaking-photo-zoom {
+    opacity: 1;
   }
 
   .speaking-photo img {
@@ -292,25 +356,54 @@ const services = [
 
   .speaking-photo figcaption {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: var(--sp-sm) var(--sp-md);
-    padding: var(--sp-md);
-    border-top: 1px solid var(--electric-dim);
-    color: var(--electric);
-    font-size: 0.8rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    padding: 1rem 0.35rem 1.15rem;
+    color: #382414;
+    font-size: 0.75rem;
     line-height: 1.6;
   }
 
+  .speaking-photo-label {
+    font-size: 0.65rem;
+    line-height: 1.4;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #765737;
+  }
+
+  .speaking-photo cite {
+    font-family: var(--font-crt);
+    font-style: normal;
+    font-size: clamp(1.5rem, 2.7vw, 1.9rem);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+  }
+
   .speaking-photo figcaption a {
-    color: var(--electric);
+    color: #604020;
+    text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 
-  .service-body > .btn {
+  .speaking-photo figcaption a:hover { color: #382414; text-shadow: none; }
+
+  .speaking-content .service-bullets { margin-top: 0; }
+
+  .speaking-content .service-details > p { font-size: 0.9rem; }
+
+  .service-details > .btn {
     align-self: flex-start;
     max-width: 100%;
     text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    .speaking-content { grid-template-columns: minmax(0, 1fr); }
+    .speaking-photo { max-width: 34rem; }
+    .speaking-photo-label { font-size: 0.7rem; }
+    .speaking-photo-zoom { opacity: 1; }
   }
 
   .service-bullets {
@@ -371,8 +464,8 @@ const services = [
     height: 100%;
     background: radial-gradient(
       ellipse at center,
-      rgba(16, 13, 9, 0.3) 0%,
-      rgba(16, 13, 9, 0.88) 100%
+      rgba(var(--bg-rgb), 0.3) 0%,
+      rgba(var(--bg-rgb), 0.88) 100%
     );
   }
 

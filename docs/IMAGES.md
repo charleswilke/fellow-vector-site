@@ -1,13 +1,38 @@
 # Fellow Vector — Image System
 
+## Computer-Room Materials
+
+The current homepage uses Charles's CW bulb, paper, and keyboard materials.
+These alpha assets are in `src/assets/` and retain genuine transparency:
+
+| File | Use |
+|------|-----|
+| `cw-bulb-amber.webp` | Character peeking above the service cards, closing invitation, and footer |
+| `nav-keycap.webp` | Blank plastic texture beneath live navigation link labels |
+| `floppy-disk-note-v1.webp` | Full 5.25-inch floppy holding the live-text note and portrait on its paper label |
+| `floppy-label.webp` | Standalone note on mobile; also the paper texture reference |
+| `cw4.webp` | Existing illustrated portrait, blended into the paper note as an author portrait |
+| `cw2.webp` | Color photograph of Charles beside the homepage bio |
+
+The built-in imagegen tool produced the bulb, keycap, and label assets. The bulb preserves
+the original character; the paper and keycap were generated as blank surfaces. Full
+generation prompts are tracked in [ASSET_PROMPTS.md](ASSET_PROMPTS.md). Production
+files are resized WebP exports with alpha preserved, imported through Astro's asset pipeline.
+The full floppy uses the original blank label as a built-in imagegen reference. Original
+generated PNGs and preview studies remain local under the ignored `output/imagegen/` directory.
+
+Keep labels and copy in HTML. Surface texture must not reduce readability. The amber bulb
+needs no sepia filter or screen blending. Glass reflections and scanlines are CSS effects.
+The original `splash.webp` and green `bulb.webp` remain as source/reference artwork.
+
 ## The Narrative Arc
 
-The atmospheric background images were generated in Leonardo AI and follow a deliberate visual narrative.
+The earlier atmospheric backgrounds were generated in Leonardo AI and follow a deliberate visual narrative.
 Each background represents a different moment in the metaphor of "entering through a CRT television."
 
 | Page / Section       | File             | Concept                                      |
 |----------------------|------------------|----------------------------------------------|
-| Home hero            | `splash.webp`    | Outside the CRT glass — the threshold        |
+| Former home hero     | `splash.webp`    | Outside the CRT glass — retained reference   |
 | Services hero        | `services.webp`  | Inside the electron gun — signal being made  |
 | About hero           | `about.webp`     | Oscilloscope — the human reading the signal  |
 | Book hero            | `book.webp`      | Radio tuner dial — finding the frequency     |
@@ -69,7 +94,8 @@ All background images follow this CSS pattern:
 When generating new images for this site, follow these principles:
 
 ### Subject Matter
-All images should come from the world of **analog broadcast / signal technology**:
+Legacy atmospheric backgrounds come from **analog broadcast / signal technology**.
+The current interface also draws on school computer-room materials described above:
 - CRT television components (glass, electron guns, phosphor screens)
 - Oscilloscopes, signal generators, frequency meters
 - Radio equipment, tuner dials, patch bays, antenna hardware
@@ -77,8 +103,9 @@ All images should come from the world of **analog broadcast / signal technology*
 - Long-exposure photography of CRT screens, phosphor trails, signal displays
 - Vacuum tubes, circuit boards from the broadcast era
 
-Avoid: computers, smartphones, fiber optics, anything recognizably modern or digital.
-The aesthetic is specifically **analog signal era** — 1940s–1980s broadcast technology.
+Avoid recognizably modern hardware in decorative imagery. Keep computer-room references
+grounded in period keyboards, paper labels, and CRT glass; use them as useful interface
+materials rather than filling the page with whole-object illustrations.
 
 ### Photography Style
 - **Macro / extreme close-up** — get inside the object, not a wide shot of it
@@ -126,8 +153,11 @@ like it's being received through a signal rather than displayed as a traditional
 ## Speaking Photography
 
 `charles-speaking.jpg` is a user-supplied photograph of Charles presenting **Spectator to
-Initiator**. It appears in the Services page's speaking section, with an electric-blue
-border and a caption linking to the deck at `https://charleswilke.com/s2i`.
+Initiator**. It appears in the Services page's speaking section as a mounted photograph:
+a close cream-paper border, slight tilt, and a caption naming the talk and Charles.
+The caption links to the deck at `https://charleswilke.com/s2i`; the photograph itself
+opens the original full-size image. On wider screens the mount sits alongside the
+speaking details; below 700px it stacks above them.
 Keep the full frame so the speaker, audience, and presentation remain
 visible. Render it through Astro's `<Image>` component as responsive WebP, with descriptive
 alt text and lazy loading. Documentary photography complements the analog backgrounds;
