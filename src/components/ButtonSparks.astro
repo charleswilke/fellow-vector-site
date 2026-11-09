@@ -1,0 +1,215 @@
+<canvas class="button-sparks" aria-hidden="true"></canvas>
+
+<style>
+  .button-sparks {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+  }
+</style>
+
+<script>
+  // Like the LAIBOR live wires: white-hot contact, amber trails, then falling embers.
+  const canvas = document.querySelector<HTMLCanvasElement>('.button-sparks');
+  const ctx = canvas?.getContext('2d');
+  if (canvas && ctx) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const hovered = new Set<HTMLElement>();
+    const focused = new Set<HTMLElement>();
+    const charges = new Map<HTMLElement, { hit: boolean; surge: number }>();
+    const sparks: { x: number; y: number; vx: number; vy: number; age: number; life: number }[] = [];
+    let frame = 0;
+    let last = 0;
+    let emission = 0;
+
+    const resize = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      // innerWidth includes the scrollbar; the fixed canvas's CSS width does not.
+      // Match its displayed bounds so viewport coordinates are never squeezed.
+      const { width, height } = canvas.getBoundingClientRect();
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    new ResizeObserver(resize).observe(canvas);
+
+    const spawn = (button: HTMLElement, count: number, force = 1, leadingX?: number) => {
+      if (reduced.matches || document.hidden) return;
+      const rect = button.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > innerHeight) return;
+      for (let i = 0; i < count && sparks.length < 180; i++) {
+        // The wipe spits at its top/bottom contacts; impact fans out from the right edge.
+        let x: number, y: number, angle: number;
+        if (leadingX !== undefined) {
+          const top = Math.random() < 0.5;
+          const slant = Math.tan(12 * Math.PI / 180) * rect.height / 2;
+          x = Math.max(rect.left + 8, Math.min(rect.right - 4, leadingX + (top ? slant : -slant)));
+          y = top ? rect.top : rect.bottom;
+          angle = top ? -Math.PI / 3 : Math.PI / 3;
+        } else {
+          y = rect.top + Math.random() * rect.height;
+          x = rect.right - 8 * (rect.width / button.offsetWidth) * ((y - rect.top) / rect.height);
+          angle = (Math.random() - 0.5) * 2.2;
+        }
+        angle += (Math.random() - 0.5) * 1.3;
+        const speed = (65 + Math.random() * 150) * force;
+        sparks.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+          age: 0, life: 0.3 + Math.random() * 0.4 });
+      }
+    };
+
+    const tick = (now: number) => {
+      frame = 0;
+      const dt = last ? Math.min((now - last) / 1000, 0.04) : 1 / 60;
+      last = now;
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      const active = new Set([...hovered, ...focused]);
+      emission += dt * 90;
+      const count = Math.floor(emission);
+      emission -= count;
+      for (const button of active) {
+        const rect = button.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > innerHeight) continue;
+        const charge = charges.get(button);
+        if (!charge) continue;
+        // Read the actual CSS wipe position so sparks stay attached through its easing,
+        // including a quick exit/re-entry while the transition is reversing.
+        const fill = getComputedStyle(button, '::after');
+        const matrix = new DOMMatrixReadOnly(fill.transform === 'none' ? undefined : fill.transform);
+        const scale = rect.width / button.offsetWidth;
+        const leadingX = rect.left + (parseFloat(fill.left) + parseFloat(fill.width) + matrix.m41) * scale;
+        const progress = Math.max(0, Math.min(1, (leadingX - rect.left) / rect.width));
+        if (!charge.hit && leadingX >= rect.right - 4) {
+          charge.hit = true;
+          charge.surge = 1;
+          spawn(button, 36, 1.25);
+        } else if (!charge.hit && leadingX >= rect.left && count) {
+          spawn(button, count, 0.85, leadingX);
+        } else if (charge.hit && count && Math.random() < 0.12) {
+          spawn(button, 1, 0.5);
+        }
+        charge.surge = Math.max(0, charge.surge - dt * 3);
+        ctx.save();
+        ctx.strokeStyle = `rgba(255, 218, 144, ${0.25 + progress * 0.4 + charge.surge * 0.3})`;
+        ctx.shadowColor = '#ffbd59';
+        ctx.shadowBlur = 5 + progress * 10 + charge.surge * 14;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        const corner = 8 * scale;
+        ctx.moveTo(rect.left + corner, rect.top);
+        ctx.lineTo(rect.right, rect.top);
+        ctx.lineTo(rect.right - corner, rect.bottom);
+        ctx.lineTo(rect.left, rect.bottom);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.restore();
+
+        if (charge.hit) {
+          // Overlapping soft blooms carry a quick, fuzzy current along both edges.
+          // Local pulses keep the energy moving without flashing the whole button.
+          ctx.save();
+          ctx.globalCompositeOperation = 'lighter';
+          for (let edge = 0; edge < 2; edge++) {
+            const top = edge === 0;
+            const left = rect.left + (top ? corner : 0);
+            const right = rect.right - (top ? 0 : corner);
+            const y = top ? rect.top - 1 : rect.bottom + 1;
+            const segments = Math.ceil((right - left) / 18);
+            for (let i = 0; i <= segments; i++) {
+              const flow = now * 0.028 - i * 0.9 + edge * 2.4;
+              const pulse = 0.7 + Math.sin(flow) * 0.2 + Math.sin(flow * 1.7 + i) * 0.1;
+              const taper = Math.sin((i + 0.5) / (segments + 1) * Math.PI);
+              ctx.save();
+              ctx.translate(left + (right - left) * i / segments,
+                y + Math.sin(flow * 0.8) * 0.65);
+              ctx.scale(20 + pulse * 5, 4 + pulse * 2.5);
+              const haze = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+              haze.addColorStop(0, `rgba(255, 244, 196, ${0.13 * pulse * taper})`);
+              haze.addColorStop(0.25, `rgba(255, 189, 89, ${0.22 * pulse * taper})`);
+              haze.addColorStop(0.55, `rgba(255, 133, 42, ${0.05 * pulse * taper})`);
+              haze.addColorStop(1, 'rgba(255, 133, 42, 0)');
+              ctx.fillStyle = haze;
+              ctx.fillRect(-1, -1, 2, 2);
+              ctx.restore();
+            }
+          }
+          ctx.restore();
+          if (Math.random() < dt * 3) {
+            spawn(button, 1, 0.3, rect.left + corner + Math.random() * (rect.width - corner * 2));
+          }
+        }
+      }
+      for (const button of charges.keys()) {
+        if (!active.has(button)) charges.delete(button);
+      }
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const spark = sparks[i];
+        spark.age += dt;
+        if (spark.age >= spark.life) { sparks.splice(i, 1); continue; }
+        spark.vy += 360 * dt;
+        spark.vx *= 1 - dt * 1.3;
+        spark.x += spark.vx * dt;
+        spark.y += spark.vy * dt;
+        const remaining = 1 - spark.age / spark.life;
+        const color = remaining > 0.65 ? '255, 250, 228' : remaining > 0.3 ? '255, 196, 92' : '255, 108, 36';
+        ctx.strokeStyle = `rgba(${color}, ${Math.min(1, remaining * 1.8)})`;
+        ctx.shadowColor = '#ffad45';
+        ctx.shadowBlur = remaining * 7;
+        ctx.lineWidth = remaining > 0.65 ? 2 : 1.3;
+        ctx.beginPath();
+        ctx.moveTo(spark.x, spark.y);
+        ctx.lineTo(spark.x - spark.vx * 0.035, spark.y - spark.vy * 0.035);
+        ctx.stroke();
+      }
+      ctx.restore();
+      if (active.size || sparks.length) frame = requestAnimationFrame(tick);
+      else { last = 0; emission = 0; }
+    };
+
+    const wake = () => {
+      if (!frame && !reduced.matches && !document.hidden) frame = requestAnimationFrame(tick);
+    };
+    const reset = () => {
+      cancelAnimationFrame(frame);
+      frame = 0; last = 0; emission = 0;
+      hovered.clear(); focused.clear(); charges.clear(); sparks.length = 0;
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+    };
+    document.querySelectorAll<HTMLElement>('.btn-primary').forEach(button => {
+      button.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'touch' || reduced.matches) return;
+        hovered.add(button);
+        if (!charges.has(button)) charges.set(button, { hit: false, surge: 0 });
+        wake();
+      });
+      button.addEventListener('pointerleave', () => hovered.delete(button));
+      button.addEventListener('pointercancel', () => hovered.delete(button));
+      button.addEventListener('focus', () => {
+        if (!button.matches(':focus-visible') || reduced.matches) return;
+        focused.add(button);
+        if (!charges.has(button)) charges.set(button, { hit: false, surge: 0 });
+        wake();
+      });
+      button.addEventListener('blur', () => focused.delete(button));
+      button.addEventListener('pointerdown', () => { spawn(button, 20, 1.2); wake(); });
+    });
+    window.addEventListener('resize', () => { reset(); resize(); });
+    window.addEventListener('scroll', () => {
+      reset();
+      // Keyboard focus can scroll its button into view; resume at the new position.
+      const button = document.activeElement;
+      if (button instanceof HTMLElement && button.matches('.btn-primary:focus-visible') && !reduced.matches) {
+        focused.add(button); charges.set(button, { hit: false, surge: 0 }); wake();
+      }
+    }, { passive: true });
+    window.addEventListener('blur', reset);
+    document.addEventListener('visibilitychange', reset);
+    reduced.addEventListener('change', reset);
+  }
+</script>
