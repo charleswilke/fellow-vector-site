@@ -16,6 +16,8 @@ const {
 } = Astro.props;
 
 const siteUrl = 'https://fellowvector.com';
+const socialImageUrl = `${siteUrl}/og.jpg?v=amber-floppy-portrait-7`;
+const socialImageAlt = 'Fellow Vector — AI tutoring & workshops with Charles Wilke. A vintage floppy disk pairs his illustrated portrait with “Bring your work. Bring your questions. We’ll start together.” beside a smiling amber lightbulb.';
 const ogTitle = title === 'Fellow Vector' ? title : `${title} — Fellow Vector`;
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
 
@@ -63,7 +65,9 @@ const structuredData = {
     <meta property="og:site_name"   content="Fellow Vector" />
     <meta property="og:title"       content={ogTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image"       content={`${siteUrl}/og.jpg`} />
+    <meta property="og:image"       content={socialImageUrl} />
+    <meta property="og:image:type"  content="image/jpeg" />
+    <meta property="og:image:alt"   content={socialImageAlt} />
     <meta property="og:image:width"  content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:url"         content={canonicalUrl} />
@@ -72,7 +76,8 @@ const structuredData = {
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content={ogTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"       content={`${siteUrl}/og.jpg`} />
+    <meta name="twitter:image"       content={socialImageUrl} />
+    <meta name="twitter:image:alt"   content={socialImageAlt} />
 
     <!-- Fonts (self-hosted) -->
     <link rel="preload" href="/fonts/share-tech-mono-latin.woff2" as="font" type="font/woff2" crossorigin />

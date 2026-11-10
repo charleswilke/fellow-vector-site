@@ -99,3 +99,13 @@ Lighting/material: photorealistic scanned-object feel, soft warm amber side-ligh
 Text: none. No lettering, logo, numbers, portrait, illustration, stamps, stickers or markings on the label. The page supplies all copy and the portrait as separate elements.
 Avoid: background, tabletop, hands, room, props, duplicate disks, oversized external shadows, glow, mock browser, text, checkerboard baked into the image.
 ```
+
+## Social preview portrait cutout
+
+Tool: built-in imagegen. Source: `src/assets/cw4.webp`.
+Final asset: `src/assets/cw4-cutout-hexagon.webp` (640×640 WebP with alpha).
+The original portrait is preserved.
+
+Prompt:
+
+> Use case: background-extraction. Edit target: the supplied original illustrated portrait of Charles Wilke with orange hexagon. Remove ONLY the cream canvas background OUTSIDE the silhouette of the person and orange hexagon. Keep the orange hexagon behind him fully intact and exactly as drawn. Keep all cream-colored areas INSIDE his face, hair, neck and shirt opaque and unchanged. Preserve the same face, glasses, hairstyle, expression, beard, ink strokes, orange shirt lines, original pose, proportions and framing. Isolate the UNION of the illustrated head-and-shoulders silhouette AND the orange hexagon on a genuinely transparent background. Do not redraw or restyle. No paper rectangle, border, frame, shadow, new objects or background. Retain the existing softly faded bottom shirt edges.

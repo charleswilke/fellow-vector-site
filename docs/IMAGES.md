@@ -167,12 +167,26 @@ the generated-image subject and treatment rules above apply to backgrounds.
 
 ## OG Image
 
-`og.jpg` (1200×630) is the social share image. It was built from `og-template.html` which
-lives in the project root. To regenerate:
-1. Open `og-template.html` in Chrome
-2. Set device dimensions to 1200×630 in DevTools
-3. Capture full-size screenshot
-4. Save as `public/og.jpg`
+`public/og.jpg` (1200×630) is the social share image, composed from
+`scripts/og-template.html`. It uses the self-hosted site fonts, warm amber palette,
+and existing floppy disk and smiling CW bulb with current AI tutoring and workshops
+copy. The disk's paper label pairs Charles's illustrated portrait
+(`cw4-cutout-hexagon.webp`) with an invitation to bring your work and questions.
+This transparent cutout preserves the orange hexagon and the portrait's original
+colors, with no paper rectangle, border, shadow, or blend effect. It was derived
+from `cw4.webp` with the built-in imagegen tool; the prompt is in `ASSET_PROMPTS.md`.
+The byline sits under the practical skills line, separated by a fine rule with a
+small “WITH” label and larger “Charles Wilke” text.
 
-The template uses `splash.jpg` as the background. If the splash image ever changes,
-regenerate the OG image.
+To regenerate from the repository root on macOS:
+
+```sh
+mkdir -p output
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu --hide-scrollbars --allow-file-access-from-files --window-size=1200,630 --force-device-scale-factor=1 --timeout=3000 --screenshot="$PWD/output/og-preview.png" "file://$PWD/scripts/og-template.html"
+node --input-type=module -e "import sharp from 'sharp'; await sharp('output/og-preview.png').jpeg({quality:90,mozjpeg:true}).toFile('public/og.jpg');"
+```
+
+Inspect the rendered image before shipping. `BaseLayout.astro` shares one versioned
+absolute image URL across Open Graph and Twitter metadata, with dimensions and alt
+text. Bump the image URL's version whenever the artwork changes to help refresh
+cached previews. Existing shared posts may retain a platform's cached preview.
