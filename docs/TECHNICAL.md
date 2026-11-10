@@ -46,8 +46,15 @@ Scanlines are one pixel tall at four-pixel intervals, at 4.5% opacity. The fixed
 reflections. Main content and footer sit at z-index 1.
 
 The shared `--nav-height` token controls main-content padding, sticky sidebars, and
-anchor offsets. Header heights are 88px, 144px below 760px, and 200px below 480px.
-Navigation stays visible as a two-by-two keyboard on small phones.
+anchor offsets. The header stays 88px high at every width. At 640px and below,
+a native `<details>` menu opens a floating two-by-two keyboard tray. Closed links
+are excluded from keyboard navigation by the disclosure element. Escape returns
+focus to its summary; outside presses, link activation, keyboard focus leaving
+the menu, and breakpoint changes close the tray. Reduced motion skips rollout.
+Ordinary mobile link activation waits 200ms before closing and navigating so its
+key animation remains visible. Modified clicks and alternate link targets retain
+native navigation, and reduced motion skips the delay. Closing the menu cancels
+any pending delayed navigation.
 
 **iOS safe area:** The overlays use explicit `top/left/right/bottom` instead of `inset`
 and `bottom: env(safe-area-inset-bottom, 0)` to prevent a gap at the bottom on iPhone.

@@ -16,6 +16,9 @@ Generous padding and column spacing let these elements breathe. Below 760px,
 show the paper label alone after the copy and actions, keeping the note and
 portrait larger while saving vertical space.
 “Learn by doing” stays on one line, with its size responding to the copy column.
+Above it, “Another tech wave. Another thing you’re supposed to know.” appears in small, muted,
+spaced-out capitals between thin amber rules above and below. The rules span the
+copy column; let the phrase wrap on narrow screens.
 Keep the hero actions in one row; the longer primary label can wrap within its
 button on narrow screens while “Book a Call” stays alongside it.
 The bulb belongs to the following services section: crop its lower half at the
@@ -196,10 +199,21 @@ Container max-width is `1100px`, with 20–32px responsive side padding.
 Service sections use border separators rather than dividers with extra margins.
 Their labels stack above the content below 960px. Keep section buttons sized to their
 labels. Anchor offsets and sticky sidebars use `--nav-height` plus 16px.
-The fixed header is 88px on desktop, 144px below 760px, and 200px below 480px, where
-the four keys form a two-by-two keyboard. All four links stay visible.
+The fixed header is 88px at every width. Above 640px, all four navigation keys
+sit beside the wordmark. At 640px and below, a moulded menu key opens a floating
+two-by-two keyboard tray with a short, staggered rollout. The key depresses on
+press with the same 85ms minimum press and spring return as the navigation keys;
+its amber indicator lights when open, and the hamburger becomes a close
+mark. Reduced motion reveals the tray immediately. Native disclosure behavior
+keeps the menu usable without JavaScript; Escape, outside presses, link activation,
+and leaving the menu with the keyboard close it when JavaScript is available.
+An ordinary menu-link tap holds the tray open for 200ms so the key can press and
+rebound before navigation. Modified clicks keep their native behavior; reduced
+motion navigates immediately.
 The Fellow Vector wordmark includes the subtitle “AI Tutoring & Workshops” on every
-page, set in smaller body type directly underneath the display lettering.
+page, set in smaller body type directly underneath the display lettering. The
+subtitle spans the full wordmark width, aligned with the outer brackets.
+On mobile, use natural subtitle spacing and center it beneath the name.
 
 Sub-page heroes use the same section spacing at every breakpoint. The homepage hero
 has a bounded height instead of requiring a full viewport. Avoid adding large fixed

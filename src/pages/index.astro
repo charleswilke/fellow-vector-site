@@ -19,6 +19,7 @@ import photoPortrait from '../assets/cw2.webp';
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
+        <p class="hero-eyebrow"><span>Another tech wave. Another thing you’re supposed to know.</span></p>
         <h1 class="hero-headline glow-phosphor text-phosphor">
           LEARN BY DOING<span class="hero-cursor">_</span>
         </h1>
@@ -26,7 +27,7 @@ import photoPortrait from '../assets/cw2.webp';
         <p class="hero-sub">
           I offer one-to-one AI tutoring and hands-on workshops for teams.
           Learn to use AI on real tasks, from writing and research to
-          building your own tools.
+          building your own reusable workflows.
         </p>
         <div class="hero-cta">
           <a href="/services" class="btn btn-primary"><span class="hero-primary-label">Find Your Starting Point</span></a>
@@ -48,7 +49,7 @@ import photoPortrait from '../assets/cw2.webp';
           </picture>
           <div class="tutor-note-copy">
             <div class="tutor-note-message">
-              <p>Bring your own work and questions. We’ll figure out where to start together.</p>
+              <p>Bring your own work and questions.<br />We’ll figure out where to start together.</p>
               <div class="tutor-note-signature">
                 <span>Charles Wilke</span>
                 <span>Writer. Designer. AI tutor.</span>
@@ -228,7 +229,7 @@ import photoPortrait from '../assets/cw2.webp';
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
     gap: clamp(2rem, 6vw, 5rem);
-    padding-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: clamp(2rem, 4vw, 3rem);
     padding-bottom: clamp(3.5rem, 7vw, 6rem);
   }
 
@@ -239,6 +240,24 @@ import photoPortrait from '../assets/cw2.webp';
     align-items: flex-start;
     gap: clamp(1rem, 2vw, 1.6rem);
     min-width: 0;
+  }
+
+  .hero-eyebrow {
+    width: 100%;
+    max-width: 100%;
+    padding-block: 0.1rem;
+    border-block: 1px solid var(--border-hover);
+    font-size: 0.7rem;
+    line-height: 1.6;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    animation: fadeIn 0.7s 0.2s both;
+  }
+
+  .hero-eyebrow span {
+    position: relative;
+    top: 1px;
   }
 
   .hero-headline {
@@ -268,6 +287,17 @@ import photoPortrait from '../assets/cw2.webp';
     aspect-ratio: 1;
     transform: rotate(-2deg);
     filter: drop-shadow(0 12px 16px rgba(12, 8, 4, 0.25));
+  }
+
+  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+    .tutor-note {
+      animation: tutor-note-float 8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes tutor-note-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-6px) rotate(-1.5deg); }
   }
 
   .tutor-note-surface {
@@ -324,6 +354,11 @@ import photoPortrait from '../assets/cw2.webp';
 
   .tutor-note-signature span:first-child { color: #382414; }
 
+  @media (min-width: 761px) {
+    .tutor-note p,
+    .tutor-note-signature { top: calc(0.3rem - 3px); }
+  }
+
   @media (min-width: 761px) and (max-width: 1000px) {
     .tutor-note-copy { grid-template-columns: minmax(0, 1fr) 26%; gap: 2%; }
     .tutor-note-portrait { transform: scale(1.325); }
@@ -354,8 +389,14 @@ import photoPortrait from '../assets/cw2.webp';
       grid-row: 1;
       font-size: clamp(0.875rem, 3.4cqi, 1rem);
       line-height: 1.35;
+      top: 0;
     }
-    .tutor-note-portrait { grid-column: 2; grid-row: 1; }
+    .tutor-note-portrait {
+      position: relative;
+      top: 1rem;
+      grid-column: 2;
+      grid-row: 1;
+    }
     .tutor-note-signature {
       grid-column: 1 / -1;
       grid-row: 2;

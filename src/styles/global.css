@@ -59,14 +59,6 @@
   --scanline-opacity: 0.045;
 }
 
-@media (max-width: 760px) {
-  :root { --nav-height: 144px; }
-}
-
-@media (max-width: 480px) {
-  :root { --nav-height: 200px; }
-}
-
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
