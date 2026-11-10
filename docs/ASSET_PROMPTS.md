@@ -2,6 +2,30 @@
 
 Generated with the built-in imagegen tool. Production WebP exports live in `src/assets/`; original PNGs and local previews stay under the ignored `output/` directory.
 
+## Software box social preview
+
+Tool: built-in imagegen. Transparent background: false.
+References: `src/assets/cw4-cutout-hexagon.webp` (drawn author portrait) and
+`src/assets/cw-bulb-amber.webp` (CW character).
+Final source: `src/assets/og-software-box.webp` (1732×908, quality 95).
+Social export: `public/og.jpg` (1200×630, JPEG quality 90).
+Original PNG: local ignored `output/imagegen/og-software-box-original.png`.
+
+```text
+Use case: product-mockup
+Asset type: the finished Open Graph social link preview image for fellowvector.com.
+Primary request: Create beautiful vintage educational-computer-software box art for Fellow Vector, the imaginary late-1980s software package that would contain the 5.25-inch floppy disk seen on the website. This is a complete finished share image, not a design sheet.
+Input images: Image 1 is the supporting portrait insert: Charles Wilke's existing cream-and-dark-ink drawn portrait with round glasses, swept-back hair, beard, checked shirt, and burnt-orange hexagon. Preserve his facial identity, drawing style, and the recognizable original portrait closely; print that drawn portrait on the box cover as the credited human author. Image 2 is the supporting character reference: the smiling amber CW lightbulb. Preserve its recognizable face and CW filament, adapting its glow into warm, period-appropriate printed amber illustration.
+Scene/backdrop: A broad, landscape-format cardboard software box photographed almost straight on, resting against a dark warm-brown studio background. Show a narrow left spine and a tiny top edge to establish a real boxed object. Make the front cover occupy nearly the entire image, with just a modest dark margin and soft grounding shadow. No extra objects.
+Composition/framing: Wide 1.905:1 landscape social card, intended final export 1200 by 630. Fill at least 90% of image width with the package. Front panel is wide rectangular landscape packaging, slightly wider than tall, almost frontal with very gentle perspective so all text remains bold and legible. Keep every word and the full portrait inside a generous crop-safe margin. The cover design is a confident, uncluttered 1980s educational software layout: oversized dark-brown title in the upper left half, smaller promise and service line, a large friendly lightbulb illustration in the right half, and Charles's original drawn author portrait as a prominent smaller inset in the lower portion with a clearly associated byline. The portrait must be large enough to recognize at thumbnail size. Broad amber and burnt-orange diagonal bands/rays tie the illustration and typography together.
+Style/medium: Tactile printed box art, accomplished retro graphic design, bold monospaced slab/display lettering, restrained offset-print texture, warm cream stock, limited burnt-orange/amber/dark-brown inks, subtle halftone illustration. Let the physical cardboard feel believable without reducing graphic clarity.
+Lighting/mood: Warm soft studio lighting, inviting, curious, friendly computer-store discovery.
+Materials/textures: Cream paperboard, ink grain, slightly rubbed edges, modest shelf wear; still crisp, cared for, and readable.
+Text (verbatim, exact spelling, no other words): "FELLOW VECTOR" (largest, two lines); "LEARN BY DOING" (prominent secondary promise); "AI TUTORING & WORKSHOPS"; "With Charles Wilke" (beside his drawn portrait); "fellowvector.com" (small publisher line). The left spine may repeat "FELLOW VECTOR".
+Constraints: Both Charles's reference drawn portrait and the reference smiling CW bulb must be clearly present on the FRONT cover. Preserve Charles's likeness and portrait artwork faithfully; do not substitute a photo, anonymous person, or generic avatar. All required text must be perfectly spelled, easy to read, and confidently typeset. Keep the big title and service description visually dominant. Make this feel like the box that contains a beloved old floppy disk, with warmth and curiosity.
+Avoid: extra text, fake logos, invented product claims or technical specifications, watermarks, green neon, glossy modern tech styling, UI windows, additional faces, additional characters, busy surroundings, deep perspective, tiny package floating in large negative space, illegible distressing.
+```
+
 ## Warm tutoring studies
 
 ```text
