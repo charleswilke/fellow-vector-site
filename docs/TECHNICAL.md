@@ -82,6 +82,17 @@ In production, Vercel runs `api/feed.js`. The `local-feed-preview` Astro integra
 in `astro.config.mjs` adapts that same handler to the local dev server. It runs only
 in the dev-server setup hook and uses the same upstream RSS, parser, and reader links.
 
+## Throw More Clay Interest List
+
+`/clay` is the series page and `/clay/interest` collects interest while seats aren't on sale.
+The form posts JSON to `api/interest.js`, which emails each sign-up through Resend with the
+person's address as reply-to. Nothing is stored on the site.
+
+The function answers 503 until `RESEND_API_KEY`, `INTEREST_NOTIFY_EMAIL` and
+`INTEREST_FROM_EMAIL` are set in Vercel, and the form then tells visitors the list isn't
+switched on yet. A hidden `website` field catches form bots. The Astro dev server doesn't run
+`/api` functions, so the form shows its error message locally.
+
 ## Image Backgrounds
 
 All section background images follow this structure:

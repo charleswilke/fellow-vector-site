@@ -1,0 +1,549 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import servicesHero from '../../assets/services.webp';
+import patchbay from '../../assets/patchbay.webp';
+import portrait from '../../assets/cw2.webp';
+
+// Sales aren't open yet, so every "save your seat" action points to the interest list.
+const signupHref = '/clay/interest';
+
+const evenings = [
+  {
+    num: '01',
+    date: 'Mon · Jan 11',
+    title: 'What hope do we have?',
+    body: `Name what you're afraid AI takes from you. Then find what you keep coming back to.
+    Leave with your point of view, in your own words.`,
+    homework: 'Before next week: pick the idea for your piece.',
+  },
+  {
+    num: '02',
+    date: 'Mon · Jan 18',
+    title: 'Direct the chorus.',
+    body: `I walk through how I made art for my essays and my theater shows, wrong turns
+    included. Then you make your piece in three rounds. Name what's wrong. Fix it. Write
+    the author's note.`,
+    homework: 'Before next week: finish the piece and its note.',
+  },
+  {
+    num: '03',
+    date: 'Mon · Jan 25',
+    title: 'Make the film anyway.',
+    body: `Show what you made. Audit your tools: what you own, what you rent, what your
+    assistant remembers about you. Leave with the next thing you'll make, and someone to
+    check in with.`,
+  },
+];
+
+const takeaways = [
+  { k: 'Point of view', v: 'Your point of view, on one page.' },
+  { k: 'The piece', v: 'A piece you directed and stand behind.' },
+  { k: "Author's note", v: "An author's note that shows your work." },
+  { k: 'Tool plan', v: 'A plan for the tools you keep.' },
+  { k: "What's next", v: 'Your next project, and a partner to see it through.' },
+];
+
+const faqs = [
+  { q: 'Do I need to know AI tools?', a: "No. If you can open a browser and a chat window, you're ready." },
+  { q: 'Do I need paid AI subscriptions?', a: 'No. Free versions work for every exercise.' },
+  { q: 'What if I miss an evening?', a: 'Each main session is recorded and shared with the group the next day. Breakout rooms stay private.' },
+  { q: 'Are you going to tell me to use AI for everything?', a: 'No. Some people leave using less. That counts.' },
+  { q: 'What happens to the work I share?', a: 'It stays yours. Nothing from the group goes into anything I publish without asking you first.' },
+  { q: 'Can my team do this together?', a: "Yes, as a private workshop. Book a call and we'll shape it to your work." },
+  { q: 'What if I need to cancel?', a: 'Full refund up to a week before Evening 1. After that, your seat moves to the next cohort.' },
+];
+
+const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FILM ANYWAY///OWN OR RENT///HUMAN JUDGMENT///";
+---
+
+<BaseLayout
+  title="Throw More Clay"
+  description="Three live evenings for creatives making their way in the AI era. Bring one project, leave with a piece you directed and a point of view you can name. 12 seats, January 2027."
+>
+  <PageHero label="04 // small-group series" title="THROW MORE CLAY_" image={servicesHero} imageOpacity={0.5}>
+    <p class="page-hero-sub clay-sub">Three evenings for creatives making their way in the AI era.</p>
+    <dl class="clay-spec" aria-label="Series details">
+      <div><dt>Mondays</dt><dd>Jan 11 · 18 · 25</dd></div>
+      <div><dt>Live online</dt><dd>6–8 pm CT</dd></div>
+      <div><dt>Room</dt><dd>12 seats</dd></div>
+      <div><dt>Founding price</dt><dd>$295</dd></div>
+    </dl>
+    <div class="clay-actions">
+      <a href={signupHref} class="btn btn-primary btn-lg">Join the Interest List</a>
+      <a href="/book" class="btn btn-ghost">Book a Call</a>
+    </div>
+    <p class="clay-status"><span class="clay-led" aria-hidden="true"></span>Seats open soon. The list hears first.</p>
+  </PageHero>
+
+  <div class="clay-ticker" aria-hidden="true">
+    <div class="clay-ticker-track">
+      <span>{ticker}</span><span>{ticker}</span><span>{ticker}</span><span>{ticker}</span>
+    </div>
+  </div>
+
+  <section class="section clay-section">
+    <div class="container clay-row">
+      <div class="label">// why this exists</div>
+      <div class="clay-stack">
+        <p class="clay-tagline">Another tech wave. Another round of people telling you your craft is done.</p>
+        <p class="clay-lead">It isn't. <em>It is changing.</em></p>
+        <p>
+          This is a small live series for designers, writers, musicians, illustrators,
+          and theater and video makers. Curious, anxious or skeptical. All welcome.
+        </p>
+        <p>You bring one project you care about. We spend three evenings making it real.</p>
+        <p class="text-muted">
+          No coding. No hype. No rerolling until something looks fine. You direct. You
+          revise. You put your name on it. Then you say how it was made.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section clay-section" aria-labelledby="clay-evenings">
+    <div class="container clay-stack clay-stack-lg">
+      <div class="clay-heading">
+        <div class="label">// the three evenings</div>
+        <h2 id="clay-evenings">One room, three Mondays, one piece of work.</h2>
+      </div>
+      <div>
+        {evenings.map((ev) => (
+          <article class="clay-evening">
+            <div class="clay-evening-meta">
+              <span class="clay-evening-num">{ev.num}</span>
+              <span class="clay-evening-date">{ev.date}</span>
+            </div>
+            <div class="clay-stack clay-stack-sm">
+              <h3>{ev.title}</h3>
+              <p>{ev.body}</p>
+              {ev.homework && <p class="clay-homework">{ev.homework}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section clay-section" aria-labelledby="clay-leave">
+    <div class="container clay-stack clay-stack-lg">
+      <div class="clay-heading">
+        <div class="label">// you leave with</div>
+        <h2 id="clay-leave">Five things you can hold up.</h2>
+      </div>
+      <ul class="clay-takeaways">
+        {takeaways.map((t) => (
+          <li class="card"><span class="label">{t.k}</span><p>{t.v}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section clay-section" aria-labelledby="clay-details">
+    <div class="container clay-details">
+      <div class="clay-paper">
+        <h3 id="clay-details">The details</h3>
+        <dl>
+          <dt>When</dt><dd>Mondays, January 11, 18 and 25, 2027</dd>
+          <dt>Time</dt><dd>6 to 8 pm Central, live online</dd>
+          <dt>Between</dt><dd>1 to 2 hours of making at home</dd>
+          <dt>Room</dt><dd>12 seats</dd>
+          <dt>Price</dt>
+          <dd>
+            <span class="clay-price">$295</span><span class="clay-was">$395</span><br />
+            Founding cohort price. Two seats are pay what you can.
+          </dd>
+          <dt>Missed one?</dt><dd>Main sessions are recorded. Breakout rooms stay private.</dd>
+        </dl>
+        <span class="clay-stamp">Founding cohort</span>
+      </div>
+
+      <div class="clay-stack">
+        <div class="label">// who's running it</div>
+        <div class="clay-host">
+          <Image
+            src={portrait}
+            alt="Charles Wilke, smiling in round glasses in his studio."
+            widths={[160, 320]}
+            sizes="160px"
+            loading="lazy"
+          />
+          <div class="clay-stack clay-stack-sm">
+            <h3>Charles Wilke</h3>
+            <p>
+              Twenty years in TV, print, radio, games and music. Now I design how
+              conversational AI talks, for a living. I make things with AI in public,
+              and I say how.
+            </p>
+          </div>
+        </div>
+        <p class="text-muted clay-small">
+          Need it for your team instead? I run this as a private workshop too.
+          <a href="/book">Book a call</a> and we'll shape it to your work.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section clay-section" aria-labelledby="clay-faq">
+    <div class="container clay-row">
+      <div class="clay-heading">
+        <div class="label">// questions</div>
+        <h2 id="clay-faq">FAQ</h2>
+      </div>
+      <div class="clay-faq">
+        {faqs.map((f) => (
+          <details><summary>{f.q}</summary><p>{f.a}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="clay-cta">
+    <div class="clay-cta-bg" aria-hidden="true">
+      <Image src={patchbay} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
+    </div>
+    <div class="container clay-cta-inner">
+      <div class="label">// save your seat</div>
+      <h2 class="text-phosphor glow-phosphor">Seats aren't on sale yet.</h2>
+      <p class="text-muted">Join the interest list and you'll hear first when the founding cohort opens.</p>
+      <a href={signupHref} class="btn btn-primary btn-lg">Join the Interest List</a>
+      <p class="text-muted clay-small">Not sure it's for you? <a href="/book">Book a 30-minute call.</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .clay-sub { font-size: clamp(1.05rem, 2vw, 1.25rem); }
+
+  .clay-spec {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    max-width: 760px;
+    margin-top: var(--sp-sm);
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .clay-spec div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    padding: 0.8rem 1rem;
+    background: rgba(var(--bg-rgb), 0.85);
+  }
+
+  .clay-spec dt {
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .clay-spec dd {
+    font-family: var(--font-crt);
+    font-size: 1.55rem;
+    line-height: 1.1;
+    color: var(--electric);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .clay-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-md);
+    align-items: center;
+    margin-top: var(--sp-md);
+  }
+
+  .clay-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: var(--sp-sm);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--electric);
+  }
+
+  .clay-led {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--phosphor);
+    box-shadow: var(--glow-phosphor);
+    animation: clay-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes clay-pulse { 50% { opacity: 0.35; } }
+
+  /* Four copies, -25% loop, per TECHNICAL.md */
+  .clay-ticker {
+    overflow: hidden;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .clay-ticker-track {
+    display: flex;
+    width: max-content;
+    animation: clay-ticker 60s linear infinite;
+  }
+
+  .clay-ticker-track span {
+    padding: 0.5rem 0;
+    font-family: var(--font-crt);
+    font-size: 1.35rem;
+    letter-spacing: 0.1em;
+    color: var(--phosphor-dim);
+    white-space: nowrap;
+  }
+
+  @keyframes clay-ticker { to { transform: translateX(-25%); } }
+
+  .clay-section + .clay-section { border-top: 1px solid var(--border); }
+
+  .clay-row {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--layout-gap);
+  }
+
+  .clay-stack { display: flex; flex-direction: column; gap: var(--sp-md); min-width: 0; }
+  .clay-stack-sm { gap: var(--sp-sm); }
+  .clay-stack-lg { gap: var(--sp-lg); }
+  .clay-heading { display: flex; flex-direction: column; gap: var(--sp-xs); }
+
+  .clay-tagline {
+    max-width: 34rem;
+    padding: 0.45rem 0;
+    border-top: 1px solid var(--phosphor-dim);
+    border-bottom: 1px solid var(--phosphor-dim);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .clay-lead {
+    max-width: 30ch;
+    font-family: var(--font-crt);
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+  }
+
+  .clay-lead em {
+    font-style: normal;
+    color: var(--phosphor);
+    text-shadow: var(--glow-phosphor);
+  }
+
+  .clay-evening {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: var(--layout-gap);
+    padding: var(--sp-lg) 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .clay-evening:first-child { border-top: 0; padding-top: var(--sp-sm); }
+
+  .clay-evening-meta { display: flex; flex-direction: column; gap: 0.1rem; }
+
+  .clay-evening-num {
+    font-family: var(--font-crt);
+    font-size: 3.4rem;
+    line-height: 0.9;
+    color: var(--phosphor-dim);
+  }
+
+  .clay-evening-date {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .clay-homework {
+    padding-left: 0.8rem;
+    border-left: 2px solid var(--amber);
+    font-size: 0.88rem;
+    color: var(--electric);
+  }
+
+  .clay-takeaways {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .clay-takeaways .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.1rem;
+  }
+
+  .clay-takeaways p { font-size: 0.95rem; line-height: 1.5; }
+
+  .clay-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  /* Cream paper note, as on the hero label and feed cards */
+  .clay-paper {
+    padding: 1.5rem 1.6rem;
+    background: #efe3c8;
+    color: #2b2218;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4), 0 18px 40px rgba(0, 0, 0, 0.25);
+    transform: rotate(-0.6deg);
+  }
+
+  .clay-paper dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.55rem 1.2rem;
+    margin-top: var(--sp-md);
+  }
+
+  .clay-paper dt {
+    padding-top: 0.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b5636;
+  }
+
+  .clay-paper dd { line-height: 1.5; }
+  .clay-price { font-family: var(--font-crt); font-size: 1.9rem; line-height: 1; }
+  .clay-was { margin-left: 0.4rem; font-size: 1.1rem; color: #7d6a4a; text-decoration: line-through; }
+
+  .clay-stamp {
+    display: inline-block;
+    margin-top: 1.1rem;
+    padding: 0.25rem 0.6rem;
+    border: 2px solid #b5562a;
+    color: #b5562a;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transform: rotate(-3deg);
+  }
+
+  .clay-host {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: var(--sp-lg);
+    align-items: center;
+  }
+
+  .clay-host img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border: 1px solid var(--border-hover);
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+
+  .clay-small { font-size: 0.85rem; }
+
+  .clay-faq { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
+  .clay-faq details { border-bottom: 1px solid var(--border); }
+
+  .clay-faq summary {
+    position: relative;
+    padding: 1rem 2.2rem 1rem 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .clay-faq summary::-webkit-details-marker { display: none; }
+
+  .clay-faq summary::after {
+    content: '+';
+    position: absolute;
+    right: 0.4rem;
+    top: 0.85rem;
+    font-family: var(--font-crt);
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--phosphor);
+  }
+
+  .clay-faq details[open] summary::after { content: '\2212'; }
+  .clay-faq summary:hover { color: var(--electric); }
+  .clay-faq details p { padding-bottom: 1.1rem; color: var(--fg-muted); }
+
+  .clay-cta {
+    position: relative;
+    padding: var(--section-space) 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .clay-cta-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .clay-cta-bg :global(.cta-splash) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.22;
+  }
+
+  .clay-cta-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(var(--bg-rgb), 0.55), var(--bg) 75%);
+  }
+
+  .clay-cta-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-md);
+    text-align: center;
+  }
+
+  @media (max-width: 960px) {
+    .clay-row,
+    .clay-evening {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--sp-sm);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .clay-details { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  @media (max-width: 520px) {
+    .clay-host { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clay-ticker-track,
+    .clay-led { animation: none; }
+  }
+</style>
