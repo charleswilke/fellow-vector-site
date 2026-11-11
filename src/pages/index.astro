@@ -49,10 +49,10 @@ import photoPortrait from '../assets/cw2.webp';
           </picture>
           <div class="tutor-note-copy">
             <div class="tutor-note-message">
-              <p>Bring your own work and questions.<br />We’ll figure out where to start together.</p>
+              <p>Bring a question or something you’re working on. We’ll figure out where to start together.</p>
               <div class="tutor-note-signature">
                 <span>Charles Wilke</span>
-                <span>Writer. Designer. AI tutor.</span>
+                <span>Writer // Designer // AI tutor</span>
               </div>
             </div>
             <Image
@@ -60,7 +60,7 @@ import photoPortrait from '../assets/cw2.webp';
               alt="Illustration of Charles Wilke"
               class="tutor-note-portrait"
               widths={[160, 240, 320]}
-              sizes="(max-width: 760px) 112px, (max-width: 1100px) 12vw, 140px"
+              sizes="(max-width: 760px) 102px, (max-width: 1100px) 12vw, 140px"
               loading="eager"
             />
           </div>
@@ -192,9 +192,6 @@ import photoPortrait from '../assets/cw2.webp';
   <section class="cta-section">
     <div class="cta-bg" aria-hidden="true">
       <Image src={signal} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
-    </div>
-    <div class="cta-bulb" aria-hidden="true">
-      <Image src={bulb} alt="" widths={[400, 640]} sizes="(max-width: 768px) 200px, 320px" loading="lazy" />
     </div>
     <div class="container cta-inner">
       <h2 class="text-phosphor glow-phosphor">What would you like to learn to do?</h2>
@@ -349,6 +346,8 @@ import photoPortrait from '../assets/cw2.webp';
     margin-top: 1.1cqi;
     font-size: clamp(0.625rem, 2.6cqi, 0.75rem);
     line-height: 1.2;
+    text-align: right;
+    translate: 0 -0.3rem;
     color: #664a30;
   }
 
@@ -373,36 +372,37 @@ import photoPortrait from '../assets/cw2.webp';
     .tutor-note {
       aspect-ratio: auto;
       min-height: 13rem;
-      padding: 4rem 1.5rem 3.5rem;
+      padding: 5rem 1.5rem 3.5rem;
     }
     .tutor-note-copy {
       position: relative;
       top: auto;
       left: auto;
       width: 100%;
-      grid-template-columns: minmax(0, 1fr) clamp(72px, 25vw, 96px);
-      gap: 0.35rem 0.75rem;
+      grid-template-columns: minmax(0, 1fr) clamp(3.5rem, calc(40cqi - 2.25rem), 5.5rem);
+      gap: 0.375rem 0.5rem;
     }
     .tutor-note-message { display: contents; }
     .tutor-note p {
-      grid-column: 1;
+      grid-column: 1 / -1;
       grid-row: 1;
       font-size: clamp(0.875rem, 3.4cqi, 1rem);
       line-height: 1.35;
+      text-wrap: pretty;
       top: 0;
     }
     .tutor-note-portrait {
-      position: relative;
-      top: 1rem;
       grid-column: 2;
-      grid-row: 1;
+      grid-row: 2;
     }
     .tutor-note-signature {
-      grid-column: 1 / -1;
+      grid-column: 1;
       grid-row: 2;
       margin-top: 0;
-      font-size: 0.75rem;
+      font-size: clamp(0.6875rem, 4.5cqi, 0.75rem);
       line-height: 1.25;
+      top: 0;
+      translate: none;
     }
   }
 
@@ -773,21 +773,6 @@ import photoPortrait from '../assets/cw2.webp';
     margin: 0 auto;
   }
 
-  .cta-bulb {
-    position: absolute;
-    right: 5%;
-    bottom: -15%;
-    top: auto;
-    transform: none;
-    width: 320px;
-  }
-
-  .cta-bulb img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
   .cta-buttons {
     display: flex;
     gap: var(--sp-md);
@@ -803,15 +788,6 @@ import photoPortrait from '../assets/cw2.webp';
 
     .cta-buttons {
       justify-content: center;
-    }
-
-    .cta-bulb {
-      position: absolute;
-      right: 50%;
-      transform: translateX(50%);
-      bottom: -12%;
-      top: auto;
-      width: 200px;
     }
 
     .why-grid {

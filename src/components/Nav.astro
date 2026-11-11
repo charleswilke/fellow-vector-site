@@ -126,13 +126,11 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
   }
 
   .logo-descriptor {
-    width: 100%;
+    justify-self: center;
     font-family: var(--font-mono);
     font-size: 0.8rem;
     line-height: 1.3;
     letter-spacing: 0.06em;
-    text-align: justify;
-    text-align-last: justify;
     color: var(--fg-muted);
     text-shadow: none;
   }
@@ -273,11 +271,7 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     .nav-board-desktop { display: none; }
 
     .logo-descriptor {
-      justify-self: center;
-      width: auto;
       letter-spacing: 0.03em;
-      text-align: left;
-      text-align-last: auto;
     }
 
     .mobile-nav {
