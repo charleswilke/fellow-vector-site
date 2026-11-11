@@ -124,6 +124,64 @@ Text: none. No lettering, logo, numbers, portrait, illustration, stamps, sticker
 Avoid: background, tabletop, hands, room, props, duplicate disks, oversized external shadows, glow, mock browser, text, checkerboard baked into the image.
 ```
 
+## Throw More Clay diskette set
+
+Tool: built-in imagegen with transparent backgrounds. The homepage floppy was the material reference. The [Sony diskette photograph](https://commons.wikimedia.org/wiki/File:Diskette_ubt-edit.png) guided the hardware proportions.
+
+The case carries printed course art. The three disk bodies use live HTML labels and share one independently moving shutter, cropped from the closed disk image.
+
+Final WebP assets in `src/assets/` are `clay-diskette-case.webp`, `clay-diskette.webp`, `clay-diskette-lifted-label.webp`, `clay-diskette-scuffed.webp`, and `clay-diskette-shutter.webp`.
+
+### Homepage case
+
+```text
+Use case: product-mockup. Generate a photoreal transparent product cutout for the Fellow Vector website: one closed, slim late-1980s hinged storage case for three 3.5-inch floppy diskettes. The attached 5.25-inch disk is a MATERIAL AND STYLE reference only. Match its warm charcoal with rubbed ochre edges, cream paper fibers, and narrow burnt-orange rule. Make this a distinct real hardware object, a charcoal molded-plastic clamshell with a visible narrow side, hinge seam and subtle latch. Its flat lid almost faces the camera, seen slightly from above and from the right, with a gentle three-quarter angle and shallow depth so the label is readable at small size. Large rectangular aged cream inventory sticker mounted on the lid, a burnt-orange line near the top. Print exactly these three lines, no additional letters or logos: “THROW MORE CLAY” (large dark bold period monospaced type on one line), “A live AI series for creatives” (smaller), “JANUARY 2027” (small monospaced capitals). Give it broad restrained warm light from upper left, lightly scuffed plastic and tactile paper, like a well-kept computer-room object. Center one intact object with minimal clear padding, landscape-oriented case silhouette, clean real transparent alpha background, no tabletop, hands, UI or cast shadow outside the object.
+```
+
+### Closed disk and shutter
+
+```text
+Generate a photoreal website product cutout by restyling Image 1, the real Sony 3.5-inch diskette photo. Image 1 determines all physical geometry; copy its real silhouette and hardware proportions exactly. Image 2, the site's 5.25-inch floppy, is only a color and paper reference. Preserve Image 1's slim rigid shell, small chamfer on the upper right, original shutter shape and position, and especially the nearly flush, shallow slide recess immediately LEFT of the shutter. Follow the real photo: the metal shutter's upper edge is flush with the top edge of the disk, the recess is the same dark color as the plastic and outlined only by a fine seam, and the opening is a tall narrow dark window in the shutter's right half. No rails, no deep track, no raised frame, no invented hardware. Color the lightly textured plastic warm charcoal and make the shutter gently warm brushed steel. Replace the original paper sticker with an identically placed blank ivory paper label with a thin burnt-orange rule near the top, faint fibers, and very restrained wear. Remove branding and all printing. Upright, front-facing orthographic photo, whole disk visible on genuine transparent alpha, no shadow outside the silhouette.
+```
+
+### Disk body and read/write opening
+
+```text
+Precise layer edit for a website animation. The input is the closed-state reference and must keep the identical framing, pixel alignment, proportions, colors and paper label. Change ONLY the region occupied by the brushed metal shutter. Remove that metal piece, as if it was disassembled, and continue the subtle flat, shallow dark plastic recess underneath it. Leave the existing left edge and U-shaped perimeter unchanged. Within the newly exposed dark plastic, add ONE small vertical rounded black read/write opening at horizontal center of the disk (about 49% of image width), extending from approximately 9% to 32% image height, width about 11% of disk. Show very dark, flat magnetic material inside. No other visible parts or new tracks. The missing metal will be added back as its own moving layer on the website. Preserve exact original silhouette, alpha background, top edge, and all other details.
+```
+
+### Evening 2 wear
+
+```text
+Precise-object-edit for a photoreal website diskette variant. Use the attached image as edit target. Preserve its actual geometry, exact square composition, alpha silhouette, camera, lighting, and the complete upper 40% pixel for pixel, including the exposed head opening and shallow recess. Retain the identical placement, size, orange line and warm cream of the blank paper sticker. On the LOWER RIGHT only: gently worn pale plastic corner and a tiny lifted bottom-right paper corner, with a small softened crease. Subtle authentic wear, not torn up. The center of the paper stays blank, flat, bright, and clean for live text. Do not add writing or branding. Genuine transparent alpha outside the disk.
+```
+
+### Evening 3 wear
+
+```text
+Precise-object-edit for a photoreal website diskette variant. Use the attached image as edit target. Preserve its actual geometry, exact square composition, alpha silhouette, camera, lighting, and the complete upper 40% pixel for pixel, including the exposed head opening and shallow recess. Retain the identical placement, size, orange line and warm cream of the blank paper sticker. On the LOWER LEFT only: add a couple of fine, shallow diagonal scuffs in the plastic margin and a faint uneven amber age spot at the bottom-left edge of the paper. Gentle use, no dramatic stains or grime. The center of the paper stays blank, flat, bright, and clean for live text. Do not add writing or branding. Genuine transparent alpha outside the disk.
+```
+
+### Homepage case tray
+
+The homepage uses `src/assets/clay-diskette-case-tray.webp` under the matching lid, `src/assets/clay-diskette-case.webp`. The lid rotates around the top hinge to reveal the tray.
+
+```text
+Precisely edit the attached photo cutout of a closed Throw More Clay floppy disk case to make the matching LOWER TRAY for a two-layer website hinge animation. Keep the exact 3:2 framing, full silhouette, pixel placement, scale and viewing angle of the closed case, including its slanted top edge, side bevel, worn warm charcoal plastic, lower edge and bottom-center clasp. Remove the entire upper cover and its sticker from the scene: the viewer now sees straight into the shallow lower tray. Do not show any attached open lid anywhere; that is a separate CSS layer. Keep the tray exterior in the same footprint as the original closed case, precisely registered, with the rim a few pixels inside the original perimeter. Inside, place three recognizable dark 3.5-inch floppy disks with brushed steel shutters and small blank aged cream labels, loosely stacked and fanned flat with their edges and some label corners visible, filling the lower tray, fully inside the box. Their lower halves should be visible even if the upper half of the tray is hidden behind a half-open lid. Charcoal felt or molded matte black plastic inside, subtle warm light, narrow ochre wear, no legible text or logo. This image must look like the same exact case with only its lid removed. Transparent alpha outside the unchanged case footprint, no table, background or extra objects.
+```
+
+Tray refinement prompt for the hinge sockets, recessed rim, and latch receiver.
+
+```text
+Precise image edit of image 1, the base tray for a web hinge animation. Image 2 is the lid above it and a REFERENCE for alignment only. Retain image 1's exact 3:2 canvas, outline, orientation, framing, alpha outside the object, and three floppies. Redesign ONLY the molded plastic rim and latch area of image 1 to look like the functional BOTTOM HALF that receives image 2 when its lid shuts. This is a low, substantial molded dark matte charcoal base. At the back edge put two small dark hinge sockets with dull bronze pin ends, directly below the two existing hinge barrels in image 2, about 15% and 83% across. Along the inside perimeter add an obvious stepped rabbet: a thin inset ledge and a recessed narrow channel to accept the lid, with a flat dark outer wall and crisp contact shadows. Make the channel visible at both side walls and across the front below the floppies. Remove the raised ridged button on the tray front entirely and replace it with a clearly visible small rectangular recessed latch socket, in the exact same position as the raised ridged lid tab in image 2. The socket is a dark receiving hole cut into the front wall, about twice as wide as it is tall, with visible inner depth and a thin upper catch, and NO button or second clasp on the tray. All interior colors dark walnut charcoal and worn matte brown, with restrained warm illumination, enough edge highlights to read the stepped construction at 330px. Keep all three recognizable floppies and their paper labels. Do not add a lid, backdrop, branding, or text. Genuine transparent alpha outside the same case silhouette.
+```
+
+Replacement lid prompt for matching the tray's camera angle.
+
+```text
+Create a replacement CLOSED LID cutout for a website hinge animation, by editing image 1, the existing tray with three floppies. Use image 1 as the exact geometry and camera template, and image 2, the previous angled lid, only for its materials and sticker. Cover the tray with a single thin rectangular matte charcoal plastic cover and show only its top exterior, as seen straight down. The lid perimeter must trace image 1's outline exactly: same pixel footprint, same 3:2 canvas, same horizontal center, same size, same corner positions. Match the nearly straight horizontal front and back edges and centered straight-on perspective of image 1. The left and right side edges should be near-vertical and equally visible, no yaw, no diagonal tilt, no three-quarter camera, no prominent side bevel. Tiny rounded corners, worn warm charcoal plastic with restrained amber wear, two small rear hinge barrels matching the locations of image 1's hinge sockets, and a small centered tab above image 1's front latch receiver. Place the same aged cream paper sticker with a thin orange top rule, square to the cover, and print exactly three lines: “THROW MORE CLAY” (bold large typewriter lettering), “A live AI series for creatives”, “JANUARY 2027”. Text is horizontal and sharp. Show the lid alone on transparent alpha, no lower tray, visible diskettes, ground, or shadow beyond its silhouette. Preserve image 1's precise alignment so the result overlays it as one object.
+```
+
 ## Social preview portrait cutout
 
 Tool: built-in imagegen. Source: `src/assets/cw4.webp`.

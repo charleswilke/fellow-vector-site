@@ -2,6 +2,8 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ClayDisk from '../../components/ClayDisk.astro';
+import SignalStrip from '../../components/SignalStrip.astro';
 import servicesHero from '../../assets/services.webp';
 import patchbay from '../../assets/patchbay.webp';
 import portrait from '../../assets/cw2.webp';
@@ -11,16 +13,14 @@ const signupHref = '/clay/interest';
 
 const evenings = [
   {
-    num: '01',
-    date: 'Mon · Jan 11',
+    day: 'Jan 11',
     title: 'What hope do we have?',
     body: `Name what you're afraid AI takes from you. Then find what you keep coming back to.
     Leave with your point of view, in your own words.`,
     homework: 'Before next week: pick the idea for your piece.',
   },
   {
-    num: '02',
-    date: 'Mon · Jan 18',
+    day: 'Jan 18',
     title: 'Direct the chorus.',
     body: `I walk through how I made art for my essays and my theater shows, wrong turns
     included. Then you make your piece in three rounds. Name what's wrong. Fix it. Write
@@ -28,8 +28,7 @@ const evenings = [
     homework: 'Before next week: finish the piece and its note.',
   },
   {
-    num: '03',
-    date: 'Mon · Jan 25',
+    day: 'Jan 25',
     title: 'Make the film anyway.',
     body: `Show what you made. Audit your tools: what you own, what you rent, what your
     assistant remembers about you. Leave with the next thing you'll make, and someone to
@@ -54,8 +53,6 @@ const faqs = [
   { q: 'Can my team do this together?', a: "Yes, as a private workshop. Book a call and we'll shape it to your work." },
   { q: 'What if I need to cancel?', a: 'Full refund up to a week before Evening 1. After that, your seat moves to the next cohort.' },
 ];
-
-const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FILM ANYWAY///OWN OR RENT///HUMAN JUDGMENT///";
 ---
 
 <BaseLayout
@@ -77,11 +74,7 @@ const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FIL
     <p class="clay-status"><span class="clay-led" aria-hidden="true"></span>Seats open soon. The list hears first.</p>
   </PageHero>
 
-  <div class="clay-ticker" aria-hidden="true">
-    <div class="clay-ticker-track">
-      <span>{ticker}</span><span>{ticker}</span><span>{ticker}</span><span>{ticker}</span>
-    </div>
-  </div>
+  <SignalStrip phrases={['POINT OF VIEW', 'DIRECT THE CHORUS', "AUTHOR'S NOTE", 'MAKE THE FILM ANYWAY', 'OWN OR RENT', 'HUMAN JUDGMENT']} />
 
   <section class="section clay-section">
     <div class="container clay-row">
@@ -109,13 +102,18 @@ const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FIL
         <h2 id="clay-evenings">One room, three Mondays, one piece of work.</h2>
       </div>
       <div>
-        {evenings.map((ev) => (
+        {evenings.map((ev, index) => (
           <article class="clay-evening">
-            <div class="clay-evening-meta">
-              <span class="clay-evening-num">{ev.num}</span>
-              <span class="clay-evening-date">{ev.date}</span>
+            <div>
+              <ClayDisk
+                id={`clay-program-disk-${index + 1}`}
+                eveningIndex={index}
+                day={ev.day}
+                sizes="(max-width: 400px) 100px, (max-width: 640px) 25vw, (max-width: 960px) 160px, 176px"
+                shutterSizes="(max-width: 400px) 48px, (max-width: 640px) 12vw, (max-width: 960px) 76px, 84px"
+              />
             </div>
-            <div class="clay-stack clay-stack-sm">
+            <div class="clay-evening-copy clay-stack clay-stack-sm">
               <h3>{ev.title}</h3>
               <p>{ev.body}</p>
               {ev.homework && <p class="clay-homework">{ev.homework}</p>}
@@ -281,30 +279,6 @@ const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FIL
 
   @keyframes clay-pulse { 50% { opacity: 0.35; } }
 
-  /* Four copies, -25% loop, per TECHNICAL.md */
-  .clay-ticker {
-    overflow: hidden;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .clay-ticker-track {
-    display: flex;
-    width: max-content;
-    animation: clay-ticker 60s linear infinite;
-  }
-
-  .clay-ticker-track span {
-    padding: 0.5rem 0;
-    font-family: var(--font-crt);
-    font-size: 1.35rem;
-    letter-spacing: 0.1em;
-    color: var(--phosphor-dim);
-    white-space: nowrap;
-  }
-
-  @keyframes clay-ticker { to { transform: translateX(-25%); } }
-
   .clay-section + .clay-section { border-top: 1px solid var(--border); }
 
   .clay-row {
@@ -345,29 +319,14 @@ const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FIL
 
   .clay-evening {
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
+    grid-template-columns: 176px minmax(0, 1fr);
+    align-items: start;
     gap: var(--layout-gap);
     padding: var(--sp-lg) 0;
     border-top: 1px solid var(--border);
   }
 
   .clay-evening:first-child { border-top: 0; padding-top: var(--sp-sm); }
-
-  .clay-evening-meta { display: flex; flex-direction: column; gap: 0.1rem; }
-
-  .clay-evening-num {
-    font-family: var(--font-crt);
-    font-size: 3.4rem;
-    line-height: 0.9;
-    color: var(--phosphor-dim);
-  }
-
-  .clay-evening-date {
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-  }
 
   .clay-homework {
     padding-left: 0.8rem;
@@ -527,9 +486,13 @@ const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FIL
   }
 
   @media (max-width: 960px) {
-    .clay-row,
-    .clay-evening {
+    .clay-row {
       grid-template-columns: minmax(0, 1fr);
+      gap: var(--sp-sm);
+    }
+
+    .clay-evening {
+      grid-template-columns: clamp(6.25rem, 25vw, 10rem) minmax(0, 1fr);
       gap: var(--sp-sm);
     }
   }
@@ -540,10 +503,13 @@ const ticker = "POINT OF VIEW///DIRECT THE CHORUS///AUTHOR'S NOTE///MAKE THE FIL
 
   @media (max-width: 520px) {
     .clay-host { grid-template-columns: minmax(0, 1fr); }
+
+    .clay-evening-copy { display: contents; }
+    .clay-evening-copy h3 { align-self: center; }
+    .clay-evening-copy p { grid-column: 1 / -1; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .clay-ticker-track,
     .clay-led { animation: none; }
   }
 </style>

@@ -5,6 +5,7 @@ import PageHero from '../components/PageHero.astro';
 import servicesHero from '../assets/services.webp';
 import patchbay from '../assets/patchbay.webp';
 import charlesSpeaking from '../assets/charles-speaking.jpg';
+import ClayDisk from '../components/ClayDisk.astro';
 
 // Keep the existing section IDs so saved links still reach the right offering.
 const services = [
@@ -65,9 +66,21 @@ const services = [
 ];
 
 const clayEvenings = [
-  { ev: 'Evening 1', day: 'Jan 11', what: 'What hope do we have?' },
-  { ev: 'Evening 2', day: 'Jan 18', what: 'Direct the chorus.' },
-  { ev: 'Evening 3', day: 'Jan 25', what: 'Make the film anyway.' },
+  {
+    day: 'Jan 11',
+    title: 'What hope do we have?',
+    preview: 'Put into words what you worry AI could take from your craft, what you keep coming back to, and where you stand.',
+  },
+  {
+    day: 'Jan 18',
+    title: 'Direct the chorus.',
+    preview: 'Make your piece in three rounds. Name what’s wrong, revise it, and write an author’s note about how you made it.',
+  },
+  {
+    day: 'Jan 25',
+    title: 'Make the film anyway.',
+    preview: 'Share what you made, take stock of the tools you use, and pick your next project and someone to check in with.',
+  },
 ];
 ---
 
@@ -81,9 +94,57 @@ const clayEvenings = [
     <p class="text-muted page-hero-sub">
       Think AI driver's ed: learn the controls, practice on real work, and
       build your judgment along the way. I'm Charles Wilke, based in Omaha.
-      You learn with me directly, one-to-one or with your team.
+      You can learn with me one-to-one, with your team, or in a small-group series.
     </p>
   </PageHero>
+
+  <!-- ── Throw More Clay series ── -->
+  <section id="clay" class="section clay-section">
+    <div class="container clay-layout">
+      <div class="clay-heading">
+        <div class="label">// new · small-group series</div>
+        <h2>Throw More Clay</h2>
+      </div>
+      <div class="clay-body">
+        <p>
+          Three live evenings for creatives making their way in the AI era:
+          designers, writers, musicians, illustrators, and theater and video
+          makers. Bring one project you care about. Leave with a piece you
+          directed and stand behind.
+        </p>
+        <fieldset class="clay-evenings">
+          <legend class="label">Choose an evening to preview</legend>
+          <div class="clay-dates">
+            {clayEvenings.map((evening, index) => (
+              <>
+                <ClayDisk
+                  id={`clay-evening-${index + 1}`}
+                  eveningIndex={index}
+                  day={evening.day}
+                  title={evening.title}
+                  name="clay-evening"
+                  descriptionId={`clay-preview-${index + 1}`}
+                  sizes="(max-width: 768px) 32vw, 190px"
+                  shutterSizes="(max-width: 768px) 16vw, 92px"
+                />
+                <div class="clay-preview" id={`clay-preview-${index + 1}`}>
+                  <p class="clay-preview-title">{evening.title}</p>
+                  <p>{evening.preview}</p>
+                </div>
+              </>
+            ))}
+          </div>
+        </fieldset>
+        <p class="text-muted clay-small">
+          January 2027 · 6 to 8 pm Central · live online · 12 seats
+        </p>
+        <div class="clay-buttons">
+          <a href="/clay" class="btn btn-primary">See the Series</a>
+          <a href="/clay/interest" class="btn btn-ghost">Join the Interest List</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section conversation-section">
     <div class="container conversation-layout">
@@ -102,40 +163,6 @@ const clayEvenings = [
           learning together as a team, or a talk for your audience.
         </p>
         <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Throw More Clay series ── -->
-  <section id="clay" class="section clay-section">
-    <div class="container clay-layout">
-      <div class="clay-heading">
-        <div class="label">// new · small-group series</div>
-        <h2>Throw More Clay</h2>
-      </div>
-      <div class="clay-body">
-        <p>
-          Three live evenings for creatives making their way in the AI era:
-          designers, writers, musicians, illustrators, and theater and video
-          makers. Bring one project you care about. Leave with a piece you
-          directed and stand behind.
-        </p>
-        <ul class="clay-dates" aria-label="The three evenings">
-          {clayEvenings.map((e) => (
-            <li>
-              <span class="clay-ev">{e.ev} · Mon</span>
-              <span class="clay-day">{e.day}</span>
-              <span class="clay-what">{e.what}</span>
-            </li>
-          ))}
-        </ul>
-        <p class="text-muted clay-small">
-          January 2027 · 6 to 8 pm Central · live online · 12 seats
-        </p>
-        <div class="clay-buttons">
-          <a href="/clay" class="btn btn-primary">See the Series</a>
-          <a href="/clay/interest" class="btn btn-ghost">Join the Interest List</a>
-        </div>
       </div>
     </div>
   </section>
@@ -322,46 +349,42 @@ const clayEvenings = [
 
   .clay-heading .label { color: var(--amber); }
 
+  .clay-evenings {
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+    container-type: inline-size;
+  }
+
   .clay-dates {
-    list-style: none;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
-    margin: var(--sp-sm) 0 0;
+    gap: clamp(0.5rem, 2cqi, 0.75rem);
+    margin-top: var(--sp-sm);
   }
 
-  .clay-dates li {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    min-width: 0;
-    padding: 0.7rem 0.8rem 0.8rem;
-    background: #efe3c8;
-    color: #2b2218;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  .clay-dates > :global(.clay-disk) { grid-row: 1; }
+
+  .clay-preview {
+    display: none;
+    grid-area: 2 / 1 / 3 / -1;
+    max-width: none;
+    min-block-size: 4lh;
+    padding: 0.65rem 0.85rem;
+    border-left: 2px solid var(--amber);
+    background: var(--bg-surface);
+    font-size: 0.9rem;
   }
 
-  .clay-dates li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: var(--amber);
+  .clay-preview-title {
+    margin-bottom: 0.2rem;
+    color: var(--phosphor);
   }
 
-  .clay-ev {
-    margin-top: 0.35rem;
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #6b5636;
+  .clay-dates > :global(.clay-disk-input:checked) + :global(.clay-disk) + .clay-preview {
+    display: block;
   }
 
-  .clay-day { font-family: var(--font-crt); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
-  .clay-what { font-size: 0.78rem; line-height: 1.35; }
   .clay-small { font-size: 0.8rem; }
 
   .clay-buttons {
@@ -380,12 +403,6 @@ const clayEvenings = [
       grid-template-columns: 1fr;
       gap: var(--sp-lg);
     }
-  }
-
-  @media (max-width: 480px) {
-    .clay-dates { gap: 0.5rem; }
-    .clay-dates li { padding: 0.6rem 0.55rem 0.7rem; }
-    .clay-day { font-size: 1.7rem; }
   }
 
   .service-section + .service-section {

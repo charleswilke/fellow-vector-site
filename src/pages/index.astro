@@ -1,6 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SignalStrip from '../components/SignalStrip.astro';
+import clayCase from '../assets/clay-diskette-case.webp';
+import clayCaseTray from '../assets/clay-diskette-case-tray.webp';
 import focus from '../assets/focus.webp';
 import signal from '../assets/signal.webp';
 import bulb from '../assets/cw-bulb-amber.webp';
@@ -69,16 +72,41 @@ import photoPortrait from '../assets/cw2.webp';
     </div>
   </section>
 
-  <!-- ── Signal strip ── -->
-  <!-- 4 copies so seam is always off-screen; animation travels -25% = exactly one copy width -->
-  <div class="signal-strip" aria-hidden="true">
-    <div class="signal-ticker">
-      <span>AI TUTORING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>HANDS-ON LEARNING</span><span class="sep">///</span><span>YOUR ROLE</span><span class="sep">///</span><span>CAPACITY BUILDING</span><span class="sep">///</span><span>HUMAN JUDGMENT</span><span class="sep">///</span>
-      <span>AI TUTORING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>HANDS-ON LEARNING</span><span class="sep">///</span><span>YOUR ROLE</span><span class="sep">///</span><span>CAPACITY BUILDING</span><span class="sep">///</span><span>HUMAN JUDGMENT</span><span class="sep">///</span>
-      <span>AI TUTORING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>HANDS-ON LEARNING</span><span class="sep">///</span><span>YOUR ROLE</span><span class="sep">///</span><span>CAPACITY BUILDING</span><span class="sep">///</span><span>HUMAN JUDGMENT</span><span class="sep">///</span>
-      <span>AI TUTORING</span><span class="sep">///</span><span>SPEAKING</span><span class="sep">///</span><span>HANDS-ON LEARNING</span><span class="sep">///</span><span>YOUR ROLE</span><span class="sep">///</span><span>CAPACITY BUILDING</span><span class="sep">///</span><span>HUMAN JUDGMENT</span><span class="sep">///</span>
+  <SignalStrip phrases={['AI TUTORING', 'SPEAKING', 'HANDS-ON LEARNING', 'YOUR ROLE', 'CAPACITY BUILDING', 'HUMAN JUDGMENT']} />
+
+  <section class="clay-feature" aria-labelledby="clay-feature-title">
+    <div class="container">
+      <a href="/clay" class="clay-feature-panel" aria-labelledby="clay-feature-cta">
+        <div class="clay-feature-copy">
+          <p class="label">// live AI series for creatives</p>
+          <h2 id="clay-feature-title">Throw More Clay</h2>
+          <p>Bring a creative project you care about. Spend three live evenings making it into something you stand behind.</p>
+          <div class="clay-feature-action">
+            <p class="text-muted">January 11, 18, and 25, 2027 · Online</p>
+            <span id="clay-feature-cta" class="btn btn-ghost">Explore Throw More Clay</span>
+          </div>
+        </div>
+        <div class="clay-feature-art" aria-hidden="true">
+          <Image
+            src={clayCaseTray}
+            alt=""
+            class="clay-feature-tray"
+            widths={[320, 480, 640]}
+            sizes="(max-width: 700px) 75vw, 330px"
+            loading="lazy"
+          />
+          <Image
+            src={clayCase}
+            alt=""
+            class="clay-feature-lid"
+            widths={[320, 480, 640, 960]}
+            sizes="(max-width: 700px) 75vw, 330px"
+            loading="lazy"
+          />
+        </div>
+      </a>
     </div>
-  </div>
+  </section>
 
   <!-- ── What we do ── -->
   <section class="section focus-section">
@@ -460,36 +488,124 @@ import photoPortrait from '../assets/cw2.webp';
     transform: translateX(-0.625em);
   }
 
-  /* ── Signal strip ── */
-  .signal-strip {
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 0.6rem 0;
+  .clay-feature {
+    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+  }
+
+  .clay-feature-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 330px);
+    align-items: center;
+    gap: var(--sp-md) var(--layout-gap);
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--amber);
     background: var(--bg-surface);
+    color: inherit;
+    text-decoration: none;
   }
 
-  .signal-ticker {
-    display: flex;
-    gap: 2rem;
-    white-space: nowrap;
-    animation: ticker 22s linear infinite;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    color: var(--fg-muted);
-    width: max-content;
-    will-change: transform;
-    backface-visibility: hidden;
+  .clay-feature-panel:is(:hover, :focus-visible) {
+    border-color: var(--border-hover);
+    border-left-color: var(--amber);
+    color: inherit;
+    text-shadow: none;
   }
 
-  .signal-ticker .sep {
-    color: var(--phosphor-dim);
-    opacity: 0.5;
+  .clay-feature-panel:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 4px;
   }
 
-  @keyframes ticker {
-    from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(-25%, 0, 0); }
+  .clay-feature-copy {
+    display: grid;
+    gap: var(--sp-xs);
+  }
+
+  .clay-feature-copy .label {
+    color: var(--amber);
+  }
+
+  .clay-feature-art {
+    --lid-open-transform: rotateX(44deg);
+    --lid-open-shadow: drop-shadow(0 0.45rem 0.3rem rgba(10, 7, 4, 0.4));
+    position: relative;
+    filter: drop-shadow(0 0.6rem 0.55rem rgba(10, 7, 4, 0.58));
+  }
+
+  .clay-feature-art img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .clay-feature-tray {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  .clay-feature-lid {
+    position: relative;
+    transform-origin: 50% 9.4%;
+  }
+
+  .clay-feature-panel:focus-visible .clay-feature-tray {
+    opacity: 1;
+    transition-delay: 0ms;
+  }
+
+  .clay-feature-panel:focus-visible .clay-feature-lid {
+    transform: var(--lid-open-transform);
+    filter: var(--lid-open-shadow);
+  }
+
+  @media (hover: hover) {
+    .clay-feature-panel:hover .clay-feature-tray {
+      opacity: 1;
+      transition-delay: 0ms;
+    }
+
+    .clay-feature-panel:hover .clay-feature-lid {
+      transform: var(--lid-open-transform);
+      filter: var(--lid-open-shadow);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .clay-feature-tray { transition: opacity 90ms ease-out 450ms; }
+    .clay-feature-lid {
+      transition: transform 540ms cubic-bezier(0.22, 0.7, 0.25, 1), filter 250ms ease-out;
+    }
+  }
+
+  .clay-feature-action {
+    display: grid;
+    margin-top: var(--sp-sm);
+    justify-items: start;
+    gap: var(--sp-sm);
+    font-size: 0.85rem;
+  }
+
+  .clay-feature-action .btn {
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .clay-feature-panel:is(:hover, :focus-visible) .clay-feature-action .btn {
+    border-color: var(--electric);
+    color: var(--electric);
+  }
+
+  @media (max-width: 700px) {
+    .clay-feature-panel {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .clay-feature-art {
+      width: min(100%, 285px);
+      justify-self: center;
+    }
   }
 
   /* ── Focus / services section ── */

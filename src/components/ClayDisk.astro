@@ -1,0 +1,162 @@
+---
+import { Image } from 'astro:assets';
+import clayDisk from '../assets/clay-diskette.webp';
+import clayDiskLiftedLabel from '../assets/clay-diskette-lifted-label.webp';
+import clayDiskScuffed from '../assets/clay-diskette-scuffed.webp';
+import clayShutter from '../assets/clay-diskette-shutter.webp';
+
+interface Props {
+  id: string;
+  eveningIndex: number;
+  day: string;
+  title?: string;
+  name?: string;
+  descriptionId?: string;
+  sizes: string;
+  shutterSizes: string;
+}
+
+const { id, eveningIndex, day, title, name, descriptionId, sizes, shutterSizes } = Astro.props;
+const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
+---
+
+<input
+  class="clay-disk-input"
+  type={name ? 'radio' : 'checkbox'}
+  {name}
+  {id}
+  aria-label={name ? undefined : `Disk shutter for evening ${eveningIndex + 1}, ${day}`}
+  aria-describedby={descriptionId}
+/>
+<label class="clay-disk" for={id}>
+  <Image src={art} alt="" class="clay-disk-art" widths={[160, 320, 480]} {sizes} loading="lazy" />
+  <Image
+    src={clayShutter}
+    alt=""
+    class="clay-disk-shutter"
+    widths={[96, 192, 288]}
+    sizes={shutterSizes}
+    loading="lazy"
+  />
+  <span class="clay-disk-label">
+    <span class="clay-ev">Evening {eveningIndex + 1}</span>
+    <span class="clay-day">{day}</span>
+    {title && <span class="clay-what">{title}</span>}
+  </span>
+</label>
+
+<style>
+  .clay-disk-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip-path: inset(50%);
+  }
+
+  .clay-disk {
+    position: relative;
+    display: block;
+    min-width: 0;
+    border-radius: 4px;
+    container-type: inline-size;
+    cursor: pointer;
+  }
+
+  .clay-disk-art {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .clay-disk-shutter {
+    /* Align the cutout and its window with the recess in the disk artwork. */
+    position: absolute;
+    top: 2.7%;
+    left: 27.35%;
+    width: 47.69%;
+    height: auto;
+    border-radius: 1% 1% 5% 5%;
+    mask-image: linear-gradient(#000 0 0), linear-gradient(#000 0 0);
+    mask-size: 100% 100%, 24.5% 76%;
+    mask-position: center, 79% 67%;
+    mask-repeat: no-repeat;
+    mask-composite: exclude;
+  }
+
+  .clay-disk-input:checked + .clay-disk .clay-disk-shutter {
+    transform: translateX(-24%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .clay-disk { transition: transform 180ms ease-out; }
+    .clay-disk-shutter { transition: transform 170ms ease-out; }
+
+    .clay-disk-input:checked + .clay-disk {
+      transform: translateY(-0.25rem);
+    }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .clay-disk:hover {
+      z-index: 1;
+      transform: translateY(-0.2rem) rotate(-4deg);
+    }
+
+    .clay-disk-input:checked + .clay-disk:hover {
+      transform: translateY(-0.25rem) rotate(-4deg);
+    }
+  }
+
+  .clay-disk-label {
+    position: absolute;
+    inset: 49% 19% 9%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.1rem;
+    color: #2b2218;
+  }
+
+  .clay-disk-input:checked + .clay-disk {
+    outline: 1px solid var(--amber);
+    outline-offset: 1px;
+  }
+
+  .clay-disk-input:focus-visible + .clay-disk {
+    outline: 2px solid var(--electric);
+    outline-offset: 2px;
+  }
+
+  @container (max-width: 148px) {
+    .clay-what {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  .clay-ev {
+    font-size: clamp(0.53rem, 7cqi, 0.7rem);
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b5636;
+  }
+
+  .clay-day {
+    color: #3b2e23;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(0.82rem, 14cqi, 1.52rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+    text-shadow: 0.25px 0.25px rgba(59, 46, 35, 0.3);
+    white-space: nowrap;
+  }
+
+  .clay-what { font-size: clamp(0.65rem, 7.5cqi, 0.82rem); line-height: 1.05; }
+</style>
