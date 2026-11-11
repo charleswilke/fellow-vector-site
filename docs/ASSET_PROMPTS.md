@@ -182,6 +182,26 @@ Replacement lid prompt for matching the tray's camera angle.
 Create a replacement CLOSED LID cutout for a website hinge animation, by editing image 1, the existing tray with three floppies. Use image 1 as the exact geometry and camera template, and image 2, the previous angled lid, only for its materials and sticker. Cover the tray with a single thin rectangular matte charcoal plastic cover and show only its top exterior, as seen straight down. The lid perimeter must trace image 1's outline exactly: same pixel footprint, same 3:2 canvas, same horizontal center, same size, same corner positions. Match the nearly straight horizontal front and back edges and centered straight-on perspective of image 1. The left and right side edges should be near-vertical and equally visible, no yaw, no diagonal tilt, no three-quarter camera, no prominent side bevel. Tiny rounded corners, worn warm charcoal plastic with restrained amber wear, two small rear hinge barrels matching the locations of image 1's hinge sockets, and a small centered tab above image 1's front latch receiver. Place the same aged cream paper sticker with a thin orange top rule, square to the cover, and print exactly three lines: “THROW MORE CLAY” (bold large typewriter lettering), “A live AI series for creatives”, “JANUARY 2027”. Text is horizontal and sharp. Show the lid alone on transparent alpha, no lower tray, visible diskettes, ground, or shadow beyond its silhouette. Preserve image 1's precise alignment so the result overlays it as one object.
 ```
 
+## Throw More Clay header backgrounds
+
+Both photographs were generated with ImageGen and exported to WebP.
+
+### After-hours art room
+
+`src/assets/clay-art-room.webp` appears on `/clay`.
+
+```text
+Create a photoreal cinematic web hero background, 3:2 landscape, for an independent creative workshop called Throw More Clay. An after-hours school art room, late-1980s to early-1990s material culture, quietly still with the evidence of someone midway through a revision. View at a slight angle above a dark, well-used studio table. In the RIGHT half of the frame, a practical warm task lamp illuminates a low light table holding two overlapping versions of the same handmade cover design: simple abstract blocks of brick red and cream ink on proof paper, one with a translucent acetate overlay, small handwritten-looking correction strokes with no readable words, crop marks, a stubby red grease pencil and a little masking tape. A cutting mat and the edge of a wooden ruler, restrained and believable. Beyond that a soft dark room with worn wooden worktables, barely visible. The compelling area is from 59% to 90% horizontally and in the middle third vertically so it survives a short wide crop; keep the ENTIRE left 42% as quiet deep warm brown shadow for live cream headings. Low-key warm amber practical light, subtle tungsten film grain, tactile paper, deep coffee shadows, natural exposure, very restrained warm palette. Real photographic detail, no people, no computers, no clay sculpture, no readable text, no lettering, no logos, no watermark, no frame, no graphic overlay. Full-bleed opaque photograph.
+```
+
+### Converted computer lab
+
+`src/assets/clay-computer-lab.webp` appears on `/clay/interest`.
+
+```text
+Create a photoreal cinematic web hero background, 3:2 landscape, for the sign-up page of an independent creative workshop. A former school computer lab converted into a small communal design studio, seen after hours, late-1980s and early-1990s equipment still in service. On the RIGHT, one authentic compact beige CRT workstation with a dim warm amber phosphor glow and a few indistinct horizontal marks with no readable text, a period beige keyboard, and a couple of dark 3.5-inch floppies beside a cream paper mockup and pencil. Just beyond it, a second dormant CRT and long workbench suggest the old lab. The cream paper mockup and pinboard with cropped graphic proofs in the distance quietly establish its current use as a studio. Shoot at desk height with warm low light and shallow but usable depth of field. Keep the main monitor and lit desktop from 60% to 90% horizontally and within the central vertical band so both survive a very short wide header crop. Leave the ENTIRE left 42% as quiet deep warm brown shadow for live cream headings. Smoked amber and walnut palette, warm worn plastics and paper, realistic retro photography, modest warm monitor glow, low light, subtle grain, no humans, no legible words or logos, no modern hardware, no neon, no watermark, no frame. Full-bleed opaque photograph.
+```
+
 ## Social preview portrait cutout
 
 Tool: built-in imagegen. Source: `src/assets/cw4.webp`.

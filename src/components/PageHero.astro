@@ -7,9 +7,20 @@ interface Props {
   title: string;
   image: ImageMetadata;
   imageOpacity?: number;
+  imagePosition?: string;
+  preserveImageColor?: boolean;
+  wideFraming?: boolean;
 }
 
-const { label, title, image, imageOpacity = 0.5 } = Astro.props;
+const {
+  label,
+  title,
+  image,
+  imageOpacity = 0.5,
+  imagePosition = 'center',
+  preserveImageColor = false,
+  wideFraming = false,
+} = Astro.props;
 ---
 
 <section class="page-hero">
@@ -18,12 +29,15 @@ const { label, title, image, imageOpacity = 0.5 } = Astro.props;
     <Image
       src={image}
       alt=""
-      class="page-hero-splash"
+      class:list={['page-hero-splash', {
+        'preserve-image-color': preserveImageColor,
+        'wide-framing': wideFraming,
+      }]}
       widths={[480, 800, 1200, 1600]}
-      sizes="100vw"
+      sizes={wideFraming ? '(max-width: 62rem) 100vw, 62rem' : '100vw'}
       loading="eager"
       fetchpriority="high"
-      style={`opacity: ${imageOpacity}`}
+      style={`opacity: ${imageOpacity}; object-position: ${imagePosition}`}
     />
   </div>
   <div class="container page-hero-inner">
@@ -51,7 +65,22 @@ const { label, title, image, imageOpacity = 0.5 } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center center;
+  }
+
+  .preserve-image-color { filter: none; }
+
+  .wide-framing {
+    display: block;
+    width: min(100%, 62rem);
+    margin-inline-start: auto;
+    mask-image: linear-gradient(to right, transparent, #000 28%);
+  }
+
+  @media (max-width: 700px) {
+    .wide-framing {
+      height: min(100%, 80vw);
+      mask-image: linear-gradient(to bottom, #000 64%, transparent);
+    }
   }
 
   .page-hero-bg::after {

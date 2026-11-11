@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import signalHero from '../../assets/signal.webp';
+import computerLabHero from '../../assets/clay-computer-lab.webp';
 
 const evenings = [
   { ev: 'Evening 1', day: 'Jan 11', what: 'What hope do we have?' },
@@ -24,7 +24,15 @@ const GOOGLE_FORM_FIELDS = {
   title="Throw More Clay Interest List"
   description="Get first word when seats open for Throw More Clay, three live evenings for creatives in January 2027."
 >
-  <PageHero label="// interest list" title="THROW MORE CLAY_" image={signalHero} imageOpacity={0.45}>
+  <PageHero
+    label="// interest list"
+    title="THROW MORE CLAY_"
+    image={computerLabHero}
+    imageOpacity={0.74}
+    imagePosition="76% 41%"
+    preserveImageColor
+    wideFraming
+  >
     <p class="page-hero-sub interest-sub">Three evenings for creatives making their way in the AI era.</p>
     <p class="text-muted">Seats aren't on sale yet. Leave your name and you'll hear first when they are.</p>
   </PageHero>

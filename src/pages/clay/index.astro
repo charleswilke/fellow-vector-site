@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import ClayDisk from '../../components/ClayDisk.astro';
 import SignalStrip from '../../components/SignalStrip.astro';
-import servicesHero from '../../assets/services.webp';
+import artRoomHero from '../../assets/clay-art-room.webp';
 import patchbay from '../../assets/patchbay.webp';
 import portrait from '../../assets/cw2.webp';
 
@@ -59,7 +59,15 @@ const faqs = [
   title="Throw More Clay"
   description="Three live evenings for creatives making their way in the AI era. Bring one project, leave with a piece you directed and a point of view you can name. 12 seats, January 2027."
 >
-  <PageHero label="04 // small-group series" title="THROW MORE CLAY_" image={servicesHero} imageOpacity={0.5}>
+  <PageHero
+    label="04 // small-group series"
+    title="THROW MORE CLAY_"
+    image={artRoomHero}
+    imageOpacity={0.77}
+    imagePosition="74% 48%"
+    preserveImageColor
+    wideFraming
+  >
     <p class="page-hero-sub clay-sub">Three evenings for creatives making their way in the AI era.</p>
     <dl class="clay-spec" aria-label="Series details">
       <div><dt>Mondays</dt><dd>Jan 11 · 18 · 25</dd></div>
