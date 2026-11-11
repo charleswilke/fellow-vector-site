@@ -380,6 +380,12 @@ section[id] {
 }
 
 /* Shared blink animation */
+.hero-cursor {
+  display: inline-block;
+  margin-left: 0.05em;
+  animation: blink 4.2s step-end infinite;
+}
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
@@ -420,6 +426,8 @@ section[id] {
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+  .hero-cursor { animation: none; }
+
   .btn-primary:is(:hover, :focus-visible, :active) {
     transform: none;
   }

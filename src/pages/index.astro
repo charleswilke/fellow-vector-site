@@ -24,7 +24,7 @@ import photoPortrait from '../assets/cw2.webp';
       <div class="hero-copy">
         <p class="hero-eyebrow"><span>Another tech wave. Another thing we’re supposed to know.</span></p>
         <h1 class="hero-headline glow-phosphor text-phosphor">
-          LEARN BY DOING<span class="hero-cursor">_</span>
+          LEARN BY DOING<span class="hero-cursor" aria-hidden="true">_</span>
         </h1>
         <p class="hero-tagline">Practical AI skills for your everyday work.</p>
         <p class="hero-sub">
@@ -434,16 +434,6 @@ import photoPortrait from '../assets/cw2.webp';
     }
   }
 
-  .hero-cursor {
-    display: inline-block;
-    margin-left: 0.05em;
-    animation: blink 4.2s step-end infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
   .hero-tagline {
     font-size: clamp(1.05rem, 2vw, 1.25rem);
     line-height: 1.4;

@@ -10,6 +10,7 @@ interface Props {
   imagePosition?: string;
   preserveImageColor?: boolean;
   wideFraming?: boolean;
+  showCursor?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   imagePosition = 'center',
   preserveImageColor = false,
   wideFraming = false,
+  showCursor = false,
 } = Astro.props;
 ---
 
@@ -42,7 +44,7 @@ const {
   </div>
   <div class="container page-hero-inner">
     <div class="label">{label}</div>
-    <h1>{title}</h1>
+    <h1>{title}{showCursor && <span class="hero-cursor" aria-hidden="true">_</span>}</h1>
     <slot />
   </div>
 </section>
@@ -111,6 +113,12 @@ const {
     font-size: clamp(2.5rem, 5.5vw, 4.5rem);
     margin-top: var(--sp-xs);
     margin-bottom: var(--sp-sm);
+  }
+
+  @media (max-width: 350px) {
+    .page-hero-inner :global(h1:has(.hero-cursor)) {
+      font-size: clamp(2rem, 12.25vw, 2.5rem);
+    }
   }
 
 </style>

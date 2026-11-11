@@ -11,7 +11,7 @@ const { phrases } = Astro.props;
     {Array.from({ length: 4 }, () => (
       <div class="signal-repeat">
         {phrases.map((phrase) => (
-          <><span>{phrase}</span><span class="sep">///</span></>
+          <span class="signal-item">{phrase}<span class="sep">//</span></span>
         ))}
       </div>
     ))}
@@ -37,14 +37,19 @@ const { phrases } = Astro.props;
   }
 
   .signal-repeat {
+    --signal-gap: 1.25rem;
     display: flex;
-    gap: 2rem;
-    padding-inline-end: 2rem;
+    gap: var(--signal-gap);
+    padding-inline-end: var(--signal-gap);
+  }
+
+  .signal-item {
+    display: flex;
+    gap: var(--signal-gap);
   }
 
   .sep {
-    color: var(--phosphor-dim);
-    opacity: 0.5;
+    color: var(--amber);
   }
 
   @keyframes ticker {
