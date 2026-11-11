@@ -1,0 +1,339 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import signalHero from '../../assets/signal.webp';
+
+const evenings = [
+  { ev: 'Evening 1', day: 'Jan 11', what: 'What hope do we have?' },
+  { ev: 'Evening 2', day: 'Jan 18', what: 'Direct the chorus.' },
+  { ev: 'Evening 3', day: 'Jan 25', what: 'Make the film anyway.' },
+];
+
+// Sign-ups go to the "Clay" Google Form. The entry IDs come from that form's questions,
+// so rebuilding or reordering the questions there means updating them here.
+const GOOGLE_FORM_ACTION =
+  'https://docs.google.com/forms/d/e/1FAIpQLSdfmHqBFqDKOAIqfA3UGNDmGCDMKSh_8gJ_RlKtRZlGDLgfdg/formResponse';
+const GOOGLE_FORM_FIELDS = {
+  name: 'entry.632491406',
+  email: 'entry.618515727',
+  make: 'entry.1362773275',
+};
+---
+
+<BaseLayout
+  title="Throw More Clay Interest List"
+  description="Get first word when seats open for Throw More Clay, three live evenings for creatives in January 2027."
+>
+  <PageHero label="// interest list" title="THROW MORE CLAY_" image={signalHero} imageOpacity={0.45}>
+    <p class="page-hero-sub interest-sub">Three evenings for creatives making their way in the AI era.</p>
+    <p class="text-muted">Seats aren't on sale yet. Leave your name and you'll hear first when they are.</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="container interest-layout">
+      <div class="interest-stack">
+        <div class="label">// the short version</div>
+        <h2>Bring one project. Leave with something you stand behind.</h2>
+        <p>
+          A small live series for designers, writers, musicians, illustrators, and
+          theater and video makers. Curious, anxious or skeptical. All welcome.
+        </p>
+        <p class="text-muted">
+          No coding. No hype. No rerolling until something looks fine. You direct. You
+          revise. You put your name on it. Then you say how it was made.
+        </p>
+
+        <ul class="interest-dates" aria-label="The three evenings">
+          {evenings.map((e) => (
+            <li>
+              <span class="interest-ev">{e.ev} · Mon</span>
+              <span class="interest-day">{e.day}</span>
+              <span class="interest-what">{e.what}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="text-muted interest-small">
+          2027 · 6 to 8 pm Central · live online · 12 seats · $295 founding price, two seats pay what you can
+        </p>
+        <p class="interest-small"><a href="/clay">Read the full series page</a></p>
+      </div>
+
+      <div class="interest-terminal">
+        <div class="interest-terminal-head">
+          <span class="label">// get first word</span>
+          <span class="label text-muted">12 seats</span>
+        </div>
+
+        <form id="interest-form" action={GOOGLE_FORM_ACTION} method="post" novalidate>
+          <div class="interest-field" data-field="name">
+            <label for="interest-name">Your name</label>
+            <input id="interest-name" name={GOOGLE_FORM_FIELDS.name} type="text" autocomplete="name" maxlength="120" required placeholder="First and last" />
+            <span class="interest-err" id="interest-name-err" hidden>Add your name so I know who's coming.</span>
+          </div>
+
+          <div class="interest-field" data-field="email">
+            <label for="interest-email">Email</label>
+            <input id="interest-email" name={GOOGLE_FORM_FIELDS.email} type="email" autocomplete="email" inputmode="email" maxlength="254" required placeholder="you@example.com" />
+            <span class="interest-err" id="interest-email-err" hidden>That email doesn't look complete. Check for the @ and the domain.</span>
+          </div>
+
+          <div class="interest-field">
+            <label for="interest-make">What do you want to make? <span class="interest-opt">(optional)</span></label>
+            <textarea id="interest-make" name={GOOGLE_FORM_FIELDS.make} maxlength="1000" placeholder="A short film I keep putting off, an album cover, a zine..."></textarea>
+            <span class="interest-hint">A sentence is plenty. It helps me shape the evenings around real work.</span>
+          </div>
+
+          <!-- Left empty by people; a value means a bot, and the script then sends nothing.
+               No name attribute, so it's never posted to the form. -->
+          <div class="interest-trap" aria-hidden="true">
+            <label for="interest-website">Leave this empty</label>
+            <input id="interest-website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="interest-privacy">
+            <span class="label">// what happens to your email</span>
+            <span><strong>I'll write when seats open</strong>, and once more before sign-ups close on January 8. That's it.</span>
+            <span>Only I see this list. It isn't shared, sold or added to my newsletter. Reply to any email to be taken off, and I'll delete your details.</span>
+          </div>
+
+          <button class="btn btn-primary btn-lg interest-submit" type="submit">Join the Interest List</button>
+          <p class="interest-status" id="interest-status" role="status" hidden></p>
+          <p class="text-muted interest-small">Not sure it's for you? <a href="/book">Book a 30-minute call.</a></p>
+        </form>
+
+        <div class="interest-success" id="interest-success" hidden tabindex="-1">
+          <div class="label">// connection established</div>
+          <h2 class="text-phosphor glow-phosphor">You're on the list_</h2>
+          <p>Thanks, <span id="interest-who">friend</span>. You'll hear from me when seats open for the January cohort.</p>
+          <a href="/clay" class="btn btn-ghost">Back to the series</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('interest-form') as HTMLFormElement | null;
+  const success = document.getElementById('interest-success');
+  const status = document.getElementById('interest-status');
+
+  const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  function mark(name: string, ok: boolean) {
+    const field = form?.querySelector<HTMLElement>(`[data-field="${name}"]`);
+    const input = field?.querySelector<HTMLInputElement>('input');
+    const err = document.getElementById(`interest-${name}-err`);
+    field?.classList.toggle('is-invalid', !ok);
+    if (err) err.hidden = ok;
+    if (input) {
+      input.setAttribute('aria-invalid', String(!ok));
+      if (ok) input.removeAttribute('aria-describedby');
+      else input.setAttribute('aria-describedby', `interest-${name}-err`);
+    }
+    return ok;
+  }
+
+  function say(text: string) {
+    if (!status) return;
+    status.textContent = text;
+    status.hidden = false;
+  }
+
+  function showSuccess(name: string) {
+    const who = document.getElementById('interest-who');
+    if (who) who.textContent = name.split(/\s+/)[0];
+    if (form) form.hidden = true;
+    if (success) {
+      success.hidden = false;
+      success.focus();
+    }
+  }
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const nameInput = document.getElementById('interest-name') as HTMLInputElement;
+    const emailInput = document.getElementById('interest-email') as HTMLInputElement;
+    const makeInput = document.getElementById('interest-make') as HTMLTextAreaElement;
+    const trap = document.getElementById('interest-website') as HTMLInputElement | null;
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const nameOk = mark('name', name.length > 0);
+    const emailValid = mark('email', emailOk(email));
+    if (!nameOk) return nameInput.focus();
+    if (!emailValid) return emailInput.focus();
+
+    // A bot filled the hidden field: look successful, send nothing.
+    if (trap?.value) return showSuccess(name);
+
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) button.disabled = true;
+    if (status) status.hidden = true;
+
+    const body = new URLSearchParams();
+    body.set(nameInput.name, name);
+    body.set(emailInput.name, email);
+    body.set(makeInput.name, makeInput.value.trim());
+
+    try {
+      // Google Forms sends no CORS headers, so the response is opaque: a network
+      // failure is the only error this can detect.
+      await fetch(form.action, { method: 'POST', mode: 'no-cors', body });
+      showSuccess(name);
+    } catch {
+      say("That didn't go through. Check your connection and try again.");
+    } finally {
+      if (button) button.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .interest-sub { font-size: clamp(1.05rem, 2vw, 1.25rem); }
+
+  .interest-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .interest-stack { display: flex; flex-direction: column; gap: var(--sp-md); min-width: 0; }
+  .interest-small { font-size: 0.85rem; }
+
+  /* The three dates, set like floppy labels */
+  .interest-dates {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .interest-dates li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+    padding: 0.7rem 0.8rem 0.8rem;
+    background: #efe3c8;
+    color: #2b2218;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .interest-dates li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--amber);
+  }
+
+  .interest-ev {
+    margin-top: 0.35rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b5636;
+  }
+
+  .interest-day { font-family: var(--font-crt); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .interest-what { font-size: 0.78rem; line-height: 1.35; }
+
+  .interest-terminal {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-hover);
+    box-shadow: 0 0 40px rgba(255, 189, 89, 0.05);
+  }
+
+  .interest-terminal-head {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--sp-md);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  #interest-form { display: flex; flex-direction: column; gap: 1.15rem; }
+  .interest-submit { align-self: flex-start; max-width: 100%; }
+  .interest-submit:disabled { opacity: 0.6; cursor: progress; }
+
+  .interest-field { display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .interest-field label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--phosphor);
+  }
+
+  .interest-opt { color: var(--fg-muted); letter-spacing: 0.08em; text-transform: none; }
+
+  .interest-field input,
+  .interest-field textarea {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--fg);
+    background: rgba(var(--bg-rgb), 0.9);
+    border: 1px solid var(--border-hover);
+    border-radius: 0;
+    caret-color: var(--phosphor);
+  }
+
+  .interest-field textarea { min-height: 6.5rem; line-height: 1.5; resize: vertical; }
+  .interest-field ::placeholder { color: #8c7c60; }
+
+  .interest-field input:focus,
+  .interest-field textarea:focus {
+    outline: none;
+    border-color: var(--phosphor);
+    box-shadow: var(--glow-phosphor);
+  }
+
+  .interest-hint { font-size: 0.78rem; color: var(--fg-muted); }
+  .interest-err { font-size: 0.8rem; color: #ff9b7a; }
+  .interest-field.is-invalid input { border-color: #ff9b7a; }
+
+  .interest-trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .interest-privacy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--phosphor-dim);
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+  }
+
+  .interest-privacy strong { font-weight: 400; color: var(--fg); }
+  .interest-status { font-size: 0.9rem; color: var(--electric); }
+
+  .interest-success { display: flex; flex-direction: column; gap: var(--sp-md); align-items: flex-start; }
+
+  /* Keep toggled states hidden despite their flex display */
+  #interest-form[hidden],
+  .interest-success[hidden],
+  .interest-status[hidden] { display: none; }
+
+  @media (max-width: 860px) {
+    .interest-layout { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  @media (max-width: 420px) {
+    .interest-dates { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
