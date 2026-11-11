@@ -8,6 +8,16 @@ const evenings = [
   { ev: 'Evening 2', day: 'Jan 18', what: 'Direct the chorus.' },
   { ev: 'Evening 3', day: 'Jan 25', what: 'Make the film anyway.' },
 ];
+
+// Sign-ups go to the "Clay" Google Form. The entry IDs come from that form's questions,
+// so rebuilding or reordering the questions there means updating them here.
+const GOOGLE_FORM_ACTION =
+  'https://docs.google.com/forms/d/e/1FAIpQLSdfmHqBFqDKOAIqfA3UGNDmGCDMKSh_8gJ_RlKtRZlGDLgfdg/formResponse';
+const GOOGLE_FORM_FIELDS = {
+  name: 'entry.632491406',
+  email: 'entry.618515727',
+  make: 'entry.1362773275',
+};
 ---
 
 <BaseLayout
@@ -54,29 +64,30 @@ const evenings = [
           <span class="label text-muted">12 seats</span>
         </div>
 
-        <form id="interest-form" action="/api/interest" method="post" novalidate>
+        <form id="interest-form" action={GOOGLE_FORM_ACTION} method="post" novalidate>
           <div class="interest-field" data-field="name">
             <label for="interest-name">Your name</label>
-            <input id="interest-name" name="name" type="text" autocomplete="name" maxlength="120" required placeholder="First and last" />
+            <input id="interest-name" name={GOOGLE_FORM_FIELDS.name} type="text" autocomplete="name" maxlength="120" required placeholder="First and last" />
             <span class="interest-err" id="interest-name-err" hidden>Add your name so I know who's coming.</span>
           </div>
 
           <div class="interest-field" data-field="email">
             <label for="interest-email">Email</label>
-            <input id="interest-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" required placeholder="you@example.com" />
+            <input id="interest-email" name={GOOGLE_FORM_FIELDS.email} type="email" autocomplete="email" inputmode="email" maxlength="254" required placeholder="you@example.com" />
             <span class="interest-err" id="interest-email-err" hidden>That email doesn't look complete. Check for the @ and the domain.</span>
           </div>
 
           <div class="interest-field">
             <label for="interest-make">What do you want to make? <span class="interest-opt">(optional)</span></label>
-            <textarea id="interest-make" name="make" maxlength="1000" placeholder="A short film I keep putting off, an album cover, a zine..."></textarea>
+            <textarea id="interest-make" name={GOOGLE_FORM_FIELDS.make} maxlength="1000" placeholder="A short film I keep putting off, an album cover, a zine..."></textarea>
             <span class="interest-hint">A sentence is plenty. It helps me shape the evenings around real work.</span>
           </div>
 
-          <!-- Left empty by people; bots that fill every field are dropped by the function. -->
+          <!-- Left empty by people; a value means a bot, and the script then sends nothing.
+               No name attribute, so it's never posted to the form. -->
           <div class="interest-trap" aria-hidden="true">
             <label for="interest-website">Leave this empty</label>
-            <input id="interest-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            <input id="interest-website" type="text" tabindex="-1" autocomplete="off" />
           </div>
 
           <div class="interest-privacy">
@@ -128,50 +139,47 @@ const evenings = [
     status.hidden = false;
   }
 
+  function showSuccess(name: string) {
+    const who = document.getElementById('interest-who');
+    if (who) who.textContent = name.split(/\s+/)[0];
+    if (form) form.hidden = true;
+    if (success) {
+      success.hidden = false;
+      success.focus();
+    }
+  }
+
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const data = new FormData(form);
-    const name = String(data.get('name') ?? '').trim();
-    const email = String(data.get('email') ?? '').trim();
+    const nameInput = document.getElementById('interest-name') as HTMLInputElement;
+    const emailInput = document.getElementById('interest-email') as HTMLInputElement;
+    const makeInput = document.getElementById('interest-make') as HTMLTextAreaElement;
+    const trap = document.getElementById('interest-website') as HTMLInputElement | null;
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
     const nameOk = mark('name', name.length > 0);
     const emailValid = mark('email', emailOk(email));
-    if (!nameOk) return document.getElementById('interest-name')?.focus();
-    if (!emailValid) return document.getElementById('interest-email')?.focus();
+    if (!nameOk) return nameInput.focus();
+    if (!emailValid) return emailInput.focus();
+
+    // A bot filled the hidden field: look successful, send nothing.
+    if (trap?.value) return showSuccess(name);
 
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (button) button.disabled = true;
     if (status) status.hidden = true;
 
+    const body = new URLSearchParams();
+    body.set(nameInput.name, name);
+    body.set(emailInput.name, email);
+    body.set(makeInput.name, makeInput.value.trim());
+
     try {
-      const response = await fetch('/api/interest', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          make: String(data.get('make') ?? ''),
-          website: String(data.get('website') ?? ''),
-        }),
-      });
-
-      if (response.ok) {
-        const who = document.getElementById('interest-who');
-        if (who) who.textContent = name.split(/\s+/)[0];
-        form.hidden = true;
-        if (success) {
-          success.hidden = false;
-          success.focus();
-        }
-        return;
-      }
-
-      if (response.status === 503) {
-        say("The list isn't switched on yet. Book a call and we'll talk about the series.");
-      } else if (response.status === 400) {
-        say('Something in the form needs another look. Check your name and email, then try again.');
-      } else {
-        say("That didn't go through. Try again in a minute, or book a call instead.");
-      }
+      // Google Forms sends no CORS headers, so the response is opaque: a network
+      // failure is the only error this can detect.
+      await fetch(form.action, { method: 'POST', mode: 'no-cors', body });
+      showSuccess(name);
     } catch {
       say("That didn't go through. Check your connection and try again.");
     } finally {

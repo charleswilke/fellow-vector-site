@@ -85,13 +85,17 @@ in the dev-server setup hook and uses the same upstream RSS, parser, and reader 
 ## Throw More Clay Interest List
 
 `/clay` is the series page and `/clay/interest` collects interest while seats aren't on sale.
-The form posts JSON to `api/interest.js`, which emails each sign-up through Resend with the
-person's address as reply-to. Nothing is stored on the site.
+The form posts straight to the "Clay" Google Form, so responses land in that form (and its
+linked Sheet). Nothing is stored on the site and no env vars are needed.
 
-The function answers 503 until `RESEND_API_KEY`, `INTEREST_NOTIFY_EMAIL` and
-`INTEREST_FROM_EMAIL` are set in Vercel, and the form then tells visitors the list isn't
-switched on yet. A hidden `website` field catches form bots. The Astro dev server doesn't run
-`/api` functions, so the form shows its error message locally.
+The form's `formResponse` URL and each question's `entry.<id>` are set at the top of
+`src/pages/clay/interest.astro`. Rebuilding or reordering the questions in Google Forms
+changes those IDs, and they're listed in the form page's `FB_PUBLIC_LOAD_DATA_`. The form must
+stay open to anyone, without sign-in or "Collect email addresses", or Google rejects posts.
+
+Google sends no CORS headers, so the page posts with `mode: 'no-cors'` and can't read the
+reply: it shows success unless the network request itself fails. A hidden `website` field
+catches form bots, which see the success message while nothing is sent.
 
 ## Image Backgrounds
 
