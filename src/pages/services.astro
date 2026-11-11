@@ -63,6 +63,12 @@ const services = [
     cta: { href: '/book', label: 'Plan a Workshop' },
   },
 ];
+
+const clayEvenings = [
+  { ev: 'Evening 1', day: 'Jan 11', what: 'What hope do we have?' },
+  { ev: 'Evening 2', day: 'Jan 18', what: 'Direct the chorus.' },
+  { ev: 'Evening 3', day: 'Jan 25', what: 'Make the film anyway.' },
+];
 ---
 
 <BaseLayout
@@ -96,6 +102,40 @@ const services = [
           learning together as a team, or a talk for your audience.
         </p>
         <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Throw More Clay series ── -->
+  <section id="clay" class="section clay-section">
+    <div class="container clay-layout">
+      <div class="clay-heading">
+        <div class="label">// new · small-group series</div>
+        <h2>Throw More Clay</h2>
+      </div>
+      <div class="clay-body">
+        <p>
+          Three live evenings for creatives making their way in the AI era:
+          designers, writers, musicians, illustrators, and theater and video
+          makers. Bring one project you care about. Leave with a piece you
+          directed and stand behind.
+        </p>
+        <ul class="clay-dates" aria-label="The three evenings">
+          {clayEvenings.map((e) => (
+            <li>
+              <span class="clay-ev">{e.ev} · Mon</span>
+              <span class="clay-day">{e.day}</span>
+              <span class="clay-what">{e.what}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="text-muted clay-small">
+          January 2027 · 6 to 8 pm Central · live online · 12 seats
+        </p>
+        <div class="clay-buttons">
+          <a href="/clay" class="btn btn-primary">See the Series</a>
+          <a href="/clay/interest" class="btn btn-ghost">Join the Interest List</a>
+        </div>
       </div>
     </div>
   </section>
@@ -260,6 +300,92 @@ const services = [
       grid-template-columns: 1fr;
       gap: var(--sp-lg);
     }
+  }
+
+  .clay-section {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .clay-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--layout-gap);
+    align-items: start;
+  }
+
+  .clay-heading,
+  .clay-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+  }
+
+  .clay-heading .label { color: var(--amber); }
+
+  .clay-dates {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: var(--sp-sm) 0 0;
+  }
+
+  .clay-dates li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+    padding: 0.7rem 0.8rem 0.8rem;
+    background: #efe3c8;
+    color: #2b2218;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .clay-dates li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--amber);
+  }
+
+  .clay-ev {
+    margin-top: 0.35rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6b5636;
+  }
+
+  .clay-day { font-family: var(--font-crt); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .clay-what { font-size: 0.78rem; line-height: 1.35; }
+  .clay-small { font-size: 0.8rem; }
+
+  .clay-buttons {
+    display: flex;
+    gap: var(--sp-md);
+    flex-wrap: wrap;
+  }
+
+  .clay-buttons .btn {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .clay-layout {
+      grid-template-columns: 1fr;
+      gap: var(--sp-lg);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .clay-dates { gap: 0.5rem; }
+    .clay-dates li { padding: 0.6rem 0.55rem 0.7rem; }
+    .clay-day { font-size: 1.7rem; }
   }
 
   .service-section + .service-section {
