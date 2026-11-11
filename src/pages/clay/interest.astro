@@ -1,13 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ClayDisk from '../../components/ClayDisk.astro';
 import computerLabHero from '../../assets/clay-computer-lab.webp';
-
-const evenings = [
-  { ev: 'Evening 1', day: 'Jan 11', what: 'What hope do we have?' },
-  { ev: 'Evening 2', day: 'Jan 18', what: 'Direct the chorus.' },
-  { ev: 'Evening 3', day: 'Jan 25', what: 'Make the film anyway.' },
-];
+import { clayEvenings } from '../../data/clay-evenings';
 
 // Sign-ups go to the "Clay" Google Form. The entry IDs come from that form's questions,
 // so rebuilding or reordering the questions there means updating them here.
@@ -52,17 +48,30 @@ const GOOGLE_FORM_FIELDS = {
           revise. You put your name on it. Then you say how it was made.
         </p>
 
-        <ul class="interest-dates" aria-label="The three evenings">
-          {evenings.map((e) => (
-            <li>
-              <span class="interest-ev">{e.ev} · Mon</span>
-              <span class="interest-day">{e.day}</span>
-              <span class="interest-what">{e.what}</span>
-            </li>
-          ))}
-        </ul>
+        <fieldset class="interest-evenings">
+          <legend class="label">Choose an evening to preview</legend>
+          <div class="interest-dates">
+            {clayEvenings.map(({ day, title, preview }, index) => (
+              <>
+                <div class="interest-evening">
+                  <ClayDisk
+                    id={`interest-disk-${index + 1}`}
+                    eveningIndex={index}
+                    {day}
+                    name="interest-evening"
+                    descriptionId={`interest-preview-${index + 1}`}
+                    sizes="(max-width: 560px) 30vw, 160px"
+                    shutterSizes="(max-width: 560px) 15vw, 80px"
+                  />
+                  <label class="interest-evening-title" for={`interest-disk-${index + 1}`}>{title}</label>
+                </div>
+                <p class="interest-preview" id={`interest-preview-${index + 1}`}>{preview}</p>
+              </>
+            ))}
+          </div>
+        </fieldset>
         <p class="text-muted interest-small">
-          2027 · 6 to 8 pm Central · live online · 12 seats · $295 founding price, two seats pay what you can
+          Mondays in January 2027 · 6 to 8 pm Central · live online · 12 seats · $295 founding price, two seats pay what you can
         </p>
         <p class="interest-small"><a href="/clay">Read the full series page</a></p>
       </div>
@@ -210,46 +219,47 @@ const GOOGLE_FORM_FIELDS = {
   .interest-stack { display: flex; flex-direction: column; gap: var(--sp-md); min-width: 0; }
   .interest-small { font-size: 0.85rem; }
 
-  /* The three dates, set like floppy labels */
+  .interest-evenings {
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+  }
+
   .interest-dates {
-    list-style: none;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(3, minmax(0, 10rem));
+    gap: clamp(0.45rem, 1.5vw, 0.85rem);
+    margin-top: var(--sp-sm);
   }
 
-  .interest-dates li {
+  .interest-evening {
+    grid-row: 1;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
     min-width: 0;
-    padding: 0.7rem 0.8rem 0.8rem;
-    background: #efe3c8;
-    color: #2b2218;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
   }
 
-  .interest-dates li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: var(--amber);
+  .interest-evening-title {
+    display: block;
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    text-align: center;
+    cursor: pointer;
   }
 
-  .interest-ev {
-    margin-top: 0.35rem;
-    font-size: 0.62rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #6b5636;
+  .interest-preview {
+    display: none;
+    grid-area: 2 / 1 / 3 / -1;
+    min-block-size: 4lh;
+    padding: 0.65rem 0.85rem;
+    border-left: 2px solid var(--amber);
+    background: var(--bg-surface);
+    font-size: 0.9rem;
   }
 
-  .interest-day { font-family: var(--font-crt); font-size: 2.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
-  .interest-what { font-size: 0.78rem; line-height: 1.35; }
+  .interest-evening:has(> input:checked) + .interest-preview {
+    display: block;
+  }
 
   .interest-terminal {
     padding: clamp(1.25rem, 3vw, 2rem);
@@ -342,7 +352,4 @@ const GOOGLE_FORM_FIELDS = {
     .interest-layout { grid-template-columns: minmax(0, 1fr); }
   }
 
-  @media (max-width: 420px) {
-    .interest-dates { grid-template-columns: minmax(0, 1fr); }
-  }
 </style>
