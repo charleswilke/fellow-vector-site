@@ -210,10 +210,10 @@ and leaving the menu with the keyboard close it when JavaScript is available.
 An ordinary menu-link tap holds the tray open for 200ms so the key can press and
 rebound before navigation. Modified clicks keep their native behavior; reduced
 motion navigates immediately.
-The Fellow Vector wordmark includes the subtitle “AI Tutoring & Workshops” on every
-page, set in smaller body type directly underneath the display lettering. The
-subtitle spans the full wordmark width, aligned with the outer brackets.
-On mobile, use natural subtitle spacing and center it beneath the name.
+The Fellow Vector wordmark uses SVG paths for stepped amber lettering, a fine
+highlight, and muted brackets. It takes its cues from the “IN” drop cap on the
+About page. The subtitle “AI Tutoring & Workshops” is centered below it in the
+body mono font, with tighter spacing on mobile.
 
 Sub-page heroes use the same section spacing at every breakpoint. The homepage hero
 has a bounded height instead of requiring a full viewport. Avoid adding large fixed
