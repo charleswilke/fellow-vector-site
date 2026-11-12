@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import artRoomHero from '../../assets/clay-art-room.webp';
 import foundingPriceInk from '../../assets/clay-founding-price-ink.webp';
+import spectatorPoster from '../../assets/clay-spectator-poster.webp';
 import portrait from '../../assets/cw2.webp';
 import { clayEvenings } from '../../data/clay-evenings';
 
@@ -86,8 +87,8 @@ const faqs = [
             <Image
               src={portrait}
               alt="Charles Wilke, smiling in round glasses in his studio."
-              widths={[108, 144, 216, 288]}
-              sizes="(max-width: 900px) 108px, (max-width: 1200px) 12vw, 144px"
+              widths={[108, 144, 160, 216, 288, 320]}
+              sizes="(max-width: 760px) clamp(130px, 38vw, 160px), (max-width: 900px) 108px, (max-width: 1200px) 12vw, 144px"
               loading="lazy"
             />
             <div class="clay-stack clay-stack-sm">
@@ -156,6 +157,14 @@ const faqs = [
             <p class="text-muted clay-small">Not sure it's for you? <a href="/book">Book a 30-minute call.</a></p>
           </div>
         </section>
+        <a class="clay-talk" href="https://charleswilke.com/s2i" aria-labelledby="clay-talk-title clay-talk-link">
+          <Image src={spectatorPoster} alt="" widths={[120, 240, 360]} sizes="120px" loading="lazy" />
+          <div class="clay-talk-copy clay-stack clay-stack-sm">
+            <h2 id="clay-talk-title">Spectator to Initiator</h2>
+            <p>My previous OMA × AI talk on going from watching what AI can do to deciding what to make with it.</p>
+            <span id="clay-talk-link">View the slide deck <span aria-hidden="true">↗</span></span>
+          </div>
+        </a>
       </div>
       <section class="clay-program-takeaways clay-stack clay-stack-sm" aria-labelledby="clay-takeaways-title">
         <h2 id="clay-takeaways-title">What you’ll leave with</h2>
@@ -407,6 +416,26 @@ const faqs = [
     text-align: center;
   }
 
+  .clay-talk {
+    display: grid;
+    grid-template-columns: clamp(88px, 27%, 120px) minmax(0, 15rem);
+    justify-content: center;
+    align-self: center;
+    gap: var(--sp-md);
+    width: 100%;
+    max-width: 30rem;
+    padding-block: var(--sp-md);
+    border-block: 1px solid var(--border);
+    text-shadow: none;
+  }
+
+  .clay-talk img { display: block; align-self: start; width: 100%; height: auto; }
+  .clay-talk h2 { font-size: clamp(1.5rem, 2.5vw, 1.9rem); color: var(--fg); text-wrap: wrap; }
+  .clay-talk-copy p { max-width: 28ch; font-size: 0.85rem; line-height: 1.45; color: var(--fg-muted); }
+  .clay-talk #clay-talk-link { margin-top: auto; font-size: 0.85rem; line-height: 1.45; }
+  .clay-talk:is(:hover, :focus-visible) { border-color: var(--border-hover); text-shadow: none; }
+  .clay-talk:is(:hover, :focus-visible) #clay-talk-link { text-decoration: underline; }
+
   .clay-paper {
     /* Match the header and torn edge to the 2:3 source image; only the blank middle stretches. */
     --receipt-header: 28.5cqw;
@@ -483,6 +512,8 @@ const faqs = [
 
   .clay-host {
     --portrait-size: clamp(108px, 12vw, 144px);
+    --portrait-cut: 10px;
+    --portrait-shape: polygon(var(--portrait-cut) 0, 100% 0, calc(100% - var(--portrait-cut)) 100%, 0 100%);
     display: grid;
     grid-template-columns: var(--portrait-size) minmax(0, 1fr);
     gap: var(--sp-md);
@@ -497,7 +528,7 @@ const faqs = [
     height: var(--portrait-size);
     object-fit: cover;
     border: 1px solid var(--border-hover);
-    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    clip-path: var(--portrait-shape);
   }
 
   .clay-small { font-size: 0.85rem; }
@@ -536,6 +567,22 @@ const faqs = [
       grid-template-rows: auto;
     }
     .clay-program-sidebar { grid-column: auto; grid-row: auto; }
+
+    .clay-host {
+      --portrait-size: clamp(130px, 38vw, 160px);
+      --portrait-cut: 16px;
+      display: flow-root;
+    }
+
+    .clay-host img {
+      float: left;
+      margin: 0 var(--sp-md) var(--sp-xs) 0;
+      shape-outside: var(--portrait-shape) border-box;
+      shape-margin: 0.75rem;
+    }
+
+    .clay-host .clay-stack { display: block; }
+    .clay-host h2 { margin-bottom: var(--sp-sm); }
   }
 
   @media (max-width: 600px) {
