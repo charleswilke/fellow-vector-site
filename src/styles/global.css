@@ -21,6 +21,14 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-latin.woff2') format('woff2');
+}
+
 :root {
   /* Warm smoked glass, cream paper, and amber phosphor. */
   --bg:            #241c13;
@@ -41,6 +49,7 @@
   /* Typography */
   --font-mono:  'Share Tech Mono', 'Courier New', monospace;
   --font-crt:   'VT323', monospace;
+  --font-display: 'Instrument Serif', Georgia, serif;
 
   /* Glows */
   --glow-phosphor: 0 0 6px rgba(255, 189, 89, 0.5), 0 0 18px rgba(255, 189, 89, 0.15);
@@ -178,15 +187,31 @@ a:hover {
   text-shadow: var(--glow-highlight);
 }
 
-h1, h2, h3, h4, h5 {
+h1 {
   font-family: var(--font-crt);
+  font-size: clamp(3rem, 7vw, 6rem);
   letter-spacing: 0.04em;
   line-height: 1.15;
 }
 
-h1 { font-size: clamp(3rem, 7vw, 6rem); }
-h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); }
-h3 { font-size: clamp(1.4rem, 3vw, 2.2rem); }
+h2, h3, h4, h5, .clay-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+h2 { font-size: clamp(2.1rem, 4.25vw, 3.25rem); }
+h3 { font-size: clamp(1.5rem, 2.8vw, 2rem); }
+
+h2.clay-display { font-size: clamp(2.25rem, 4.6vw, 3.5rem); }
+
+.closing-cta-title {
+  font-family: var(--font-crt);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  letter-spacing: 0.02em;
+}
 
 p {
   max-width: 62ch;
@@ -382,6 +407,8 @@ section[id] {
 /* Shared blink animation */
 .hero-cursor {
   display: inline-block;
+  font-family: var(--font-crt);
+  font-weight: 400;
   margin-left: 0.05em;
   animation: blink 4.2s step-end infinite;
 }

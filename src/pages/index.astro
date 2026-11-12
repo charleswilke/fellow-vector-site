@@ -230,7 +230,7 @@ import photoPortrait from '../assets/cw2.webp';
       <Image src={signal} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
     </div>
     <div class="container cta-inner">
-      <h2 class="text-phosphor glow-phosphor">What would you like to learn to do?</h2>
+      <h2 class="closing-cta-title text-phosphor glow-phosphor">What would you like to learn to do?</h2>
       <p class="text-muted">
         Bring a question, a recurring task, or an idea you've been meaning to try.
       </p>
@@ -443,8 +443,9 @@ import photoPortrait from '../assets/cw2.webp';
   }
 
   .hero-tagline {
-    font-size: clamp(1.05rem, 2vw, 1.25rem);
-    line-height: 1.4;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 2.6vw, 1.85rem);
+    line-height: 1.2;
     color: var(--fg);
     animation: fadeIn 0.7s 0.5s both;
   }
@@ -869,10 +870,9 @@ import photoPortrait from '../assets/cw2.webp';
   }
 
   .portrait-name {
-    font-family: var(--font-crt);
-    font-size: 1.8rem;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
     line-height: 1.15;
-    letter-spacing: 0.04em;
   }
 
   /* ── CTA ── */

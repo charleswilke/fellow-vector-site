@@ -90,7 +90,7 @@ const faqs = [
       <div class="label">// why this exists</div>
       <div class="clay-stack">
         <p class="clay-tagline">Another tech wave. Another round of people telling you your craft is done.</p>
-        <p class="clay-lead">It isn't. <em>It’s changing.</em></p>
+        <p class="clay-lead clay-display">It isn't. <em>It’s changing.</em></p>
         <p>
           This is a small live series for designers, writers, musicians, illustrators,
           and theater and video makers. Curious, anxious or skeptical. All welcome.
@@ -108,7 +108,7 @@ const faqs = [
     <div class="container clay-stack clay-stack-lg">
       <div class="clay-heading">
         <div class="label">// the three evenings</div>
-        <h2 id="clay-evenings">One room, three Mondays, one piece of work.</h2>
+        <h2 id="clay-evenings" class="clay-display">One room, three Mondays, one piece of work.</h2>
       </div>
       <div>
         {evenings.map((ev, index) => (
@@ -137,7 +137,7 @@ const faqs = [
     <div class="container clay-stack clay-stack-lg">
       <div class="clay-heading">
         <div class="label">// you leave with</div>
-        <h2 id="clay-leave">Five things you can hold up.</h2>
+        <h2 id="clay-leave" class="clay-display">Five things you can hold up.</h2>
       </div>
       <ul class="clay-takeaways">
         {takeaways.map((t) => (
@@ -213,7 +213,7 @@ const faqs = [
     </div>
     <div class="container clay-cta-inner">
       <div class="label">// save your seat</div>
-      <h2 class="text-phosphor glow-phosphor">Seats aren't on sale yet.</h2>
+      <h2 class="closing-cta-title text-phosphor glow-phosphor">Seats aren't on sale yet.</h2>
       <p class="text-muted">Join the interest list and you'll hear first when the founding cohort opens.</p>
       <a href={signupHref} class="btn btn-primary btn-lg">Join the Interest List</a>
       <p class="text-muted clay-small">Not sure it's for you? <a href="/book">Book a 30-minute call.</a></p>
@@ -314,10 +314,7 @@ const faqs = [
 
   .clay-lead {
     max-width: 30ch;
-    font-family: var(--font-crt);
-    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-    line-height: 1.15;
-    letter-spacing: 0.02em;
+    font-size: clamp(2rem, 3.8vw, 2.75rem);
   }
 
   .clay-lead em {
