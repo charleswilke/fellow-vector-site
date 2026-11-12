@@ -46,9 +46,21 @@ const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
 </label>
 
 <script>
-  for (const input of document.querySelectorAll<HTMLInputElement>('.clay-disk-input[type="checkbox"]')) {
-    input.labels?.[0]?.addEventListener('pointerleave', (event) => {
-      if (event.pointerType === 'mouse' && !input.matches(':focus-visible')) {
+  for (const input of document.querySelectorAll<HTMLInputElement>('.clay-disk-input')) {
+    const disk = input.labels?.[0];
+    if (!disk) continue;
+
+    disk.addEventListener('click', (event) => {
+      if (event instanceof PointerEvent && event.pointerType === 'mouse') {
+        disk.setAttribute('data-shutter-open', '');
+      }
+    });
+
+    disk.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'mouse') return;
+
+      disk.removeAttribute('data-shutter-open');
+      if (input.type === 'checkbox' && !input.matches(':focus-visible')) {
         input.checked = false;
       }
     });
@@ -91,19 +103,23 @@ const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
     mask-position: center, 79% 67%;
     mask-repeat: no-repeat;
     mask-composite: exclude;
+    transform: translateX(var(--shutter-offset, 0%));
   }
 
-  .clay-disk-input:checked + .clay-disk .clay-disk-shutter {
-    transform: translateX(-24%);
+  .clay-disk-input:checked:focus-visible + .clay-disk,
+  .clay-disk-input:checked + .clay-disk[data-shutter-open] {
+    --shutter-offset: -24%;
+  }
+
+  @media (hover: none) {
+    .clay-disk-input:checked + .clay-disk {
+      --shutter-offset: -24%;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .clay-disk { transition: transform 180ms ease-out; }
-    .clay-disk-shutter { transition: transform 170ms ease-out; }
-
-    .clay-disk-input[type="checkbox"]:not(:checked) + .clay-disk .clay-disk-shutter {
-      transition-duration: 100ms;
-    }
+    .clay-disk-shutter { transition: transform 100ms ease-out; }
 
     .clay-disk-input:checked + .clay-disk {
       transform: translateY(-0.25rem);
@@ -129,11 +145,6 @@ const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
     justify-content: center;
     gap: 0.1rem;
     color: #2b2218;
-  }
-
-  .clay-disk-input:where([type="radio"]):checked + .clay-disk {
-    outline: 1px solid var(--amber);
-    outline-offset: 1px;
   }
 
   .clay-disk-input:focus-visible + .clay-disk {

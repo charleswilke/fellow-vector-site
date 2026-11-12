@@ -1,0 +1,70 @@
+.clay-feature-panel {
+  --clay-feature-padding: clamp(1.25rem, 3.5vw, 2.75rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-md) clamp(1.25rem, 3vw, 2.5rem);
+  padding: var(--clay-feature-padding);
+  border: 1px solid #f5ca91;
+  background:
+    radial-gradient(ellipse at 81% 38%, #ffdca1aa, transparent 42%),
+    repeating-linear-gradient(0deg, #50280b0a 0 1px, transparent 1px 4px),
+    linear-gradient(115deg, #ffe1a8, #efbc7e 54%, #c17d45);
+  color: #2c1b10;
+  box-shadow: inset 0 0 0 4px #5f331b26, 0 0.9rem 2.25rem #130c0880;
+}
+
+.clay-feature-copy {
+  display: grid;
+  gap: var(--sp-sm);
+}
+
+.clay-feature-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.clay-feature-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35em 0.65em;
+  background: #502713;
+  color: #fff2d9;
+}
+
+.clay-feature-status::before {
+  content: '';
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--phosphor);
+  box-shadow: 0 0 6px #ffbd5980;
+}
+
+.clay-feature-copy h2 {
+  font-size: clamp(3.1rem, 5.4vw, 4.5rem);
+  line-height: 0.98;
+  text-wrap: initial;
+}
+
+.clay-feature-description {
+  max-width: 48ch;
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .clay-feature-panel {
+    grid-template-columns: minmax(0, 1fr);
+    background:
+      radial-gradient(ellipse at 50% 83%, #ffdca1aa, transparent 46%),
+      repeating-linear-gradient(0deg, #50280b0a 0 1px, transparent 1px 4px),
+      linear-gradient(155deg, #ffe1a8, #efbc7e 54%, #c17d45);
+  }
+}

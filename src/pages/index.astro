@@ -1,7 +1,9 @@
 ---
-import { getImage, Image } from 'astro:assets';
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SignalStrip from '../components/SignalStrip.astro';
+import ClayKeycap from '../components/ClayKeycap.astro';
+import '../styles/clay-feature.css';
 import clayCase from '../assets/clay-diskette-case.webp';
 import clayCaseTray from '../assets/clay-diskette-case-tray.webp';
 import focus from '../assets/focus.webp';
@@ -11,9 +13,6 @@ import floppyDisk from '../assets/floppy-disk-note-v1.webp';
 import floppyLabel from '../assets/floppy-label.webp';
 import illustratedPortrait from '../assets/cw4.webp';
 import photoPortrait from '../assets/cw2.webp';
-import keycap from '../assets/nav-keycap.webp';
-
-const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
 ---
 
 <BaseLayout
@@ -89,11 +88,9 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
           <p class="clay-feature-description">Bring a creative project you care about. Spend three live evenings making it into something you stand behind.</p>
           <div class="clay-feature-action">
             <p>January 11, 18, and 25, 2027 · Online</p>
-            <span id="clay-feature-cta" class="clay-feature-cta" style={`--keycap-image: url("${keycapImage.src}")`}>
-              <span class="clay-feature-cta-label">
-                Explore Throw More Clay <span aria-hidden="true">→</span>
-              </span>
-            </span>
+            <ClayKeycap id="clay-feature-cta">
+              Explore Throw More Clay <span aria-hidden="true">→</span>
+            </ClayKeycap>
           </div>
         </div>
         <div class="clay-feature-art" aria-hidden="true">
@@ -501,21 +498,7 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
   }
 
-  .clay-feature-panel {
-    --lid-open-angle: 48deg;
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    align-items: center;
-    gap: var(--sp-md) clamp(1.25rem, 3vw, 2.5rem);
-    padding: clamp(1.25rem, 3.5vw, 2.75rem);
-    border: 1px solid #f5ca91;
-    background:
-      radial-gradient(ellipse at 81% 38%, #ffdca1aa, transparent 42%),
-      repeating-linear-gradient(0deg, #50280b0a 0 1px, transparent 1px 4px),
-      linear-gradient(115deg, #ffe1a8, #efbc7e 54%, #c17d45);
-    color: #2c1b10;
-    box-shadow: inset 0 0 0 4px #5f331b26, 0 0.9rem 2.25rem #130c0880;
-  }
+  .clay-feature-panel { --lid-open-angle: 48deg; }
 
   .clay-feature-panel:is(:hover, :focus-visible) {
     color: #2c1b10;
@@ -526,51 +509,6 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     --lid-angle: var(--lid-open-angle);
     outline: 2px solid var(--amber);
     outline-offset: 4px;
-  }
-
-  .clay-feature-copy {
-    display: grid;
-    gap: var(--sp-sm);
-  }
-
-  .clay-feature-kicker {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.4rem 0.75rem;
-    font-size: 0.75rem;
-    line-height: 1.35;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .clay-feature-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.35em 0.65em;
-    background: #502713;
-    color: #fff2d9;
-  }
-
-  .clay-feature-status::before {
-    content: '';
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    background: var(--phosphor);
-    box-shadow: 0 0 6px #ffbd5980;
-  }
-
-  .clay-feature-copy h2 {
-    font-size: clamp(3.1rem, 5.4vw, 4.5rem);
-    line-height: 0.98;
-    text-wrap: initial;
-  }
-
-  .clay-feature-description {
-    max-width: 48ch;
-    line-height: 1.55;
   }
 
   .clay-feature-art {
@@ -584,6 +522,13 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  @media (max-width: 760px) {
+    .clay-feature-art {
+      width: min(100%, 300px);
+      justify-self: center;
+    }
   }
 
   .clay-feature-tray,
@@ -635,101 +580,6 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     justify-items: start;
     gap: 0.75rem;
     font-size: 0.9rem;
-  }
-
-  .clay-feature-cta {
-    position: relative;
-    isolation: isolate;
-    display: inline-block;
-    padding: 0.7rem 1rem 0.85rem;
-    border-radius: 3px;
-    background: linear-gradient(135deg, #8b704e 0%, #62482e 35%, #392619 100%);
-    color: #fff2d9;
-    line-height: 1.4;
-    text-shadow: 0 1px 2px #211308;
-    box-shadow: inset 1px 1px 0 #f1dbb53d, inset -1px -1px 0 #0008, 0 2px 0 #392619, 0 4px 5px #39261955;
-  }
-
-  .clay-feature-cta-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .clay-feature-cta::before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    inset: 3px 3px 6px;
-    border-radius: 2px;
-    background:
-      linear-gradient(110deg, transparent 36%, #ffdfa950 50%, transparent 64%) 100% 0 / 260% 100% no-repeat,
-      linear-gradient(170deg, #ecce9c12, #21130840),
-      var(--keycap-image) 50% 25% / 125% 205% no-repeat #4b3522;
-    box-shadow: inset 0 1px 0 #efd6ae60, inset 1px 0 0 #efd6ae24, 0 2px 2px #0007;
-  }
-
-  .clay-feature-panel:focus-visible .clay-feature-cta {
-    color: var(--phosphor);
-    text-shadow: 0 0 8px #ffbd5966, 0 1px 2px #211308;
-  }
-
-  @media (hover: hover) {
-    .clay-feature-cta:hover {
-      color: var(--phosphor);
-      text-shadow: 0 0 8px #ffbd5966, 0 1px 2px #211308;
-    }
-  }
-
-  .clay-feature-cta:active::before {
-    box-shadow: inset 0 2px 3px #21130899, inset 1px 0 0 #efd6ae18;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .clay-feature-cta {
-      transition: color 120ms ease, text-shadow 120ms ease;
-    }
-
-    .clay-feature-cta::before {
-      transition: background-position 340ms ease-out, box-shadow 120ms ease,
-        transform 150ms cubic-bezier(0.2, 1.55, 0.4, 1);
-    }
-
-    .clay-feature-cta-label {
-      transition: transform 150ms cubic-bezier(0.2, 1.55, 0.4, 1);
-    }
-
-    .clay-feature-panel:focus-visible .clay-feature-cta::before {
-      background-position: 0 0, 0 0, 50% 25%;
-    }
-
-    @media (hover: hover) {
-      .clay-feature-cta:hover::before {
-        background-position: 0 0, 0 0, 50% 25%;
-      }
-    }
-
-    .clay-feature-cta:active::before,
-    .clay-feature-cta:active .clay-feature-cta-label {
-      transform: translateY(3px);
-      transition: transform 40ms ease-out, box-shadow 40ms ease-out;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .clay-feature-panel {
-      grid-template-columns: minmax(0, 1fr);
-      background:
-        radial-gradient(ellipse at 50% 83%, #ffdca1aa, transparent 46%),
-        repeating-linear-gradient(0deg, #50280b0a 0 1px, transparent 1px 4px),
-        linear-gradient(155deg, #ffe1a8, #efbc7e 54%, #c17d45);
-    }
-
-    .clay-feature-art {
-      width: min(100%, 300px);
-      justify-self: center;
-    }
   }
 
   /* ── Focus / services section ── */

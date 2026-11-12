@@ -5,8 +5,13 @@ import PageHero from '../components/PageHero.astro';
 import servicesHero from '../assets/services.webp';
 import patchbay from '../assets/patchbay.webp';
 import charlesSpeaking from '../assets/charles-speaking.jpg';
+import clayChin from '../assets/clay-chin.svg?url';
+import clayHeaderFaceplate from '../assets/clay-header-faceplate.webp';
+import clayPreviewLabelTape from '../assets/clay-preview-label-tape.webp';
 import ClayDisk from '../components/ClayDisk.astro';
+import ClayKeycap from '../components/ClayKeycap.astro';
 import { clayEvenings } from '../data/clay-evenings';
+import '../styles/clay-feature.css';
 
 // Keep the existing section IDs so saved links still reach the right offering.
 const services = [
@@ -83,21 +88,36 @@ const services = [
   </PageHero>
 
   <!-- ── Throw More Clay series ── -->
-  <section id="clay" class="section clay-section">
-    <div class="container clay-layout">
-      <div class="clay-heading">
-        <div class="label">// new · small-group series</div>
-        <h2>Throw More Clay</h2>
-      </div>
-      <div class="clay-body">
-        <p>
-          Three live evenings for creatives making their way in the AI era:
-          designers, writers, musicians, illustrators, and theater and video
-          makers. Bring one project you care about. Leave with a piece you
-          directed and stand behind.
-        </p>
-        <fieldset class="clay-evenings">
-          <legend class="label">Choose an evening to preview</legend>
+  <section id="clay" class="section clay-section" aria-labelledby="clay-title">
+    <div class="container">
+      <div class="clay-feature-panel clay-service-panel" style={`--clay-faceplate: url("${clayHeaderFaceplate.src}")`}>
+        <header class="clay-panel-header">
+          <p class="clay-feature-kicker">
+            <span class="clay-event-mark">
+              <span class="clay-event-bulb" aria-hidden="true"></span>
+              <span class="clay-event-sticker">Upcoming event</span>
+            </span>
+            <span>Live AI series for creatives</span>
+          </p>
+          <Image
+            id="clay-preview-label"
+            class="clay-label-tape"
+            src={clayPreviewLabelTape}
+            alt="Choose an evening to preview"
+            widths={[300, 600, 900]}
+            sizes="18rem"
+          />
+        </header>
+        <div class="clay-feature-copy">
+          <h2 id="clay-title">Throw More Clay</h2>
+          <p class="clay-feature-description">
+            Three live evenings for creatives making their way in the AI era:
+            designers, writers, musicians, illustrators, and theater and video
+            makers. Bring one project you care about. Leave with a piece you
+            directed and stand behind.
+          </p>
+        </div>
+        <fieldset class="clay-evenings" aria-labelledby="clay-preview-label">
           <div class="clay-dates">
             {clayEvenings.map((evening, index) => (
               <>
@@ -108,8 +128,8 @@ const services = [
                   title={evening.title}
                   name="clay-evening"
                   descriptionId={`clay-preview-${index + 1}`}
-                  sizes="(max-width: 768px) 32vw, 190px"
-                  shutterSizes="(max-width: 768px) 16vw, 92px"
+                  sizes="(max-width: 760px) 30vw, 180px"
+                  shutterSizes="(max-width: 760px) 15vw, 86px"
                 />
                 <div class="clay-preview" id={`clay-preview-${index + 1}`}>
                   <p class="clay-preview-title">{evening.title}</p>
@@ -119,12 +139,14 @@ const services = [
             ))}
           </div>
         </fieldset>
-        <p class="text-muted clay-small">
-          January 2027 · 6 to 8 pm Central · live online · 12 seats
+        <p class="clay-small">
+          January 2027 · 6 to 8 pm CST · live online · 12&nbsp;seats
         </p>
-        <div class="clay-buttons">
-          <a href="/clay" class="btn btn-primary">See the Series</a>
-          <a href="/clay/interest" class="btn btn-ghost">Join the Interest List</a>
+        <div class="clay-panel-chin" style={`--clay-chin-image: url("${clayChin}")`}>
+          <div class="clay-buttons">
+            <ClayKeycap href="/clay">See the Series</ClayKeycap>
+            <ClayKeycap href="/clay/interest">Join the Interest List</ClayKeycap>
+          </div>
         </div>
       </div>
     </div>
@@ -249,6 +271,29 @@ const services = [
 
 </BaseLayout>
 
+<script>
+  const evenings = document.querySelector('.clay-evenings');
+  const firstDisk = evenings?.querySelector('.clay-disk');
+
+  if (evenings && firstDisk) {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.65) {
+        evenings.setAttribute('data-disk-hint', '');
+        observer.disconnect();
+      }
+    }, { threshold: 0.65 });
+
+    function dismissHint() {
+      observer.disconnect();
+      evenings?.removeAttribute('data-disk-hint');
+    }
+
+    evenings.addEventListener('pointerenter', dismissHint, { once: true });
+    evenings.addEventListener('focusin', dismissHint, { once: true });
+    observer.observe(firstDisk);
+  }
+</script>
+
 <style>
   .page-hero-sub {
     font-size: 1rem;
@@ -317,23 +362,106 @@ const services = [
     border-bottom: 1px solid var(--border);
   }
 
-  .clay-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--layout-gap);
+  .clay-service-panel {
+    --electric: #502713;
     align-items: start;
+    row-gap: 0.7rem;
+    grid-template-areas: "header" "copy" "evenings" "schedule" "chin";
   }
 
-  .clay-heading,
-  .clay-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-md);
+  @media (min-width: 761px) {
+    .clay-service-panel {
+      --clay-service-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+      grid-template-columns: var(--clay-service-columns);
+      grid-template-areas: "header header" "copy evenings" "schedule evenings" "chin chin";
+    }
+
+    .clay-panel-header {
+      grid-template-columns: var(--clay-service-columns);
+      column-gap: inherit;
+    }
   }
 
-  .clay-heading .label { color: var(--amber); }
+  .clay-panel-header {
+    grid-area: header;
+    display: grid;
+    align-items: center;
+    row-gap: 0.5rem;
+    margin-block-start: calc(-1 * var(--clay-feature-padding));
+    margin-inline: calc(-1 * var(--clay-feature-padding));
+    padding: 0.55rem var(--clay-feature-padding);
+    border-bottom: 1px solid #876542;
+    background: #c8aa7e var(--clay-faceplate) center / 100% 100% no-repeat;
+  }
+
+  .clay-event-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .clay-event-bulb {
+    position: relative;
+    flex: 0 0 0.52rem;
+    height: 0.52rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 36% 30%,
+      #fff7d6 4%, #ffe1a0 24%, #ffb74c 56%, #b66025 87%);
+    box-shadow: 0 0 0 2px #62452c, 0 1px 0 3px #edcfa2;
+  }
+
+  .clay-event-bulb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 10px 3px #ffa73b;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .clay-event-bulb::after {
+      animation: clay-bulb-pulse 4.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes clay-bulb-pulse {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.72; }
+  }
+
+  .clay-event-sticker {
+    padding: 0.3em 0.65em;
+    border-radius: 1px 3px 2px 1px;
+    background: linear-gradient(165deg, #ffefcd, #ead2a6);
+    color: #422819;
+    font-weight: 700;
+    box-shadow: inset 0 1px 0 #fff7e1, 0 1px 2px #51321f55;
+    transform: rotate(-0.75deg);
+  }
+
+  .clay-label-tape {
+    justify-self: start;
+    display: block;
+    width: min(100%, 18rem);
+    height: auto;
+    filter: drop-shadow(0 1px 1px #51321f55);
+    transform: rotate(-2deg);
+  }
+
+  .clay-service-panel .clay-feature-copy {
+    grid-area: copy;
+    container-type: inline-size;
+  }
+
+  .clay-service-panel .clay-feature-copy h2 {
+    font-size: min(4.5rem, 16cqi);
+    white-space: nowrap;
+  }
 
   .clay-evenings {
+    grid-area: evenings;
     min-inline-size: 0;
     padding: 0;
     border: 0;
@@ -344,49 +472,93 @@ const services = [
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(0.5rem, 2cqi, 0.75rem);
-    margin-top: var(--sp-sm);
   }
 
   .clay-dates > :global(.clay-disk) { grid-row: 1; }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .clay-evenings[data-disk-hint] :global(.clay-disk:first-of-type) {
+      animation: clay-disk-hint 720ms 380ms ease-in-out;
+    }
+  }
+
+  @keyframes clay-disk-hint {
+    0%, 100% { transform: none; }
+    32%, 60% { transform: translateY(-0.15rem) rotate(-3deg); }
+  }
+
+  /* Stack all previews in one grid cell so its height fits the longest one. */
   .clay-preview {
-    display: none;
+    visibility: hidden;
     grid-area: 2 / 1 / 3 / -1;
     max-width: none;
-    min-block-size: 4lh;
-    padding: 0.65rem 0.85rem;
-    border-left: 2px solid var(--amber);
-    background: var(--bg-surface);
+    padding: 0.5rem 0.85rem;
+    border-left: 2px solid #805232;
+    background: #fff2d966;
     font-size: 0.9rem;
   }
 
   .clay-preview-title {
-    margin-bottom: 0.2rem;
-    color: var(--phosphor);
+    margin-bottom: 0.35rem;
+    color: #502713;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-shadow: 0.25px 0 currentColor;
   }
 
   .clay-dates > :global(.clay-disk-input:checked) + :global(.clay-disk) + .clay-preview {
-    display: block;
+    visibility: visible;
   }
 
-  .clay-small { font-size: 0.8rem; }
+  .clay-small {
+    grid-area: schedule;
+    align-self: end;
+    color: #502713;
+    font-size: 0.8rem;
+  }
+
+  .clay-panel-chin {
+    --clay-chin-taper: min(clamp(4.5rem, 25vw, 19rem), 28%);
+    --clay-chin-key-width: min(22.4rem, calc(100% - var(--clay-chin-taper) - 0.65rem));
+    grid-area: chin;
+    display: grid;
+    position: relative;
+    isolation: isolate;
+    margin-inline: calc(-1 * var(--clay-feature-padding));
+    margin-block-end: calc(-1 * var(--clay-feature-padding));
+  }
+
+  /* Give the shoulder its own width so the bevel follows the taper from the keys to the rail. */
+  .clay-panel-chin::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    border-image-source: var(--clay-chin-image);
+    border-image-slice: 0 280 0 320 fill;
+    border-image-width: 0 calc(100% - var(--clay-chin-key-width) - var(--clay-chin-taper)) 0 var(--clay-chin-key-width);
+  }
 
   .clay-buttons {
     display: flex;
-    gap: var(--sp-md);
+    justify-self: start;
     flex-wrap: wrap;
+    gap: 4px;
+    width: var(--clay-chin-key-width);
+    padding: 0.625rem 5px 7px;
+    font-size: 0.9rem;
   }
 
-  .clay-buttons .btn {
-    max-width: 100%;
+  .clay-buttons > :global(a) {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .clay-buttons :global(.clay-feature-cta-label) {
+    justify-content: center;
     text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    .clay-layout {
-      grid-template-columns: 1fr;
-      gap: var(--sp-lg);
-    }
   }
 
   .service-section + .service-section {

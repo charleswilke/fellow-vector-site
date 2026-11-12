@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="64" viewBox="0 0 1000 64">
+  <defs>
+    <!-- The first 320 and last 280 units are straight so CSS can size the curve separately. -->
+    <path id="shell" d="M-24 1H324C379 1 422 8 475 23S589 47 713 47H1024V88H-24Z"/>
+    <clipPath id="shell-clip">
+      <use href="#shell"/>
+    </clipPath>
+    <linearGradient id="face" gradientUnits="userSpaceOnUse" x2="0" y2="64">
+      <stop stop-color="#ccaf81"/>
+      <stop offset=".32" stop-color="#cfb285"/>
+      <stop offset=".76" stop-color="#c2a273"/>
+      <stop offset="1" stop-color="#ad895a"/>
+    </linearGradient>
+    <linearGradient id="shoulder-shadow" gradientUnits="userSpaceOnUse" x1="320" x2="720">
+      <stop stop-color="#69421f" stop-opacity="0"/>
+      <stop offset=".26" stop-color="#69421f" stop-opacity=".42"/>
+      <stop offset=".56" stop-color="#69421f" stop-opacity=".49"/>
+      <stop offset=".87" stop-color="#69421f" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#69421f" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft-edge" filterUnits="userSpaceOnUse" x="-24" y="-18" width="1048" height="106">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+    <filter id="soft-shoulder" filterUnits="userSpaceOnUse" x="-24" y="-18" width="1048" height="106">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+  <g clip-path="url(#shell-clip)">
+    <use href="#shell" fill="url(#face)"/>
+    <use href="#shell" transform="translate(0 10)" fill="none" stroke="#8a6036" stroke-opacity=".35"
+      stroke-width="5" filter="url(#soft-edge)"/>
+    <use href="#shell" transform="translate(0 15)" fill="none" stroke="url(#shoulder-shadow)"
+      stroke-width="9" filter="url(#soft-shoulder)"/>
+    <use href="#shell" transform="translate(0 4)" fill="none" stroke="#fff0cf" stroke-opacity=".83"
+      stroke-width="6" filter="url(#soft-edge)"/>
+    <use href="#shell" transform="translate(0 2)" fill="none" stroke="#fff4dc" stroke-opacity=".65"/>
+    <use href="#shell" fill="none" stroke="#7b5637" stroke-opacity=".75" stroke-width="2"/>
+    <path d="M0 60H1000V64H0Z" fill="#745133" fill-opacity=".58"/>
+    <path d="M0 60.5H1000" stroke="#e9cea0" stroke-opacity=".48"/>
+  </g>
+</svg>
