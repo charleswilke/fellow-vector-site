@@ -95,11 +95,21 @@ import photoPortrait from '../assets/cw2.webp';
             sizes="(max-width: 700px) 75vw, 330px"
             loading="lazy"
           />
+          <div class="clay-feature-lid-scene">
+            <Image
+              src={clayCase}
+              alt=""
+              class="clay-feature-lid"
+              widths={[320, 480, 640, 960]}
+              sizes="(max-width: 700px) 75vw, 330px"
+              loading="lazy"
+            />
+          </div>
           <Image
-            src={clayCase}
+            src={clayCaseTray}
             alt=""
-            class="clay-feature-lid"
-            widths={[320, 480, 640, 960]}
+            class="clay-feature-hinges"
+            widths={[320, 480, 640]}
             sizes="(max-width: 700px) 75vw, 330px"
             loading="lazy"
           />
@@ -115,23 +125,21 @@ import photoPortrait from '../assets/cw2.webp';
     </div>
     <div class="container">
       <div class="focus-intro">
-        <div class="section-head">
-          <h2>Build your capacity.</h2>
-          <p class="text-muted">
-            Start with a question, a task, or something you want to make.
-            Learn one-to-one, practice with your team, or bring the conversation
-            to a room full of curious people.
-          </p>
-        </div>
+        <h2>Build your capacity.</h2>
         <figure class="focus-character">
           <Image
             src={bulb}
             alt="Charles’s friendly amber CW lightbulb character"
             widths={[240, 400, 600]}
-            sizes="(max-width: 600px) 180px, (max-width: 1100px) 25vw, 300px"
+            sizes="clamp(220px, 31vw, 372px)"
             loading="lazy"
           />
         </figure>
+        <p class="text-muted">
+          Start with a question, a task, or something you want to make.
+          Learn one-to-one, practice with your team, or bring the conversation
+          to a room full of <span class="keep-together">curious people.</span>
+        </p>
       </div>
 
       <div class="services-grid">
@@ -483,6 +491,7 @@ import photoPortrait from '../assets/cw2.webp';
   }
 
   .clay-feature-panel {
+    --lid-open-angle: 48deg;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 330px);
     align-items: center;
@@ -503,6 +512,7 @@ import photoPortrait from '../assets/cw2.webp';
   }
 
   .clay-feature-panel:focus-visible {
+    --lid-angle: var(--lid-open-angle);
     outline: 2px solid var(--amber);
     outline-offset: 4px;
   }
@@ -517,8 +527,8 @@ import photoPortrait from '../assets/cw2.webp';
   }
 
   .clay-feature-art {
-    --lid-open-transform: rotateX(44deg);
-    --lid-open-shadow: drop-shadow(0 0.45rem 0.3rem rgba(10, 7, 4, 0.4));
+    --hinge-axis: 9.4%;
+    container-type: inline-size;
     position: relative;
     filter: drop-shadow(0 0.6rem 0.55rem rgba(10, 7, 4, 0.58));
   }
@@ -529,43 +539,44 @@ import photoPortrait from '../assets/cw2.webp';
     height: auto;
   }
 
-  .clay-feature-tray {
+  .clay-feature-tray,
+  .clay-feature-hinges {
     position: absolute;
     inset: 0;
-    opacity: 0;
   }
 
-  .clay-feature-lid {
+  .clay-feature-lid-scene {
     position: relative;
-    transform-origin: 50% 9.4%;
+    perspective: 300cqw;
+    perspective-origin: 50% var(--hinge-axis);
   }
 
-  .clay-feature-panel:focus-visible .clay-feature-tray {
-    opacity: 1;
-    transition-delay: 0ms;
+  /* Cut the hinge barrels out of the moving lid and keep the tray's barrels in front. */
+  .clay-feature-lid {
+    transform: rotateX(var(--lid-angle, 0deg));
+    transform-origin: 50% var(--hinge-axis);
+    clip-path: polygon(
+      0 var(--hinge-axis), 13% var(--hinge-axis), 13% 12.4%, 20.5% 12.4%, 20.5% var(--hinge-axis),
+      80.2% var(--hinge-axis), 80.2% 12.4%, 88.1% 12.4%, 88.1% var(--hinge-axis), 100% var(--hinge-axis),
+      100% 100%, 0 100%
+    );
   }
 
-  .clay-feature-panel:focus-visible .clay-feature-lid {
-    transform: var(--lid-open-transform);
-    filter: var(--lid-open-shadow);
+  .clay-feature-hinges {
+    clip-path: polygon(
+      0 0, 100% 0, 100% var(--hinge-axis),
+      88.1% var(--hinge-axis), 88.1% 12.4%, 80.2% 12.4%, 80.2% var(--hinge-axis),
+      20.5% var(--hinge-axis), 20.5% 12.4%, 13% 12.4%, 13% var(--hinge-axis), 0 var(--hinge-axis)
+    );
   }
 
   @media (hover: hover) {
-    .clay-feature-panel:hover .clay-feature-tray {
-      opacity: 1;
-      transition-delay: 0ms;
-    }
-
-    .clay-feature-panel:hover .clay-feature-lid {
-      transform: var(--lid-open-transform);
-      filter: var(--lid-open-shadow);
-    }
+    .clay-feature-panel:hover { --lid-angle: var(--lid-open-angle); }
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .clay-feature-tray { transition: opacity 90ms ease-out 450ms; }
     .clay-feature-lid {
-      transition: transform 540ms cubic-bezier(0.22, 0.7, 0.25, 1), filter 250ms ease-out;
+      transition: transform 540ms cubic-bezier(0.22, 0.7, 0.25, 1);
     }
   }
 
@@ -636,14 +647,24 @@ import photoPortrait from '../assets/cw2.webp';
 
   .focus-intro {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(180px, 25vw, 300px);
+    grid-template-columns: minmax(0, 35rem) clamp(220px, 31vw, 372px);
+    grid-template-rows: 1fr auto;
     align-items: end;
-    gap: var(--layout-gap);
+    gap: var(--sp-sm);
+  }
+
+  .focus-intro h2 { grid-area: 1 / 1; }
+
+  .focus-intro p {
+    grid-area: 2 / 1;
+    margin-bottom: var(--sp-lg);
   }
 
   .focus-character {
+    grid-area: 1 / 2 / span 2;
     width: 100%;
-    height: clamp(170px, 19vw, 220px);
+    height: clamp(194px, 23vw, 272px);
+    translate: -24px;
     overflow: hidden;
     pointer-events: none;
   }
@@ -652,28 +673,49 @@ import photoPortrait from '../assets/cw2.webp';
     display: block;
     width: 100%;
     height: auto;
-    transform: rotate(-12deg);
-    transform-origin: 50% 60%;
   }
 
   @media (max-width: 600px) {
-    .focus-intro { display: block; }
-    .focus-intro .section-head { margin-bottom: 0; }
+    .focus-intro { display: flow-root; }
+    .focus-intro h2 { margin-bottom: var(--sp-sm); }
+    .focus-intro p { margin-bottom: var(--sp-md); }
+    .focus-intro .keep-together { white-space: nowrap; }
+
     .focus-character {
-      width: 180px;
-      height: 125px;
-      margin-left: auto;
+      --wrap-top: 2lh;
+      float: right;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      width: 128px;
+      height: 210px;
+      /* The image has 24px of transparent space above the bulb at this size. */
+      margin-top: calc(var(--wrap-top) - 24px);
+      margin-left: var(--sp-xs);
+      /* Follow the glass and leave a small gap around the screw base. */
+      shape-outside: polygon(
+        100% var(--wrap-top),
+        40px var(--wrap-top),
+        13px calc(var(--wrap-top) + 24px),
+        1px calc(var(--wrap-top) + 52px),
+        1px calc(var(--wrap-top) + 72px),
+        10px calc(var(--wrap-top) + 92px),
+        32px calc(var(--wrap-top) + 112px),
+        48px calc(var(--wrap-top) + 136px),
+        60px calc(var(--wrap-top) + 164px),
+        73px calc(var(--wrap-top) + 180px),
+        100% calc(var(--wrap-top) + 180px)
+      );
+      translate: none;
+    }
+
+    .focus-character img {
+      flex: none;
+      width: 220px;
     }
   }
 
   /* ── Services grid ── */
-  .section-head {
-    margin-bottom: var(--sp-lg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-sm);
-  }
-
   .services-grid {
     position: relative;
     display: grid;

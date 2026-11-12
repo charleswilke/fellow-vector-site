@@ -45,6 +45,16 @@ const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
   </span>
 </label>
 
+<script>
+  for (const input of document.querySelectorAll<HTMLInputElement>('.clay-disk-input[type="checkbox"]')) {
+    input.labels?.[0]?.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'mouse' && !input.matches(':focus-visible')) {
+        input.checked = false;
+      }
+    });
+  }
+</script>
+
 <style>
   .clay-disk-input {
     position: absolute;
@@ -91,6 +101,10 @@ const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
     .clay-disk { transition: transform 180ms ease-out; }
     .clay-disk-shutter { transition: transform 170ms ease-out; }
 
+    .clay-disk-input[type="checkbox"]:not(:checked) + .clay-disk .clay-disk-shutter {
+      transition-duration: 100ms;
+    }
+
     .clay-disk-input:checked + .clay-disk {
       transform: translateY(-0.25rem);
     }
@@ -117,7 +131,7 @@ const art = [clayDisk, clayDiskLiftedLabel, clayDiskScuffed][eveningIndex];
     color: #2b2218;
   }
 
-  .clay-disk-input:checked + .clay-disk {
+  .clay-disk-input:where([type="radio"]):checked + .clay-disk {
     outline: 1px solid var(--amber);
     outline-offset: 1px;
   }
