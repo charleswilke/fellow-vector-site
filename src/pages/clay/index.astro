@@ -2,39 +2,12 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import ClayDisk from '../../components/ClayDisk.astro';
-import SignalStrip from '../../components/SignalStrip.astro';
 import artRoomHero from '../../assets/clay-art-room.webp';
-import patchbay from '../../assets/patchbay.webp';
 import portrait from '../../assets/cw2.webp';
+import { clayEvenings } from '../../data/clay-evenings';
 
 // Sales aren't open yet, so every "save your seat" action points to the interest list.
 const signupHref = '/clay/interest';
-
-const evenings = [
-  {
-    day: 'Jan 11',
-    title: 'What hope do we have?',
-    body: `Name what you're afraid AI takes from you. Then find what you keep coming back to.
-    Leave with your point of view, in your own words.`,
-    homework: 'Before next week: pick the idea for your piece.',
-  },
-  {
-    day: 'Jan 18',
-    title: 'Direct the chorus.',
-    body: `I walk through how I made art for my essays and my theater shows, wrong turns
-    included. Then you make your piece in three rounds. Name what's wrong. Fix it. Write
-    the author's note.`,
-    homework: 'Before next week: finish the piece and its note.',
-  },
-  {
-    day: 'Jan 25',
-    title: 'Make the film anyway.',
-    body: `Show what you made. Audit your tools: what you own, what you rent, what your
-    assistant remembers about you. Leave with the next thing you'll make, and someone to
-    check in with.`,
-  },
-];
 
 const takeaways = [
   { k: 'Point of view', v: 'Your point of view, on one page.' },
@@ -68,29 +41,33 @@ const faqs = [
     imagePosition="74% 48%"
     preserveImageColor
     wideFraming
+    compact
   >
-    <p class="page-hero-sub clay-sub">Three evenings for creatives making their way in the AI era.</p>
+    <p class="page-hero-sub clay-sub">Three live evenings for creatives working with AI. Bring one project. Leave with a piece you directed.</p>
     <dl class="clay-spec" aria-label="Series details">
-      <div><dt>Mondays</dt><dd>Jan 11 · 18 · 25</dd></div>
-      <div><dt>Live online</dt><dd>6–8 pm CT</dd></div>
+      <div><dt>Mondays · 2027</dt><dd>Jan 11 · 18 · 25</dd></div>
+      <div><dt>Live online</dt><dd>6–8 pm Central</dd></div>
       <div><dt>Room</dt><dd>12 seats</dd></div>
       <div><dt>Founding price</dt><dd>$295</dd></div>
     </dl>
     <div class="clay-actions">
       <a href={signupHref} class="btn btn-primary btn-lg">Join the Interest List</a>
-      <a href="/book" class="btn btn-ghost">Book a Call</a>
+      <nav class="clay-jumps" aria-label="On this page">
+        <a href="#clay-evenings">Schedule <span aria-hidden="true">↓</span></a>
+        <a href="#clay-details">Details <span aria-hidden="true">↓</span></a>
+      </nav>
     </div>
     <p class="clay-status"><span class="clay-led" aria-hidden="true"></span>Seats open soon. The list hears first.</p>
   </PageHero>
 
-  <SignalStrip phrases={['POINT OF VIEW', 'DIRECT THE CHORUS', "AUTHOR'S NOTE", 'MAKE THE FILM ANYWAY', 'OWN OR RENT', 'HUMAN JUDGMENT']} />
-
-  <section class="section clay-section">
-    <div class="container clay-row">
-      <div class="label">// why this exists</div>
-      <div class="clay-stack">
-        <p class="clay-tagline">Another round of outsourcing and automation. Another round of folks telling you your craft is cheap.</p>
-        <p class="clay-lead clay-display">Great work still takes <em>your judgement.</em></p>
+  <div class="section clay-program">
+    <div class="container clay-program-grid">
+      <section class="clay-intro clay-stack" aria-labelledby="clay-why">
+        <div class="clay-heading">
+          <div class="label">// why this exists</div>
+          <h2 id="clay-why" class="clay-lead">Great work still takes <em>your judgement.</em></h2>
+        </div>
+        <p>Another round of outsourcing and automation. Another round of folks telling you your craft is cheap.</p>
         <p>
           This is a small live series for designers, writers, musicians, illustrators,
           and theater and video makers. Curious, anxious or skeptical. All welcome.
@@ -100,133 +77,113 @@ const faqs = [
           No coding. No hype. No rerolling until something looks fine. You direct. You
           revise. You put your name on it. Then you say how it was made.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section clay-section" aria-labelledby="clay-evenings">
-    <div class="container clay-stack clay-stack-lg">
-      <div class="clay-heading">
-        <div class="label">// the three evenings</div>
-        <h2 id="clay-evenings" class="clay-display">One room, three Mondays, one piece of work.</h2>
-      </div>
-      <div>
-        {evenings.map((ev, index) => (
-          <article class="clay-evening">
-            <div>
-              <ClayDisk
-                id={`clay-program-disk-${index + 1}`}
-                eveningIndex={index}
-                day={ev.day}
-                sizes="(max-width: 400px) 100px, (max-width: 640px) 25vw, (max-width: 960px) 160px, 176px"
-                shutterSizes="(max-width: 400px) 48px, (max-width: 640px) 12vw, (max-width: 960px) 76px, 84px"
-              />
+      </section>
+      <div class="clay-program-sidebar clay-stack">
+        <section class="clay-stack clay-stack-sm" aria-labelledby="clay-host-title">
+          <div class="label">// who's running it</div>
+          <div class="clay-host">
+            <Image
+              src={portrait}
+              alt="Charles Wilke, smiling in round glasses in his studio."
+              widths={[108, 144, 216, 288]}
+              sizes="(max-width: 900px) 108px, (max-width: 1200px) 12vw, 144px"
+              loading="lazy"
+            />
+            <div class="clay-stack clay-stack-sm">
+              <h2 id="clay-host-title">Charles Wilke</h2>
+              <p>
+                Twenty years in TV, print, radio, games and marketing. Now I design how
+                conversational AI talks, for a living. I make things with AI in public,
+                and I say how.
+              </p>
             </div>
-            <div class="clay-evening-copy clay-stack clay-stack-sm">
-              <h3>{ev.title}</h3>
-              <p>{ev.body}</p>
-              {ev.homework && <p class="clay-homework">{ev.homework}</p>}
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="section clay-section" aria-labelledby="clay-leave">
-    <div class="container clay-stack clay-stack-lg">
-      <div class="clay-heading">
-        <div class="label">// you leave with</div>
-        <h2 id="clay-leave" class="clay-display">Five things you can hold up.</h2>
-      </div>
-      <ul class="clay-takeaways">
-        {takeaways.map((t) => (
-          <li class="card"><span class="label">{t.k}</span><p>{t.v}</p></li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section clay-section" aria-labelledby="clay-details">
-    <div class="container clay-details">
-      <div class="clay-paper">
-        <h3 id="clay-details">The details</h3>
-        <dl>
-          <dt>When</dt><dd>Mondays, January 11, 18 and 25, 2027</dd>
-          <dt>Time</dt><dd>6 to 8 pm Central, live online</dd>
-          <dt>Between</dt><dd>1 to 2 hours of making at home</dd>
-          <dt>Room</dt><dd>12 seats</dd>
-          <dt>Price</dt>
-          <dd>
-            <span class="clay-price">$295</span><span class="clay-was">$395</span><br />
-            Founding cohort price. Two seats are pay what you can.
-          </dd>
-          <dt>Missed one?</dt><dd>Main sessions are recorded. Breakout rooms stay private.</dd>
-        </dl>
-        <span class="clay-stamp">Founding cohort</span>
-      </div>
-
-      <div class="clay-stack">
-        <div class="label">// who's running it</div>
-        <div class="clay-host">
-          <Image
-            src={portrait}
-            alt="Charles Wilke, smiling in round glasses in his studio."
-            widths={[160, 320]}
-            sizes="160px"
-            loading="lazy"
-          />
-          <div class="clay-stack clay-stack-sm">
-            <h3>Charles Wilke</h3>
-            <p>
-              Twenty years in TV, print, radio, games and music. Now I design how
-              conversational AI talks, for a living. I make things with AI in public,
-              and I say how.
-            </p>
           </div>
-        </div>
+        </section>
+
+        <section id="clay-evenings" class="clay-schedule clay-stack" aria-labelledby="clay-program-title">
+          <div class="clay-heading">
+            <div class="label">// the schedule</div>
+            <h2 id="clay-program-title">The three evenings</h2>
+          </div>
+          <div class="clay-agenda">
+            {clayEvenings.map((ev, index) => (
+              <details class="clay-evening-details">
+                <summary>
+                  <span class="clay-evening-meta">
+                    <span class="label">Evening {index + 1}</span>
+                    <time datetime={ev.date}>{ev.day}</time>
+                  </span>
+                  <span class="clay-evening-preview">
+                    <span class="clay-evening-title">{ev.title}</span>
+                    <span class="clay-outcome">{ev.outcome}</span>
+                  </span>
+                </summary>
+                <div class="clay-evening-body clay-stack clay-stack-sm">
+                  <p>{ev.body}</p>
+                  {ev.homework && <p class="clay-homework">{ev.homework}</p>}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section id="clay-details" class="clay-receipt" aria-labelledby="clay-details-title">
+          <div class="clay-paper">
+            <h2 id="clay-details-title" class="clay-receipt-title">The details</h2>
+            <dl>
+              <dt>When</dt><dd>Mondays, January 11, 18 and 25, 2027</dd>
+              <dt>Time</dt><dd>6 to 8 pm Central, live online</dd>
+              <dt>Between</dt><dd>1 to 2 hours of making at home</dd>
+              <dt>Room</dt><dd>12 seats</dd>
+              <dt>Price</dt>
+              <dd>
+                <span class="clay-price">$295</span><span class="clay-was">$395</span><br />
+                Founding cohort price. Two seats are pay what you can.
+              </dd>
+              <dt>Missed one?</dt><dd>Main sessions are recorded. Breakout rooms stay private.</dd>
+            </dl>
+          </div>
+          <div class="clay-receipt-signup clay-stack clay-stack-sm">
+            <a href={signupHref} class="btn btn-primary">Join the Interest List</a>
+            <p class="text-muted clay-small">You’ll hear first when seats open.</p>
+            <p class="text-muted clay-small">Not sure it's for you? <a href="/book">Book a 30-minute call.</a></p>
+          </div>
+        </section>
+      </div>
+      <section class="clay-program-takeaways clay-stack clay-stack-sm" aria-labelledby="clay-takeaways-title">
+        <h2 id="clay-takeaways-title">What you’ll leave with</h2>
+        <ul class="clay-takeaways">
+          {takeaways.map((t) => (
+            <li><span class="label">{t.k}</span><p>{t.v}</p></li>
+          ))}
+        </ul>
         <p class="text-muted clay-small">
           Need it for your team instead? I run this as a private workshop too.
           <a href="/book">Book a call</a> and we'll shape it to your work.
         </p>
-      </div>
+        <section class="clay-program-faq clay-stack clay-stack-sm" aria-labelledby="clay-faq">
+          <h3 id="clay-faq">FAQ</h3>
+          <div class="clay-faq">
+            {faqs.map((f) => (
+              <details><summary>{f.q}</summary><p>{f.a}</p></details>
+            ))}
+          </div>
+        </section>
+      </section>
     </div>
-  </section>
-
-  <section class="section clay-section" aria-labelledby="clay-faq">
-    <div class="container clay-row">
-      <div class="clay-heading">
-        <div class="label">// questions</div>
-        <h2 id="clay-faq">FAQ</h2>
-      </div>
-      <div class="clay-faq">
-        {faqs.map((f) => (
-          <details><summary>{f.q}</summary><p>{f.a}</p></details>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="clay-cta">
-    <div class="clay-cta-bg" aria-hidden="true">
-      <Image src={patchbay} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
-    </div>
-    <div class="container clay-cta-inner">
-      <div class="label">// save your seat</div>
-      <h2 class="closing-cta-title text-phosphor glow-phosphor">Seats aren't on sale yet.</h2>
-      <p class="text-muted">Join the interest list and you'll hear first when the founding cohort opens.</p>
-      <a href={signupHref} class="btn btn-primary btn-lg">Join the Interest List</a>
-      <p class="text-muted clay-small">Not sure it's for you? <a href="/book">Book a 30-minute call.</a></p>
-    </div>
-  </section>
+  </div>
 </BaseLayout>
 
 <style>
-  .clay-sub { font-size: clamp(1.05rem, 2vw, 1.25rem); }
+  .clay-sub {
+    max-width: 54ch;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.5;
+  }
 
   .clay-spec {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1px;
     max-width: 760px;
     margin-top: var(--sp-sm);
@@ -239,7 +196,7 @@ const faqs = [
     flex-direction: column;
     gap: 0.15rem;
     min-width: 0;
-    padding: 0.8rem 1rem;
+    padding: 0.55rem 0.75rem;
     background: rgba(var(--bg-rgb), 0.85);
   }
 
@@ -252,7 +209,7 @@ const faqs = [
 
   .clay-spec dd {
     font-family: var(--font-crt);
-    font-size: 1.55rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.55rem);
     line-height: 1.1;
     color: var(--electric);
     font-variant-numeric: tabular-nums;
@@ -261,16 +218,32 @@ const faqs = [
   .clay-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--sp-md);
+    gap: var(--sp-xs) var(--sp-lg);
     align-items: center;
-    margin-top: var(--sp-md);
+    margin-top: var(--sp-sm);
   }
+
+  .clay-actions .btn { padding-block: 0.8rem; }
+
+  .clay-jumps { display: flex; flex-wrap: wrap; gap: var(--sp-lg); }
+
+  .clay-jumps a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-sm);
+    min-height: 44px;
+    color: var(--electric);
+    text-underline-offset: 0.25em;
+  }
+
+  .clay-jumps span { color: var(--phosphor); }
+  .clay-jumps a:is(:hover, :focus-visible) { text-decoration: underline; }
 
   .clay-status {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    margin-top: var(--sp-sm);
+    margin-top: var(--sp-xs);
     font-size: 0.78rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -288,51 +261,110 @@ const faqs = [
 
   @keyframes clay-pulse { 50% { opacity: 0.35; } }
 
-  .clay-section + .clay-section { border-top: 1px solid var(--border); }
-
-  .clay-row {
-    display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: var(--layout-gap);
-  }
-
   .clay-stack { display: flex; flex-direction: column; gap: var(--sp-md); min-width: 0; }
   .clay-stack-sm { gap: var(--sp-sm); }
-  .clay-stack-lg { gap: var(--sp-lg); }
   .clay-heading { display: flex; flex-direction: column; gap: var(--sp-xs); }
 
-  .clay-tagline {
-    max-width: 34rem;
-    padding: 0.45rem 0;
-    border-top: 1px solid var(--phosphor-dim);
-    border-bottom: 1px solid var(--phosphor-dim);
-    font-size: 0.72rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-  }
-
   .clay-lead {
-    max-width: 30ch;
-    font-size: clamp(2rem, 3.8vw, 2.75rem);
+    font-size: clamp(2.4rem, 4vw, 3.5rem);
+    text-wrap: pretty;
   }
 
   .clay-lead em {
+    display: inline-block;
     font-style: normal;
     color: var(--phosphor);
     text-shadow: var(--glow-phosphor);
   }
 
-  .clay-evening {
+  .clay-program { padding-block: clamp(1.5rem, 2.5vw, 2rem) var(--section-space); }
+
+  .clay-program-grid {
     display: grid;
-    grid-template-columns: 176px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
     align-items: start;
-    gap: var(--layout-gap);
-    padding: var(--sp-lg) 0;
+    gap: var(--sp-lg) clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .clay-intro p { max-width: 53ch; }
+  .clay-program-sidebar { grid-column: 2; grid-row: 1 / span 2; gap: var(--sp-lg); }
+  .clay-schedule h2 { font-size: clamp(2rem, 3vw, 2.65rem); }
+  .clay-program-takeaways h2 { font-size: clamp(1.65rem, 2.5vw, 2rem); }
+  .clay-program-takeaways > p { margin-top: var(--sp-sm); }
+
+  .clay-agenda {
+    border: 1px solid var(--border-hover);
+    border-top-color: var(--phosphor-dim);
+    background: rgba(var(--bg-rgb), 0.65);
+  }
+
+  .clay-evening-meta, .clay-evening-preview {
+    display: grid;
+    justify-items: start;
+    gap: var(--sp-xs);
+  }
+
+  .clay-evening-meta .label {
+    color: var(--fg-muted);
+    font-size: 0.62rem;
+    white-space: nowrap;
+  }
+
+  .clay-evening-meta time {
+    padding: 0.1rem 0.4rem;
+    background: #efe3c8;
+    color: #2b2218;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .clay-evening-title {
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.1vw, 1.8rem);
+    line-height: 1.08;
+  }
+
+  .clay-outcome {
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .clay-evening-details { --agenda-inset: clamp(0.75rem, 1.5vw, 1.15rem); }
+
+  .clay-evening-details + .clay-evening-details {
     border-top: 1px solid var(--border);
   }
 
-  .clay-evening:first-child { border-top: 0; padding-top: var(--sp-sm); }
+  .clay-evening-details summary {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) 0.9rem;
+    align-items: center;
+    gap: clamp(0.65rem, 1.25vw, 1rem);
+    padding: 0.7rem var(--agenda-inset);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .clay-evening-details summary::-webkit-details-marker { display: none; }
+  .clay-evening-details summary::after {
+    content: '+' / '';
+    color: var(--phosphor);
+    font: 1.4rem / 1 var(--font-crt);
+  }
+  .clay-evening-details[open] summary::after { content: '−' / ''; }
+  .clay-evening-details summary:hover { background: var(--bg-raised); }
+  .clay-evening-details summary:focus-visible { outline: 2px solid var(--electric); outline-offset: -2px; }
+
+  .clay-evening-body {
+    padding: var(--sp-xs) var(--agenda-inset) var(--sp-md);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
 
   .clay-homework {
     padding-left: 0.8rem;
@@ -343,41 +375,66 @@ const faqs = [
 
   .clay-takeaways {
     list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 0.75rem;
+    border-bottom: 1px solid var(--border);
   }
 
-  .clay-takeaways .card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding: 1.1rem;
+  .clay-takeaways li {
+    display: grid;
+    grid-template-columns: minmax(8rem, 1fr) 2fr;
+    align-items: baseline;
+    gap: var(--sp-sm);
+    padding-block: 0.55rem;
+    border-top: 1px solid var(--border);
   }
 
   .clay-takeaways p { font-size: 0.95rem; line-height: 1.5; }
 
-  .clay-details {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--layout-gap);
-    align-items: start;
+  .clay-receipt {
+    container-type: inline-size;
+    max-width: 30rem;
   }
 
-  /* Cream paper note, as on the hero label and feed cards */
+  .clay-receipt-signup {
+    align-items: center;
+    margin-top: var(--sp-md);
+    text-align: center;
+  }
+
   .clay-paper {
-    padding: 1.5rem 1.6rem;
-    background: #efe3c8;
+    /* Match the header and torn edge to the 2:3 source image; only the blank middle stretches. */
+    --receipt-header: 28.5cqw;
+    --receipt-footer: 6cqw;
+    position: relative;
+    isolation: isolate;
+    padding: var(--receipt-header) 9cqw var(--receipt-footer);
     color: #2b2218;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.4), 0 18px 40px rgba(0, 0, 0, 0.25);
-    transform: rotate(-0.6deg);
+  }
+
+  .clay-paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(#efe3c8, #efe3c8) center / 90% 95% no-repeat;
+    border-image: url('../../assets/clay-details-receipt.webp') 19% 0 4% fill stretch;
+    border-image-width: var(--receipt-header) 0 var(--receipt-footer);
+  }
+
+  .clay-receipt-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
   .clay-paper dl {
     display: grid;
     grid-template-columns: max-content minmax(0, 1fr);
-    gap: 0.55rem 1.2rem;
-    margin-top: var(--sp-md);
+    gap: 0.55rem clamp(0.75rem, 4cqw, 1.2rem);
+    padding-block: var(--sp-sm) var(--sp-md);
+    border-block: 1px dashed #a28c6c;
   }
 
   .clay-paper dt {
@@ -392,28 +449,20 @@ const faqs = [
   .clay-price { font-family: var(--font-crt); font-size: 1.9rem; line-height: 1; }
   .clay-was { margin-left: 0.4rem; font-size: 1.1rem; color: #7d6a4a; text-decoration: line-through; }
 
-  .clay-stamp {
-    display: inline-block;
-    margin-top: 1.1rem;
-    padding: 0.25rem 0.6rem;
-    border: 2px solid #b5562a;
-    color: #b5562a;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    transform: rotate(-3deg);
+  .clay-host {
+    --portrait-size: clamp(108px, 12vw, 144px);
+    display: grid;
+    grid-template-columns: var(--portrait-size) minmax(0, 1fr);
+    gap: var(--sp-md);
+    align-items: start;
   }
 
-  .clay-host {
-    display: grid;
-    grid-template-columns: 160px minmax(0, 1fr);
-    gap: var(--sp-lg);
-    align-items: center;
-  }
+  .clay-host h2 { font-size: clamp(1.65rem, 2.5vw, 2rem); }
+  .clay-host p { font-size: 0.95rem; line-height: 1.5; }
 
   .clay-host img {
-    width: 160px;
-    height: 160px;
+    width: var(--portrait-size);
+    height: var(--portrait-size);
     object-fit: cover;
     border: 1px solid var(--border-hover);
     clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
@@ -421,6 +470,7 @@ const faqs = [
 
   .clay-small { font-size: 0.85rem; }
 
+  .clay-program-faq { margin-top: var(--sp-md); }
   .clay-faq { display: flex; flex-direction: column; border-top: 1px solid var(--border); }
   .clay-faq details { border-bottom: 1px solid var(--border); }
 
@@ -448,71 +498,22 @@ const faqs = [
   .clay-faq summary:hover { color: var(--electric); }
   .clay-faq details p { padding-bottom: 1.1rem; color: var(--fg-muted); }
 
-  .clay-cta {
-    position: relative;
-    padding: var(--section-space) 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .clay-cta-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .clay-cta-bg :global(.cta-splash) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.22;
-  }
-
-  .clay-cta-bg::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at center, rgba(var(--bg-rgb), 0.55), var(--bg) 75%);
-  }
-
-  .clay-cta-inner {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-md);
-    text-align: center;
-  }
-
-  @media (max-width: 960px) {
-    .clay-row {
+  @media (max-width: 760px) {
+    .clay-program-grid {
       grid-template-columns: minmax(0, 1fr);
-      gap: var(--sp-sm);
+      grid-template-rows: auto;
     }
-
-    .clay-evening {
-      grid-template-columns: clamp(6.25rem, 25vw, 10rem) minmax(0, 1fr);
-      gap: var(--sp-sm);
-    }
+    .clay-program-sidebar { grid-column: auto; grid-row: auto; }
   }
 
-  @media (max-width: 860px) {
-    .clay-details { grid-template-columns: minmax(0, 1fr); }
+  @media (max-width: 600px) {
+    .clay-spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .clay-actions { column-gap: var(--sp-md); }
+    .clay-actions .btn { --btn-inline-space: 1.5rem; font-size: 0.9rem; }
   }
 
   @media (max-width: 520px) {
-    .clay-host { grid-template-columns: minmax(0, 1fr); }
-
-    .clay-evening-copy { display: contents; }
-    .clay-evening-copy h3 { align-self: center; }
-    .clay-evening-copy p { grid-column: 1 / -1; }
+    .clay-takeaways li { grid-template-columns: minmax(6rem, 1fr) 2fr; }
   }
 
   @media (prefers-reduced-motion: reduce) {

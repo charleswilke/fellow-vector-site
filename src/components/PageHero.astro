@@ -11,6 +11,7 @@ interface Props {
   preserveImageColor?: boolean;
   wideFraming?: boolean;
   showCursor?: boolean;
+  compact?: boolean;
 }
 
 const {
@@ -22,10 +23,11 @@ const {
   preserveImageColor = false,
   wideFraming = false,
   showCursor = false,
+  compact = false,
 } = Astro.props;
 ---
 
-<section class="page-hero">
+<section class:list={['page-hero', { compact }]}>
   <div class="page-hero-bg" aria-hidden="true">
     <!-- Sub-page LCP candidate: eager + high priority, responsive widths for full-bleed -->
     <Image
@@ -56,6 +58,9 @@ const {
     padding: var(--section-space) 0;
     overflow: hidden;
   }
+
+  .page-hero.compact { padding-block: clamp(1.5rem, 2.25vw, 2rem); }
+  .compact .page-hero-inner :global(h1) { margin-block: 0; }
 
   .page-hero-bg {
     position: absolute;
