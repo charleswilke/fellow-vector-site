@@ -252,7 +252,9 @@ import bookHero from '../assets/book.webp';
   /* The glow lives on a pseudo-element so the loop only animates opacity
      (compositor-only) instead of repainting text-shadow every frame. */
   .shimmer {
+    display: inline-block;
     position: relative;
+    white-space: nowrap;
     color: var(--phosphor);
     opacity: 0.6;
     animation: shimmer 6s ease-in-out infinite;
@@ -261,9 +263,7 @@ import bookHero from '../assets/book.webp';
   .shimmer::after {
     content: attr(data-text) / "";
     position: absolute;
-    left: 0;
-    top: 0;
-    white-space: nowrap;
+    inset: 0;
     color: transparent;
     text-shadow: 0 0 8px var(--phosphor), 0 0 16px rgba(255, 189, 89, 0.3);
     opacity: 0;
