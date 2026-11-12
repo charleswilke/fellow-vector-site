@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import artRoomHero from '../../assets/clay-art-room.webp';
+import foundingPriceInk from '../../assets/clay-founding-price-ink.webp';
 import portrait from '../../assets/cw2.webp';
 import { clayEvenings } from '../../data/clay-evenings';
 
@@ -136,9 +137,15 @@ const faqs = [
               <dt>Between</dt><dd>1 to 2 hours of making at home</dd>
               <dt>Room</dt><dd>12 seats</dd>
               <dt>Price</dt>
-              <dd>
-                <span class="clay-price">$295</span><span class="clay-was">$395</span><br />
-                Founding cohort price. Two seats are pay what you can.
+              <dd class="clay-receipt-price">
+                <del class="clay-was">$395</del>
+                <Image
+                  src={foundingPriceInk}
+                  alt="$295, founding cohort price"
+                  class="clay-price-ink"
+                  widths={[208, 416, 624]}
+                  sizes="208px"
+                />
               </dd>
               <dt>Missed one?</dt><dd>Main sessions are recorded. Breakout rooms stay private.</dd>
             </dl>
@@ -446,8 +453,33 @@ const faqs = [
   }
 
   .clay-paper dd { line-height: 1.5; }
-  .clay-price { font-family: var(--font-crt); font-size: 1.9rem; line-height: 1; }
-  .clay-was { margin-left: 0.4rem; font-size: 1.1rem; color: #7d6a4a; text-decoration: line-through; }
+  .clay-receipt-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--sp-sm);
+  }
+
+  .clay-was {
+    position: relative;
+    text-decoration: none;
+  }
+
+  .clay-was::after {
+    content: '';
+    position: absolute;
+    inset: 50% -0.16em auto;
+    height: 1.5px;
+    background: #194a88;
+    border-radius: 70% 30% 60% 40%;
+    transform: rotate(-7deg);
+  }
+
+  .clay-price-ink {
+    width: min(100%, 13rem);
+    height: auto;
+    margin-top: -0.875rem;
+  }
 
   .clay-host {
     --portrait-size: clamp(108px, 12vw, 144px);
