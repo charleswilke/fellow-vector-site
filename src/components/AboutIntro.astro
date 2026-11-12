@@ -1,0 +1,62 @@
+---
+interface Props {
+  placement: 'above' | 'beside';
+}
+
+const { placement } = Astro.props;
+---
+
+<p class:list={['about-intro', placement]}>
+  <span class="about-lead-in"><span class="about-lead-in-text">In</span><svg viewBox="0 0 60 56" aria-hidden="true" focusable="false">
+    <path d="M2 8h19v3h2v6h-7v22h7v6h-2v3H2v-3H0v-6h7V17H0v-6h2z" />
+    <path d="M28 8h8v4h3v5h3v5h3v5h3v5h3V8h7v3h2v34h-2v3h-8v-4h-3v-5h-3v-5h-3v-5h-3v-5h-3v24h-7v-3h-2V11h2z" />
+    <path class="about-lead-in-highlight" d="M3 10h17M9 18v20M3 41h4m23-31h5m-6 3v32m24-34v20" />
+  </svg></span> my day-to-day, I'm the product designer of <a href="https://pos.toasttab.com/news/toast-expands-toast-iq-smart-ai-assistant" target="_blank" rel="noopener">Toast IQ</a>'s constitution, its top-level system instructions.
+</p>
+
+<style>
+  .about-intro {
+    margin: 0 0 var(--sp-md);
+  }
+
+  .above {
+    display: none;
+  }
+
+  .about-lead-in {
+    float: left;
+    margin-inline-end: 0.6rem;
+    color: var(--phosphor);
+  }
+
+  .about-lead-in svg {
+    display: block;
+    height: 3.5rem;
+    fill: currentColor;
+  }
+
+  .about-lead-in-highlight {
+    fill: none;
+    stroke: var(--fg);
+    opacity: 0.5;
+  }
+
+  .about-lead-in-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 600px) {
+    .above {
+      display: flow-root;
+    }
+
+    .beside {
+      display: none;
+    }
+  }
+</style>

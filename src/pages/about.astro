@@ -1,6 +1,7 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutIntro from '../components/AboutIntro.astro';
 import PageHero from '../components/PageHero.astro';
 import SubstackFeed from '../components/SubstackFeed.astro';
 import aboutHero from '../assets/about.webp';
@@ -26,6 +27,8 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
 
       <div class="about-body">
 
+        <AboutIntro placement="above" />
+
         <!-- Portrait floats right; body text wraps around it -->
         <div class="portrait-wrap portrait-inline">
           <div class="portrait-glitch-container" style={`--cw2-bg: url(${cw2Bg.src})`}>
@@ -38,7 +41,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
               alt="Charles Wilke"
               class="portrait-img"
               widths={[320, 480, 640]}
-              sizes="(max-width: 600px) 180px, 240px"
+              sizes="(max-width: 600px) min(42vw, 196px), 240px"
               loading="eager"
             />
             <Image
@@ -47,7 +50,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
               class="portrait-reveal"
               aria-hidden="true"
               widths={[320, 480, 640]}
-              sizes="(max-width: 600px) 180px, 240px"
+              sizes="(max-width: 600px) min(42vw, 196px), 240px"
               loading="eager"
             />
             <div class="glitch-slice s1"></div>
@@ -58,9 +61,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
           <div class="portrait-label">// charles</div>
         </div>
 
-        <p>
-          In my day-to-day, I'm the product designer of <a href="https://pos.toasttab.com/news/toast-expands-toast-iq-smart-ai-assistant" target="_blank" rel="noopener">Toast IQ</a>'s constitution, its top-level system instructions.
-        </p>
+        <AboutIntro placement="beside" />
 
         <p>
           Before that, I spent years making games at Insomniac and crafting content for product at GoDaddy.
@@ -525,10 +526,8 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
 
   @media (max-width: 600px) {
     .portrait-inline {
-      float: none;
-      width: 180px;
-      max-width: 100%;
-      margin: 0 0 var(--sp-lg);
+      width: min(42%, 196px);
+      margin: 0 0 var(--sp-sm) var(--sp-sm);
     }
   }
 </style>
