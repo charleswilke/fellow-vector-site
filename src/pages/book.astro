@@ -165,11 +165,31 @@ import bookHero from '../assets/book.webp';
   }
 
   .info-list li {
+    position: relative;
     font-size: 0.85rem;
     color: var(--fg-muted);
     padding-left: var(--sp-md);
     border-left: 1px solid var(--border);
     line-height: 1.5;
+  }
+
+  @media (hover: hover) {
+    .info-list li::before {
+      content: '';
+      position: absolute;
+      inset: 0 auto 0 -1px;
+      width: 1px;
+      background: var(--phosphor);
+      box-shadow: var(--glow-phosphor);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .info-list li:hover::before { opacity: 1; }
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .info-list li::before { transition: opacity 180ms ease-out; }
   }
 
   /* Embed area */
