@@ -462,22 +462,49 @@ const services = [
 
   /* Stack all previews in one grid cell so its height fits the longest one. */
   .clay-preview {
+    --paper-strip: clamp(0.65rem, 3cqi, 0.95rem);
+    --paper-feed-hole: radial-gradient(circle, transparent 2px, #000 2.65px);
+    position: relative;
     visibility: hidden;
     grid-area: 2 / 1 / 3 / -1;
     max-width: none;
-    padding: 0.5rem 0.85rem;
-    border-left: 2px solid #805232;
-    background: #fff2d966;
+    padding: 0.6rem calc(var(--paper-strip) + clamp(0.4rem, 1.75cqi, 0.7rem));
+    background:
+      repeating-linear-gradient(#62774a15 0 1.45rem, transparent 1.45rem 2.9rem),
+      linear-gradient(105deg, #faf1d8, #eee1c4);
+    color: #2e2a1e;
     font-size: 0.9rem;
+    mask:
+      var(--paper-feed-hole) left top / var(--paper-strip) 0.8rem repeat-y,
+      var(--paper-feed-hole) right top / var(--paper-strip) 0.8rem repeat-y,
+      linear-gradient(#000 0 0) center / calc(100% - 2 * var(--paper-strip) + 1px) 100% no-repeat;
+  }
+
+  .clay-preview::before,
+  .clay-preview::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inline-size: var(--paper-strip);
+    background: #7a674512;
+    pointer-events: none;
+  }
+
+  .clay-preview::before {
+    inset-inline-start: 0;
+    border-inline-end: 1px dashed #75654b70;
+  }
+
+  .clay-preview::after {
+    inset-inline-end: 0;
+    border-inline-start: 1px dashed #75654b70;
   }
 
   .clay-preview-title {
     margin-bottom: 0.35rem;
-    color: #502713;
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1.25;
-    text-shadow: 0.25px 0 currentColor;
+    font-family: var(--font-crt);
+    font-size: 1.55rem;
+    line-height: 1;
   }
 
   .clay-project-details {
@@ -489,7 +516,7 @@ const services = [
   }
 
   .clay-project-details dt {
-    color: #502713;
+    color: #554935;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.05em;
