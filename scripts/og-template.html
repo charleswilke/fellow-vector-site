@@ -49,15 +49,40 @@
     }
     .offer { position: absolute; top: 335px; left: 82px; }
     .offer h1 {
+      display: flex;
+      align-items: center;
+      gap: 14px;
       margin: 0;
       font: 114px/.86 var(--serif);
       letter-spacing: -.018em;
+    }
+    .offer-connector {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 54px;
+      line-height: 1;
+      letter-spacing: 0;
+      transform: translateY(6px);
+    }
+    .offer-connector::before,
+    .offer-connector::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+    .offer-exclamation {
+      margin-left: 4px;
+      overflow: visible;
+      vertical-align: -1px;
     }
     .offer p {
       margin: 15px 0 0 4px;
       color: var(--amber);
       font: 31px/1 var(--mono);
-      letter-spacing: .06em;
+      letter-spacing: .13em;
       text-transform: uppercase;
     }
     .byline {
@@ -73,10 +98,9 @@
     }
     .byline-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
     .byline span { position: relative; }
-    .byline-prefix, .byline-url { color: var(--amber); text-align: center; }
-    .byline-prefix { font: 23px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .byline-prefix { position: relative; justify-self: center; color: var(--amber); }
     .byline-name { padding-left: 22px; font: 54px/1 var(--serif); }
-    .byline-url { padding-right: 4px; font: 19px/1 var(--mono); }
+    .byline-url { padding-right: 4px; color: var(--amber); text-align: center; font: 19px/1 var(--mono); }
     .portrait {
       position: absolute;
       top: 232px;
@@ -120,7 +144,14 @@
       <path fill="var(--stripe-5)" d="M603.5 134.5H635V141.5H603.5Z"/>
     </svg>
     <div class="offer">
-      <h1>Learn by doing.</h1>
+      <h1 aria-label="Learn by doing!">
+        <span>Learn</span>
+        <span class="offer-connector">by</span>
+        <span>doing<svg class="offer-exclamation" width="54" height="80" viewBox="0 0 54 80" aria-hidden="true">
+          <path fill="currentColor" d="M14 55C15 41 19 25 26 12C30 5 34 1 40 0C46 -1 50 3 48 8C47 11 43 14 39 18C29 29 25 43 23 56C22 63 14 62 14 55Z"/>
+          <ellipse cx="16.5" cy="73" rx="7" ry="7.5" transform="rotate(18 16.5 73)" fill="var(--amber)"/>
+        </svg></span>
+      </h1>
       <p>AI Tutoring &amp; Workshops</p>
     </div>
     <p class="byline">
@@ -130,7 +161,15 @@
         <path d="M7 8H558L580 30V84H30L8 62V8Z" fill="none" stroke="#dc9a61" opacity=".38"/>
         <path d="M94 1V91M398 15V77" fill="none" stroke="#d68e51" opacity=".72"/>
       </svg>
-      <span class="byline-prefix">With</span>
+      <svg class="byline-prefix" width="74" height="42" viewBox="0 0 76 42" role="img" aria-label="With">
+        <g fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17C8 11 14 8 15 12C16 16 9 32 13 33C17 34 24 16 27 11C26 17 20 32 24 32C28 32 34 17 35 9"/>
+          <path d="M31 30C33 28 36 23 38 20C36 25 33 31 37 31C40 31 43 28 46 24"/>
+          <path d="M46 24C49 20 53 11 54 8C51 13 46 24 46 28C46 32 51 30 56 25M44 19C48 18 53 17 57 17"/>
+          <path d="M56 25C61 20 68 9 65 8C61 7 56 20 54 29C59 21 64 18 66 20C68 22 61 29 65 29C68 29 71 26 73 24"/>
+        </g>
+        <circle cx="40.5" cy="14.5" r="1.4" fill="currentColor"/>
+      </svg>
       <span class="byline-name">Charles Wilke</span>
       <span class="byline-url">fellowvector.com</span>
     </p>
