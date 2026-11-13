@@ -1,0 +1,134 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+}
+
+const { id, class: className } = Astro.props;
+---
+
+<div class:list={['clay-preview', className]}>
+  <div class="clay-paper-body" id={id} tabindex="-1">
+    <slot />
+  </div>
+  <button type="button" class="clay-paper-strip" data-paper-strip="left"
+    aria-label="Tear off left feed strip" title="Tear off left feed strip" disabled></button>
+  <button type="button" class="clay-paper-strip" data-paper-strip="right"
+    aria-label="Tear off right feed strip" title="Tear off right feed strip" disabled></button>
+</div>
+
+<style>
+  @property --paper-tear {
+    syntax: '<percentage>';
+    inherits: true;
+    initial-value: 0%;
+  }
+
+  .clay-preview {
+    --paper-strip: clamp(0.65rem, 3cqi, 0.95rem);
+    --paper-strip-target: max(var(--paper-strip), 1.5rem);
+    --paper-bands: repeating-linear-gradient(#62774a15 0 1.45rem, transparent 1.45rem 2.9rem);
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--paper-strip) minmax(0, 1fr) var(--paper-strip);
+    color: #2e2a1e;
+    font-size: 0.9rem;
+  }
+
+  .clay-paper-body {
+    grid-column: 2;
+    padding: 0.6rem clamp(0.4rem, 1.75cqi, 0.7rem);
+    background: var(--paper-bands), linear-gradient(105deg, #faf1d8, #eee1c4);
+  }
+
+  .clay-paper-strip {
+    position: absolute;
+    inset-block: 0;
+    inline-size: var(--paper-strip-target);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .clay-paper-strip:enabled { cursor: grab; }
+  .clay-paper-strip:enabled:active { cursor: grabbing; }
+
+  .clay-paper-strip::before,
+  .clay-paper-strip::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc((var(--paper-strip-target) - var(--paper-strip)) / 2);
+    background: var(--paper-bands), #eaddbd;
+    mask: radial-gradient(circle, transparent 2px, #000 2.65px) center top / 100% 0.8rem repeat-y;
+  }
+
+  .clay-paper-strip::before {
+    clip-path: inset(var(--paper-tear, 0%) 0 0);
+  }
+
+  .clay-paper-strip::after {
+    /* Keep the lower part attached while the torn part pivots at the perforation. */
+    clip-path: inset(0 0 calc(100% - var(--paper-tear, 0%)));
+    transform-origin: var(--paper-tear-edge) var(--paper-tear, 0%);
+    transform: rotate(calc(var(--tear-direction) * 12deg));
+  }
+
+  [data-paper-strip="left"] {
+    --tear-direction: -1;
+    --paper-tear-edge: right;
+    inset-inline-start: calc((var(--paper-strip) - var(--paper-strip-target)) / 2);
+  }
+
+  [data-paper-strip="right"] {
+    --tear-direction: 1;
+    --paper-tear-edge: left;
+    inset-inline-end: calc((var(--paper-strip) - var(--paper-strip-target)) / 2);
+  }
+
+  [data-paper-strip="left"]::before { border-inline-end: 1px dashed #75654b88; }
+  [data-paper-strip="right"]::before { border-inline-start: 1px dashed #75654b88; }
+
+  @media (hover: hover) {
+    .clay-paper-strip:enabled:hover::before,
+    .clay-paper-strip:enabled:hover::after { filter: brightness(1.08); }
+  }
+
+  .clay-paper-strip:focus-visible,
+  .clay-paper-body:focus-visible {
+    outline: 2px solid #68472f;
+    outline-offset: -2px;
+  }
+
+  .clay-paper-strip[data-torn] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .clay-paper-strip[data-torn] {
+      --paper-ratchet-duration: 300ms;
+      transform-origin: center bottom;
+      animation:
+        clay-paper-ratchet var(--paper-ratchet-duration) steps(5, end) forwards,
+        clay-paper-drop 230ms var(--paper-ratchet-duration) ease-out backwards;
+    }
+
+    .clay-paper-strip[data-torn="pull"] { --paper-ratchet-duration: 0ms; }
+  }
+
+  @keyframes clay-paper-ratchet {
+    to { --paper-tear: 100%; }
+  }
+
+  @keyframes clay-paper-drop {
+    0% { opacity: 1; transform: none; }
+    100% {
+      opacity: 0;
+      transform: translate(calc(var(--tear-direction) * 0.65rem), 0.55rem)
+        rotate(calc(var(--tear-direction) * 6deg));
+    }
+  }
+</style>

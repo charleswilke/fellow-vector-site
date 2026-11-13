@@ -9,6 +9,7 @@ import clayChin from '../assets/clay-chin.svg?url';
 import clayHeaderFaceplate from '../assets/clay-header-faceplate.webp';
 import ClayDisk from '../components/ClayDisk.astro';
 import ClayKeycap from '../components/ClayKeycap.astro';
+import ClayPreviewPaper from '../components/ClayPreviewPaper.astro';
 import { clayEvenings } from '../data/clay-evenings';
 import '../styles/clay-feature.css';
 
@@ -116,13 +117,13 @@ const services = [
                   sizes="(max-width: 760px) 30vw, 180px"
                   shutterSizes="(max-width: 760px) 15vw, 86px"
                 />
-                <div class="clay-preview" id={`clay-preview-${index + 1}`}>
+                <ClayPreviewPaper id={`clay-preview-${index + 1}`}>
                   <p class="clay-preview-title">{evening.title}</p>
                   <p>{evening.preview}</p>
-                </div>
+                </ClayPreviewPaper>
               </>
             ))}
-            <div class="clay-preview clay-preview-intro">
+            <ClayPreviewPaper class="clay-preview-intro">
               <p class="clay-preview-title">What to expect</p>
               <dl class="clay-project-details">
                 <dt>Start with</dt>
@@ -130,7 +131,7 @@ const services = [
                 <dt>Leave with</dt>
                 <dd>A piece you directed and stand behind.</dd>
               </dl>
-            </div>
+            </ClayPreviewPaper>
           </div>
         </fieldset>
         <div class="clay-schedule">
@@ -272,6 +273,71 @@ const services = [
 <script>
   const evenings = document.querySelector('.clay-evenings');
   const firstDisk = evenings?.querySelector('.clay-disk');
+
+  if (evenings) {
+    const strips = evenings.querySelectorAll<HTMLButtonElement>('[data-paper-strip]');
+
+    for (const strip of strips) {
+      strip.disabled = false;
+      const direction = strip.dataset.paperStrip === 'left' ? -1 : 1;
+      const tearSteps = 5;
+      let tearStep = 0;
+      let dragged = false;
+      let pull: { pointerId: number; startX: number; startY: number; startStep: number } | undefined;
+
+      function tearStrip(method: 'activate' | 'pull') {
+        if (strip.disabled) return;
+        if (document.activeElement === strip) {
+          strip.parentElement?.querySelector<HTMLElement>('.clay-paper-body')?.focus({ preventScroll: true });
+        }
+        strip.disabled = true;
+        strip.dataset.torn = method;
+      }
+
+      strip.addEventListener('click', (event) => {
+        if (!dragged || event.detail === 0) tearStrip('activate');
+      });
+      strip.addEventListener('pointerdown', (event) => {
+        if (!event.isPrimary || event.button !== 0) return;
+        dragged = false;
+        pull = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          startStep: tearStep,
+        };
+        strip.setPointerCapture(event.pointerId);
+      });
+      strip.addEventListener('pointermove', (event) => {
+        if (strip.disabled || pull?.pointerId !== event.pointerId) return;
+        const dx = event.clientX - pull.startX;
+        const dy = event.clientY - pull.startY;
+        if (Math.hypot(dx, dy) > 5) dragged = true;
+        const outward = dx * direction;
+        if (outward < 6) return;
+
+        // Each advance breaks another section of the perforation, even if the pull eases.
+        const distance = outward + Math.max(0, dy) * 0.5;
+        const nextStep = Math.min(tearSteps, pull.startStep + Math.floor(distance / 8));
+        if (nextStep <= tearStep) return;
+        tearStep = nextStep;
+        strip.style.setProperty('--paper-tear', `${tearStep / tearSteps * 100}%`);
+        if (tearStep === tearSteps) tearStrip('pull');
+      });
+      strip.addEventListener('lostpointercapture', () => {
+        pull = undefined;
+      });
+
+      evenings.addEventListener('change', () => {
+        pull = undefined;
+        tearStep = 0;
+        dragged = false;
+        strip.style.removeProperty('--paper-tear');
+        strip.removeAttribute('data-torn');
+        strip.disabled = false;
+      });
+    }
+  }
 
   if (evenings && firstDisk) {
     const observer = new IntersectionObserver(([entry]) => {
@@ -461,43 +527,9 @@ const services = [
   }
 
   /* Stack all previews in one grid cell so its height fits the longest one. */
-  .clay-preview {
-    --paper-strip: clamp(0.65rem, 3cqi, 0.95rem);
-    --paper-feed-hole: radial-gradient(circle, transparent 2px, #000 2.65px);
-    position: relative;
+  .clay-dates > :global(.clay-preview) {
     visibility: hidden;
     grid-area: 2 / 1 / 3 / -1;
-    max-width: none;
-    padding: 0.6rem calc(var(--paper-strip) + clamp(0.4rem, 1.75cqi, 0.7rem));
-    background:
-      repeating-linear-gradient(#62774a15 0 1.45rem, transparent 1.45rem 2.9rem),
-      linear-gradient(105deg, #faf1d8, #eee1c4);
-    color: #2e2a1e;
-    font-size: 0.9rem;
-    mask:
-      var(--paper-feed-hole) left top / var(--paper-strip) 0.8rem repeat-y,
-      var(--paper-feed-hole) right top / var(--paper-strip) 0.8rem repeat-y,
-      linear-gradient(#000 0 0) center / calc(100% - 2 * var(--paper-strip) + 1px) 100% no-repeat;
-  }
-
-  .clay-preview::before,
-  .clay-preview::after {
-    content: '';
-    position: absolute;
-    inset-block: 0;
-    inline-size: var(--paper-strip);
-    background: #7a674512;
-    pointer-events: none;
-  }
-
-  .clay-preview::before {
-    inset-inline-start: 0;
-    border-inline-end: 1px dashed #75654b70;
-  }
-
-  .clay-preview::after {
-    inset-inline-end: 0;
-    border-inline-start: 1px dashed #75654b70;
   }
 
   .clay-preview-title {
@@ -523,9 +555,25 @@ const services = [
     text-transform: uppercase;
   }
 
-  .clay-dates:not(:has(> :checked)) > .clay-preview-intro,
-  .clay-dates > :global(.clay-disk-input:checked) + :global(.clay-disk) + .clay-preview {
+  .clay-dates:not(:has(> :checked)) > :global(.clay-preview-intro),
+  .clay-dates > :global(.clay-disk-input:checked + .clay-disk + .clay-preview) {
     visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .clay-dates > :global(.clay-disk-input:checked + .clay-disk + .clay-preview) {
+      animation: clay-paper-feed 620ms linear;
+    }
+  }
+
+  @keyframes clay-paper-feed {
+    /* Match the offset and bottom crop so the paper rises through a fixed edge. */
+    0%, 10% { clip-path: inset(0 0 94%); transform: translateY(94%); }
+    15%, 33% { clip-path: inset(0 0 68%); transform: translateY(68%); }
+    37%, 49% { clip-path: inset(0 0 52%); transform: translateY(52%); }
+    54%, 75% { clip-path: inset(0 0 28%); transform: translateY(28%); }
+    80%, 90% { clip-path: inset(0 0 12%); transform: translateY(12%); }
+    95%, 100% { clip-path: inset(0); transform: translateY(0); }
   }
 
   .clay-schedule {
@@ -616,6 +664,32 @@ const services = [
   .clay-buttons :global(.clay-feature-cta-label) {
     justify-content: center;
     text-align: center;
+  }
+
+  @media (max-width: 760px) {
+    .clay-panel-chin {
+      border-top: 1px solid #876542;
+      background: linear-gradient(#e4c99a, #b69262);
+      box-shadow: inset 0 1px #f8e0b6, inset 0 -2px #8e6b45;
+    }
+
+    .clay-panel-chin::before { content: none; }
+
+    .clay-buttons {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      width: 100%;
+      gap: 6px;
+      padding: 0.45rem 6px 8px;
+      font-size: clamp(0.8rem, 3.4vw, 0.9rem);
+    }
+
+    .clay-buttons > :global(a) {
+      display: grid;
+      place-items: center;
+      min-height: 44px;
+      padding-inline: 0.4rem;
+    }
   }
 
   .service-section + .service-section {
