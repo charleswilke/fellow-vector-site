@@ -80,16 +80,13 @@ import photoPortrait from '../assets/cw2.webp';
     <div class="container">
       <a href="/clay" class="clay-feature-panel" aria-labelledby="clay-feature-cta">
         <div class="clay-feature-copy">
-          <p class="clay-feature-kicker">
-            <span class="clay-feature-status">Upcoming event</span>
-            <span>Live AI series for creatives</span>
-          </p>
+          <p class="clay-feature-series">Live AI Series for Creatives</p>
           <h2 id="clay-feature-title">Throw More Clay</h2>
           <p class="clay-feature-description">Bring a creative project you care about. Spend three live evenings making it into something you stand behind.</p>
           <div class="clay-feature-action">
             <p>January 11, 18, and 25, 2027 · Online</p>
             <ClayKeycap id="clay-feature-cta">
-              Explore Throw More Clay <span aria-hidden="true">→</span>
+              Explore the upcoming event <span aria-hidden="true">→</span>
             </ClayKeycap>
           </div>
         </div>
@@ -527,6 +524,15 @@ import photoPortrait from '../assets/cw2.webp';
     background:
       linear-gradient(105deg, #ffe5bf99, #f6d2a55c 44%, #e5bf9933 68%);
     box-shadow: inset 0 0 0 4px #5f331b26;
+  }
+
+  .clay-feature-series {
+    color: #502713;
+    font-size: clamp(1rem, 1.7vw, 1.375rem);
+    line-height: 1.25;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-wrap: balance;
   }
 
   .clay-feature-panel:is(:hover, :focus-visible) {

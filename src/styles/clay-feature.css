@@ -30,24 +30,6 @@
   text-transform: uppercase;
 }
 
-.clay-feature-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.35em 0.65em;
-  background: #502713;
-  color: #fff2d9;
-}
-
-.clay-feature-status::before {
-  content: '';
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: var(--phosphor);
-  box-shadow: 0 0 6px #ffbd5980;
-}
-
 .clay-feature-copy h2 {
   font-size: clamp(3.1rem, 5.4vw, 4.5rem);
   line-height: 0.98;
