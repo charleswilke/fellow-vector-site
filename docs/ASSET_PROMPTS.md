@@ -2,13 +2,13 @@
 
 Generated with the built-in imagegen tool. Production WebP exports live in `src/assets/`; original PNGs and local previews stay under the ignored `output/` directory.
 
-## Software box social preview
+## Original software box social preview
 
 Tool: built-in imagegen. Transparent background: false.
 References: `src/assets/cw4-cutout-hexagon.webp` (drawn author portrait) and
 `src/assets/cw-bulb-amber.webp` (CW character).
 Final source: `src/assets/og-software-box.webp` (1732×908, quality 95).
-Social export: `public/og.jpg` (1200×630, JPEG quality 90).
+The current social export uses the artwork designed in `scripts/og-template.html`.
 Original PNG: local ignored `output/imagegen/og-software-box-original.png`.
 
 ```text

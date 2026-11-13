@@ -167,25 +167,23 @@ the generated-image subject and treatment rules above apply to backgrounds.
 
 ## OG Image
 
-`public/og.jpg` (1200×630) is the social share image: vintage educational-software
-box art for the package that would contain the homepage's 5.25-inch floppy disk.
-The nearly frontal cream cardboard box fills the frame, with a narrow visible
-spine, warm amber and burnt-orange bands, restrained print grain, and shelf wear.
-Large “Fellow Vector” and “Learn by Doing” lettering stays readable at preview size,
-with “AI Tutoring & Workshops” describing the offer.
+`public/og.jpg` (1200×630) is a full-bleed graphic inspired by vintage educational
+software packaging. `scripts/og-template.html` uses the navigation’s
+`fellow-vector-wordmark.svg` in burnt orange, with stripes fading to pale gold
+and running to the edge of the cream header. Charles Wilke’s self-portrait
+(`cw4-cutout-hexagon.webp`) sits in a circular frame over the dark halftone field
+beside “Learn by doing” and the service line. The byline and site address share
+a ruled nameplate with angled corners.
 
-Charles's drawn portrait and orange hexagon appear beside “With Charles Wilke” on
-the front cover, alongside the smiling CW bulb. The built-in imagegen tool used
-`cw4-cutout-hexagon.webp` and `cw-bulb-amber.webp` as portrait and character
-references. The complete generation prompt is recorded in `ASSET_PROMPTS.md`.
-The source artwork is `src/assets/og-software-box.webp` (1732×908); the original
-generated PNG is retained locally under ignored `output/imagegen/`.
-`scripts/og-template.html` previews the source at the social card's dimensions.
-
-To regenerate from the repository root on macOS:
+To regenerate from the repository root on macOS with Chrome installed:
 
 ```sh
-node --input-type=module -e "import sharp from 'sharp'; await sharp('src/assets/og-software-box.webp').resize(1200,630,{fit:'cover'}).jpeg({quality:90,mozjpeg:true}).toFile('public/og.jpg');"
+mkdir -p output
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 \
+  --allow-file-access-from-files --user-data-dir="$PWD/output/og-chrome-profile" \
+  --screenshot="$PWD/output/og-preview.png" "file://$PWD/scripts/og-template.html" &&
+node --input-type=module -e "import sharp from 'sharp'; await sharp('output/og-preview.png').jpeg({quality:90,mozjpeg:true}).toFile('public/og.jpg');"
 ```
 
 Inspect the rendered image before shipping. `BaseLayout.astro` shares one versioned

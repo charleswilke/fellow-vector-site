@@ -3,20 +3,138 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fellow Vector — software box social preview</title>
+  <title>Fellow Vector — social preview</title>
   <style>
+    @font-face {
+      font-family: "Instrument Serif";
+      src: url("../public/fonts/instrument-serif-latin.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Share Tech Mono";
+      src: url("../public/fonts/share-tech-mono-latin.woff2") format("woff2");
+    }
     * { box-sizing: border-box; }
     html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
-    body { background: #241c13; }
-    img { display: block; width: 1200px; height: 630px; object-fit: cover; }
+
+    body {
+      --stripe-1: #a74223;
+      --stripe-2: #c95e2d;
+      --stripe-3: #dd7e3b;
+      --stripe-4: #e9a556;
+      --stripe-5: #edbd73;
+      --paper: #fae7bc;
+      --amber: #efb66e;
+      --mono: "Share Tech Mono", monospace;
+      --serif: "Instrument Serif", Georgia, serif;
+      background: radial-gradient(ellipse at 22% 0%, #fff1d2, #f0deb8 87%);
+      color: var(--paper);
+    }
+    .cover { position: relative; width: 100%; height: 100%; isolation: isolate; }
+    .cover::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.76' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      opacity: .22;
+    }
+    .cover-ink { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .wordmark {
+      position: absolute;
+      top: 47px;
+      left: 62px;
+      width: 1099px;
+      overflow: visible;
+    }
+    .offer { position: absolute; top: 335px; left: 82px; }
+    .offer h1 {
+      margin: 0;
+      font: 114px/.86 var(--serif);
+      letter-spacing: -.018em;
+    }
+    .offer p {
+      margin: 15px 0 0 4px;
+      color: var(--amber);
+      font: 31px/1 var(--mono);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .byline {
+      position: absolute;
+      top: 496px;
+      left: 82px;
+      display: grid;
+      grid-template-columns: 94px 1fr 190px;
+      align-items: center;
+      width: 588px;
+      height: 92px;
+      margin: 0;
+    }
+    .byline-frame { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .byline span { position: relative; }
+    .byline-prefix, .byline-url { color: var(--amber); text-align: center; }
+    .byline-prefix { font: 23px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .byline-name { padding-left: 22px; font: 54px/1 var(--serif); }
+    .byline-url { padding-right: 4px; font: 19px/1 var(--mono); }
+    .portrait {
+      position: absolute;
+      top: 232px;
+      left: 728px;
+      width: 382px;
+      height: 382px;
+    }
   </style>
 </head>
 <body>
-  <img
-    src="../src/assets/og-software-box.webp"
-    width="1200"
-    height="630"
-    alt="Vintage cream-and-orange Fellow Vector software box featuring Learn by Doing, AI Tutoring &amp; Workshops, Charles Wilke’s drawn portrait and byline, and the smiling CW lightbulb."
-  >
+  <main class="cover" aria-label="Fellow Vector social preview">
+    <svg class="cover-ink" viewBox="0 0 1200 630" aria-hidden="true">
+      <defs>
+        <pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="4" cy="4" r="1.05" fill="#fbd097" opacity=".52"/>
+        </pattern>
+        <pattern id="ink-dots" width="7" height="7" patternUnits="userSpaceOnUse">
+          <circle cx="3.5" cy="3.5" r=".83" fill="#a44724" opacity=".34"/>
+        </pattern>
+        <radialGradient id="brown" cx=".23" cy=".1" r="1">
+          <stop stop-color="#69391f"/>
+          <stop offset="1" stop-color="#432316"/>
+        </radialGradient>
+      </defs>
+      <path d="M0 300H1200V630H0Z" fill="url(#brown)"/>
+      <path d="M0 300H1200V630H0Z" fill="url(#dots)" opacity=".45"/>
+      <path d="M0 300H1200V307H0Z" fill="#b15a35"/>
+      <path d="M0 308H1200V310H0Z" fill="#d58b51"/>
+      <circle cx="919" cy="427" r="181" fill="#f4c57e" stroke="#d77d42" stroke-width="3"/>
+      <circle cx="919" cy="427" r="167" fill="url(#ink-dots)" stroke="#b46435"/>
+      <circle cx="919" cy="427" r="190" fill="none" stroke="#efb97e" stroke-width="2" stroke-dasharray="1 7"/>
+      <path d="M72 73V39H1146" fill="none" stroke="#af6037" opacity=".51"/>
+    </svg>
+    <svg class="wordmark" viewBox="18 38 590 140" role="img" aria-label="Fellow Vector">
+      <use href="../src/assets/fellow-vector-wordmark.svg#fellow-vector-wordmark" x="18" y="38" width="590" height="140"/>
+      <!-- Continue the five bands from the wordmark's right edge at x=604. -->
+      <path fill="var(--stripe-1)" d="M603.5 94.9H635V101.9H603.5Z"/>
+      <path fill="var(--stripe-2)" d="M603.5 104.8H635V111.8H603.5Z"/>
+      <path fill="var(--stripe-3)" d="M603.5 114.7H635V121.7H603.5Z"/>
+      <path fill="var(--stripe-4)" d="M603.5 124.6H635V131.6H603.5Z"/>
+      <path fill="var(--stripe-5)" d="M603.5 134.5H635V141.5H603.5Z"/>
+    </svg>
+    <div class="offer">
+      <h1>Learn by doing.</h1>
+      <p>AI Tutoring &amp; Workshops</p>
+    </div>
+    <p class="byline">
+      <svg class="byline-frame" viewBox="0 0 588 92" aria-hidden="true">
+        <path d="M1 1H562L587 26V91H26L1 66Z" fill="#502a1a" stroke="#d68e51" stroke-width="2"/>
+        <path d="M2 2H94V90H27L2 65Z" fill="#a4522c" opacity=".32"/>
+        <path d="M7 8H558L580 30V84H30L8 62V8Z" fill="none" stroke="#dc9a61" opacity=".38"/>
+        <path d="M94 1V91M398 15V77" fill="none" stroke="#d68e51" opacity=".72"/>
+      </svg>
+      <span class="byline-prefix">With</span>
+      <span class="byline-name">Charles Wilke</span>
+      <span class="byline-url">fellowvector.com</span>
+    </p>
+    <img class="portrait" src="../src/assets/cw4-cutout-hexagon.webp" width="382" height="382" alt="Charles Wilke’s illustrated self-portrait">
+  </main>
 </body>
 </html>

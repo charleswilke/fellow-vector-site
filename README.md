@@ -51,7 +51,7 @@ src/
     cw4.webp, cw2.webp  — illustrated label portrait and bio photograph
 
 public/                 — served as-is, no processing
-  og.jpg              — vintage software box social image with Charles's drawn portrait (1200x630)
+  og.jpg              — striped social graphic with Charles's drawn portrait (1200x630)
   favicon.svg         — smiling amber pixel bulb, also supplied as ICO
   apple-touch-icon.png — home-screen version of the smiling bulb
   fonts/, audio/      — self-hosted fonts, CRT power-on sound
