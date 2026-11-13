@@ -499,7 +499,35 @@ import photoPortrait from '../assets/cw2.webp';
     padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
   }
 
-  .clay-feature-panel { --lid-open-angle: 48deg; }
+  .clay-feature-panel {
+    --lid-open-angle: 48deg;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    background: #e5bf99;
+    box-shadow: 0 0.9rem 2.25rem #130c0880;
+  }
+
+  .clay-feature-panel::before,
+  .clay-feature-panel::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .clay-feature-panel::before {
+    inset: -6px;
+    background: url('../assets/clay-wheel-texture.webp') center / cover no-repeat;
+    filter: blur(1px);
+  }
+
+  .clay-feature-panel::after {
+    inset: 0;
+    background:
+      linear-gradient(105deg, #ffe5bf99, #f6d2a55c 44%, #e5bf9933 68%);
+    box-shadow: inset 0 0 0 4px #5f331b26;
+  }
 
   .clay-feature-panel:is(:hover, :focus-visible) {
     color: #2c1b10;
@@ -526,6 +554,12 @@ import photoPortrait from '../assets/cw2.webp';
   }
 
   @media (max-width: 760px) {
+    .clay-feature-panel::before { background-position: 76% center; }
+
+    .clay-feature-panel::after {
+      background: linear-gradient(#ffe5bfa6, #f6d2a570 48%, #e5bf9933 76%);
+    }
+
     .clay-feature-art {
       width: min(100%, 300px);
       justify-self: center;
