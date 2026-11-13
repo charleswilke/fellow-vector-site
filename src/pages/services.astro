@@ -7,7 +7,6 @@ import patchbay from '../assets/patchbay.webp';
 import charlesSpeaking from '../assets/charles-speaking.jpg';
 import clayChin from '../assets/clay-chin.svg?url';
 import clayHeaderFaceplate from '../assets/clay-header-faceplate.webp';
-import clayPreviewLabelTape from '../assets/clay-preview-label-tape.webp';
 import ClayDisk from '../components/ClayDisk.astro';
 import ClayKeycap from '../components/ClayKeycap.astro';
 import { clayEvenings } from '../data/clay-evenings';
@@ -92,21 +91,7 @@ const services = [
     <div class="container">
       <div class="clay-feature-panel clay-service-panel" style={`--clay-faceplate: url("${clayHeaderFaceplate.src}")`}>
         <header class="clay-panel-header">
-          <p class="clay-feature-kicker">
-            <span class="clay-event-mark">
-              <span class="clay-event-bulb" aria-hidden="true"></span>
-              <span class="clay-event-sticker">Upcoming event</span>
-            </span>
-            <span>Live AI series for creatives</span>
-          </p>
-          <Image
-            id="clay-preview-label"
-            class="clay-label-tape"
-            src={clayPreviewLabelTape}
-            alt="Choose an evening to preview"
-            widths={[300, 600, 900]}
-            sizes="18rem"
-          />
+          <p class="clay-series-mark">Live AI Series for Creatives</p>
         </header>
         <div class="clay-feature-copy">
           <h2 id="clay-title">Throw More Clay</h2>
@@ -117,6 +102,7 @@ const services = [
             directed and stand behind.
           </p>
         </div>
+        <p id="clay-preview-label" class="clay-label-tape">Select an evening to preview</p>
         <fieldset class="clay-evenings" aria-labelledby="clay-preview-label">
           <div class="clay-dates">
             {clayEvenings.map((evening, index) => (
@@ -139,9 +125,13 @@ const services = [
             ))}
           </div>
         </fieldset>
-        <p class="clay-small">
-          January 2027 · 6 to 8 pm CST · live online · 12&nbsp;seats
-        </p>
+        <div class="clay-schedule">
+          <p class="clay-event-mark">Upcoming event</p>
+          <p class="clay-schedule-details">
+            <strong><time datetime="2027-01">January 2027</time> · 6 to 8 pm CST</strong>
+            <span>Live online · 12 seats</span>
+          </p>
+        </div>
         <div class="clay-panel-chin" style={`--clay-chin-image: url("${clayChin}")`}>
           <div class="clay-buttons">
             <ClayKeycap href="/clay">See the Series</ClayKeycap>
@@ -364,90 +354,64 @@ const services = [
 
   .clay-service-panel {
     --electric: #502713;
+    --clay-title-size: min(4.5rem, 16cqi);
     align-items: start;
     row-gap: 0.7rem;
-    grid-template-areas: "header" "copy" "evenings" "schedule" "chin";
+    padding-block-start: 0;
+    grid-template-areas: "header" "copy" "preview-label" "evenings" "schedule" "chin";
   }
 
   @media (min-width: 761px) {
     .clay-service-panel {
-      --clay-service-columns: minmax(0, 1fr) minmax(0, 1.45fr);
-      grid-template-columns: var(--clay-service-columns);
-      grid-template-areas: "header header" "copy evenings" "schedule evenings" "chin chin";
-    }
-
-    .clay-panel-header {
-      grid-template-columns: var(--clay-service-columns);
-      column-gap: inherit;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+      grid-template-areas: "header preview-label" "copy evenings" "schedule evenings" "chin chin";
     }
   }
 
   .clay-panel-header {
     grid-area: header;
-    display: grid;
-    align-items: center;
-    row-gap: 0.5rem;
-    margin-block-start: calc(-1 * var(--clay-feature-padding));
+    container-type: inline-size;
+    padding-block: 0.85rem;
+  }
+
+  .clay-service-panel::before {
+    content: '';
+    grid-area: 1 / 1 / 2 / -1;
+    align-self: stretch;
     margin-inline: calc(-1 * var(--clay-feature-padding));
-    padding: 0.55rem var(--clay-feature-padding);
     border-bottom: 1px solid #876542;
     background: #c8aa7e var(--clay-faceplate) center / 100% 100% no-repeat;
   }
 
-  .clay-event-mark {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .clay-event-bulb {
-    position: relative;
-    flex: 0 0 0.52rem;
-    height: 0.52rem;
-    border-radius: 50%;
-    background: radial-gradient(circle at 36% 30%,
-      #fff7d6 4%, #ffe1a0 24%, #ffb74c 56%, #b66025 87%);
-    box-shadow: 0 0 0 2px #62452c, 0 1px 0 3px #edcfa2;
-  }
-
-  .clay-event-bulb::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    box-shadow: 0 0 10px 3px #ffa73b;
-    opacity: 0.35;
-    pointer-events: none;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .clay-event-bulb::after {
-      animation: clay-bulb-pulse 4.8s ease-in-out infinite;
-    }
-  }
-
-  @keyframes clay-bulb-pulse {
-    0%, 100% { opacity: 0.35; }
-    50% { opacity: 0.72; }
-  }
-
-  .clay-event-sticker {
-    padding: 0.3em 0.65em;
-    border-radius: 1px 3px 2px 1px;
-    background: linear-gradient(165deg, #ffefcd, #ead2a6);
-    color: #422819;
+  .clay-series-mark {
+    /* The mark and title scale from the same column width. */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: calc(var(--clay-title-size) * 0.36);
     font-weight: 700;
-    box-shadow: inset 0 1px 0 #fff7e1, 0 1px 2px #51321f55;
-    transform: rotate(-0.75deg);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    text-shadow: 0 1px #f9e0b37a;
+    white-space: nowrap;
   }
 
   .clay-label-tape {
-    justify-self: start;
-    display: block;
-    width: min(100%, 18rem);
-    height: auto;
-    filter: drop-shadow(0 1px 1px #51321f55);
-    transform: rotate(-2deg);
+    grid-area: preview-label;
+    place-self: center;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid #68472f;
+    border-radius: 1px;
+    background: linear-gradient(175deg, #4c3020, #29170e);
+    box-shadow: inset 0 1px #98674680, 0 1px 2px #51321f66;
+    color: #ffe8c0;
+    font-family: system-ui, sans-serif;
+    font-size: clamp(0.7rem, 3.4vw, 0.875rem);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translateY(2px) rotate(-0.42deg);
   }
 
   .clay-service-panel .clay-feature-copy {
@@ -456,7 +420,7 @@ const services = [
   }
 
   .clay-service-panel .clay-feature-copy h2 {
-    font-size: min(4.5rem, 16cqi);
+    font-size: var(--clay-title-size);
     white-space: nowrap;
   }
 
@@ -511,11 +475,57 @@ const services = [
     visibility: visible;
   }
 
-  .clay-small {
+  @media (max-width: 760px) {
+    .clay-dates:not(:has(> :checked)) .clay-preview {
+      display: none;
+    }
+  }
+
+  .clay-schedule {
     grid-area: schedule;
     align-self: end;
+    display: grid;
+    gap: 0.35rem;
     color: #502713;
     font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .clay-schedule-details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15rem 0.85rem;
+  }
+
+  .clay-schedule-details strong {
+    font-size: 0.9rem;
+  }
+
+  .clay-event-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    gap: 0.45rem;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid #704b30;
+    border-radius: 2px;
+    background: #40291b;
+    box-shadow: inset 0 1px #8d5d3e, 0 1px #f9d6a4;
+    color: #ffe8bb;
+    font-size: 0.7rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .clay-event-mark::before {
+    content: '';
+    flex: 0 0 0.46rem;
+    height: 0.46rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 36% 30%, #fff5cc 6%, #ffbd58 50%, #ae531e 87%);
+    box-shadow: 0 0 0 1px #29170d, 0 0 5px #ffad4a80;
   }
 
   .clay-panel-chin {
