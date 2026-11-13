@@ -244,7 +244,7 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
 
     .mobile-nav {
       display: block;
-      flex: 0 0 56px;
+      flex: 0 0 48px;
     }
 
     .nav-toggle {
@@ -252,15 +252,10 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 56px;
-      height: 56px;
-      border: 1px solid #a08a67;
-      border-top-color: #d3bf9a;
-      border-bottom-color: #7b6243;
-      border-radius: 5px;
-      background: linear-gradient(180deg, #ddc9a5, #b79c73 20%, #a88b61 90%, #8f714c);
-      box-shadow: inset 1px 1px 0 #e1cfac, inset -1px -1px 0 #7b6243,
-        0 2px 0 #655036, 0 3px 0 #493622, 0 5px 8px rgba(0, 0, 0, 0.3);
+      width: 48px;
+      height: 48px;
+      isolation: isolate;
+      border-radius: 4px;
       list-style: none;
       cursor: pointer;
       touch-action: manipulation;
@@ -272,12 +267,15 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     .nav-toggle::before {
       content: '';
       position: absolute;
-      inset: 4px 4px 7px;
-      border: 1px solid #513822;
-      border-radius: 2px;
-      background: linear-gradient(170deg, rgba(236, 206, 156, 0.1), rgba(0, 0, 0, 0.12)),
+      z-index: -1;
+      inset: 1px 1px 3px;
+      border: 1px solid #80684a;
+      border-top-color: #a58b65;
+      border-radius: 4px;
+      background: linear-gradient(170deg, #e9cfa31f, #1b110a38),
         var(--keycap-image) center / 250% 200% no-repeat, #62482e;
-      box-shadow: inset 1px 1px 0 rgba(239, 214, 174, 0.3), 0 3px 2px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 1px #efdaae3d, inset 0 -2px #24170f55,
+        0 2px #2a1b11, 0 3px 4px #0e09065e;
       transition: transform 0.15s cubic-bezier(0.2, 1.55, 0.4, 1), box-shadow 0.15s;
     }
 
@@ -286,8 +284,8 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
-      padding-bottom: 4px;
+      gap: 4px;
+      padding-bottom: 2px;
       color: var(--fg);
       transition: transform 0.15s cubic-bezier(0.2, 1.55, 0.4, 1);
     }
@@ -295,14 +293,14 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     .nav-toggle-bars {
       position: relative;
       display: block;
-      width: 18px;
+      width: 16px;
       height: 12px;
     }
 
     .nav-toggle-bars span {
       position: absolute;
       left: 0;
-      width: 18px;
+      width: 100%;
       height: 2px;
       border-radius: 1px;
       background: currentColor;
@@ -316,15 +314,15 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
 
     .nav-toggle-label {
       font-family: var(--font-mono);
-      font-size: 0.5rem;
+      font-size: 0.5625rem;
       line-height: 1;
       letter-spacing: 0.1em;
     }
 
     .nav-toggle-light {
       position: absolute;
-      top: 9px;
-      right: 9px;
+      top: 6px;
+      right: 6px;
       width: 3px;
       height: 3px;
       border-radius: 50%;
@@ -344,7 +342,7 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
 
     .nav-toggle:is(:active, [data-depressed])::before,
     .nav-toggle:is(:active, [data-depressed]) .nav-toggle-face {
-      transform: translateY(3px);
+      transform: translateY(2px);
       transition-duration: 0.035s;
       transition-timing-function: ease-out;
     }
