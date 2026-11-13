@@ -23,7 +23,7 @@ export const clayEvenings = [
   {
     day: 'Jan 25',
     date: '2027-01-25',
-    title: 'Make the film anyway.',
+    title: 'Make the thing anyway.',
     outcome: 'Share your piece and choose what to make next.',
     preview: 'Share what you made, take stock of the tools you use, and pick your next project and someone to check in with.',
     body: `Show what you made. Audit your tools: what you own, what you rent, what your
