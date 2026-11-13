@@ -98,8 +98,7 @@ const services = [
           <p class="clay-feature-description">
             Three live evenings for creatives making their way in the AI era:
             designers, writers, musicians, illustrators, and theater and video
-            makers. Bring one project you care about. Leave with a piece you
-            directed and stand behind.
+            makers.
           </p>
         </div>
         <p id="clay-preview-label" class="clay-label-tape">Select an evening to preview</p>
@@ -123,6 +122,15 @@ const services = [
                 </div>
               </>
             ))}
+            <div class="clay-preview clay-preview-intro">
+              <p class="clay-preview-title">What to expect</p>
+              <dl class="clay-project-details">
+                <dt>Start with</dt>
+                <dd>One project you care about.</dd>
+                <dt>Leave with</dt>
+                <dd>A piece you directed and stand behind.</dd>
+              </dl>
+            </div>
           </div>
         </fieldset>
         <div class="clay-schedule">
@@ -280,6 +288,7 @@ const services = [
 
     evenings.addEventListener('pointerenter', dismissHint, { once: true });
     evenings.addEventListener('focusin', dismissHint, { once: true });
+    evenings.addEventListener('change', dismissHint, { once: true });
     observer.observe(firstDisk);
   }
 </script>
@@ -441,14 +450,14 @@ const services = [
   .clay-dates > :global(.clay-disk) { grid-row: 1; }
 
   @media (prefers-reduced-motion: no-preference) {
-    .clay-evenings[data-disk-hint] :global(.clay-disk:first-of-type) {
-      animation: clay-disk-hint 720ms 380ms ease-in-out;
+    .clay-evenings[data-disk-hint] :global(.clay-disk:first-of-type .clay-disk-shutter) {
+      animation: clay-shutter-wink 660ms 450ms ease-in-out;
     }
   }
 
-  @keyframes clay-disk-hint {
-    0%, 100% { transform: none; }
-    32%, 60% { transform: translateY(-0.15rem) rotate(-3deg); }
+  @keyframes clay-shutter-wink {
+    0%, 100% { transform: translateX(0); }
+    32%, 60% { transform: translateX(-24%); }
   }
 
   /* Stack all previews in one grid cell so its height fits the longest one. */
@@ -471,14 +480,25 @@ const services = [
     text-shadow: 0.25px 0 currentColor;
   }
 
-  .clay-dates > :global(.clay-disk-input:checked) + :global(.clay-disk) + .clay-preview {
-    visibility: visible;
+  .clay-project-details {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.2rem 0.8rem;
+    line-height: 1.45;
   }
 
-  @media (max-width: 760px) {
-    .clay-dates:not(:has(> :checked)) .clay-preview {
-      display: none;
-    }
+  .clay-project-details dt {
+    color: #502713;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .clay-dates:not(:has(> :checked)) > .clay-preview-intro,
+  .clay-dates > :global(.clay-disk-input:checked) + :global(.clay-disk) + .clay-preview {
+    visibility: visible;
   }
 
   .clay-schedule {
