@@ -7,7 +7,7 @@ These alpha assets are in `src/assets/` and retain genuine transparency:
 
 | File | Use |
 |------|-----|
-| `cw-bulb-amber.webp` | Character peeking above the service cards, closing invitation, and footer |
+| `cw-bulb-amber.webp` | Character beside the footer navigation |
 | `nav-keycap.webp` | Blank plastic texture beneath live navigation link labels |
 | `floppy-disk-note-v1.webp` | Full 5.25-inch floppy holding the live-text note and portrait on its paper label |
 | `floppy-label.webp` | Standalone note on mobile; also the paper texture reference |

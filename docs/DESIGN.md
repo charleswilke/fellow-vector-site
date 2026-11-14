@@ -5,10 +5,9 @@
 The site evokes **a warm CRT in a school computer room**: somewhere welcoming to try,
 ask questions, and learn by doing. Amber phosphor, softly reflected window light,
 tactile keyboard keys, and paper notes make that setting part of the interface.
-The CW lightbulb is a small illustrated embodiment of Charles and peeks over the
-service cards beside the homepage's “Build your capacity” introduction.
-Charles's name and role sign the paper note beside his illustrated portrait; the
-bulb is not given a separate floating identification caption.
+The CW lightbulb is a small illustrated embodiment of Charles. It sits to the
+right of the four footer links.
+Charles's name and role sign the paper note beside his illustrated portrait.
 The homepage hero pairs the headline, offer, and actions on the left with the
 signed note mounted on a full 5.25-inch floppy at the right. Its square jacket
 anchors the label, which carries live text and Charles's illustrated portrait.
@@ -21,8 +20,6 @@ spaced-out capitals between thin amber rules above and below. The rules span the
 copy column; let the phrase wrap on narrow screens.
 Keep the hero actions in one row; the longer primary label can wrap within its
 button on narrow screens while “Book a Call” stays alongside it.
-The bulb belongs to the following services section: crop its lower half at the
-cards' top edge so it peeks into the introduction without covering text or links.
 
 The terminal is a familiar entry point for learning something new. Charles calls this the
 **C-prompt lifestyle**: the curiosity of an Apple II, Math Blaster, or The Oregon Trail,

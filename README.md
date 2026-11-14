@@ -44,7 +44,7 @@ src/
     focus.webp          — services grid background (lens)
     signal.webp         — CTA background (phosphor light trails)
     patchbay.webp       — services CTA background (patch bay)
-    cw-bulb-amber.webp   — CW character peeking above service cards, CTAs, and footer
+    cw-bulb-amber.webp   — CW character beside the footer navigation
     floppy-disk-note-v1.webp — full disk behind the desktop hero note
     floppy-label.webp   — standalone mobile note
     nav-keycap.webp     — tactile keyboard texture

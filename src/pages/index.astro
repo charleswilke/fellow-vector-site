@@ -7,7 +7,6 @@ import clayCase from '../assets/clay-diskette-case.webp';
 import clayCaseTray from '../assets/clay-diskette-case-tray.webp';
 import focus from '../assets/focus.webp';
 import signal from '../assets/signal.webp';
-import bulb from '../assets/cw-bulb-amber.webp';
 import floppyDisk from '../assets/floppy-disk-note-flat-label.webp';
 import floppyLabel from '../assets/floppy-label-flat-corner.webp';
 import illustratedPortrait from '../assets/cw4.webp';
@@ -127,19 +126,10 @@ import photoPortrait from '../assets/cw2.webp';
     <div class="container">
       <div class="focus-intro">
         <h2>Build your capacity.</h2>
-        <figure class="focus-character">
-          <Image
-            src={bulb}
-            alt="Charles’s friendly amber CW lightbulb character"
-            widths={[240, 400, 600]}
-            sizes="clamp(220px, 31vw, 372px)"
-            loading="lazy"
-          />
-        </figure>
         <p class="text-muted">
           Start with a question, a task, or something you want to make.
           Learn one-to-one, practice with your team, or bring the conversation
-          to a room full of <span class="keep-together">curious people.</span>
+          to a room full of curious people.
         </p>
       </div>
 
@@ -664,83 +654,9 @@ import photoPortrait from '../assets/cw2.webp';
 
   .focus-intro {
     display: grid;
-    grid-template-columns: minmax(0, 35rem) clamp(220px, 31vw, 372px);
-    grid-template-rows: 1fr auto;
-    align-items: end;
     gap: var(--sp-sm);
-  }
-
-  .focus-intro h2 { grid-area: 1 / 1; }
-
-  .focus-intro p {
-    grid-area: 2 / 1;
-    margin-bottom: var(--sp-lg);
-  }
-
-  .focus-character {
-    grid-area: 1 / 2 / span 2;
-    width: 100%;
-    height: clamp(194px, 23vw, 272px);
-    translate: -24px;
-    pointer-events: none;
-  }
-
-  .focus-character img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  @media (width > 600px) {
-    .focus-character {
-      position: relative;
-    }
-
-    .focus-character img {
-      position: absolute;
-      bottom: -12px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .focus-intro { display: flow-root; }
-    .focus-intro h2 { margin-bottom: var(--sp-sm); }
-    .focus-intro p { margin-bottom: var(--sp-md); }
-    .focus-intro .keep-together { white-space: nowrap; }
-
-    .focus-character {
-      --wrap-top: 2lh;
-      float: right;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      width: 128px;
-      height: 210px;
-      overflow: hidden;
-      /* The image has 24px of transparent space above the bulb at this size. */
-      margin-top: calc(var(--wrap-top) - 24px);
-      margin-left: var(--sp-xs);
-      /* Follow the glass and leave a small gap around the screw base. */
-      shape-outside: polygon(
-        100% var(--wrap-top),
-        40px var(--wrap-top),
-        13px calc(var(--wrap-top) + 24px),
-        1px calc(var(--wrap-top) + 52px),
-        1px calc(var(--wrap-top) + 72px),
-        10px calc(var(--wrap-top) + 92px),
-        32px calc(var(--wrap-top) + 112px),
-        48px calc(var(--wrap-top) + 136px),
-        60px calc(var(--wrap-top) + 164px),
-        73px calc(var(--wrap-top) + 180px),
-        100% calc(var(--wrap-top) + 180px)
-      );
-      translate: none;
-    }
-
-    .focus-character img {
-      flex: none;
-      width: 220px;
-    }
+    max-width: 35rem;
+    margin-bottom: clamp(1.25rem, 3vw, var(--sp-lg));
   }
 
   /* ── Services grid ── */

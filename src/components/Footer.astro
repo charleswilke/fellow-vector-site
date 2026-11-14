@@ -15,36 +15,19 @@ const year = new Date().getFullYear();
       </p>
     </div>
 
-    <nav class="footer-nav" aria-label="Footer navigation">
-      {navLinks.map(({ href, label }) => <a href={href}>{label}</a>)}
-    </nav>
+    <div class="footer-navigation">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        {navLinks.map(({ href, label }) => <a href={href}>{label}</a>)}
+      </nav>
+      <Image src={bulb} class="footer-bulb" alt="" widths={[128, 256, 384]} sizes="128px" loading="lazy" />
+    </div>
 
     <div class="footer-meta">
       <span class="text-muted">&copy; {year} Fellow Vector</span>
       <a href="mailto:cwilke@fellowvector.com" class="footer-signal text-phosphor" data-text="// signal active">// signal active</a>
     </div>
   </div>
-  <div class="footer-bulb" aria-hidden="true">
-    <Image src={bulb} alt="" widths={[240, 480]} sizes="120px" loading="lazy" />
-  </div>
 </footer>
-
-<script>
-  if (window.location.pathname !== '/') {
-    const bulb = document.querySelector('.footer-bulb');
-    if (bulb) {
-      function peek() {
-        bulb.classList.add('peek');
-        setTimeout(() => {
-          bulb.classList.remove('peek');
-          const delay = (120 + Math.random() * 120) * 1000; // 2-4 minutes
-          setTimeout(peek, delay);
-        }, 3000);
-      }
-      peek();
-    }
-  }
-</script>
 
 <style>
   #site-footer {
@@ -77,6 +60,11 @@ const year = new Date().getFullYear();
     max-width: none;
   }
 
+  .footer-navigation {
+    display: flex;
+    align-items: center;
+  }
+
   .footer-nav {
     display: flex;
     flex-direction: column;
@@ -94,10 +82,16 @@ const year = new Date().getFullYear();
     color: var(--phosphor);
   }
 
+  .footer-bulb {
+    width: 4.75rem;
+    height: 8rem;
+    object-fit: cover;
+  }
+
   .footer-meta {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: var(--sp-xs);
     font-size: 0.7rem;
     letter-spacing: 0.08em;
@@ -136,34 +130,10 @@ const year = new Date().getFullYear();
     50%      { opacity: 1; }
   }
 
-  .footer-bulb {
-    position: absolute;
-    bottom: 0;
-    right: 10%;
-    width: 120px;
-    transform: translateY(100%);
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    pointer-events: none;
-  }
-
-  .footer-bulb.peek {
-    transform: translateY(25%);
-  }
-
-  .footer-bulb img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
   @media (max-width: 640px) {
     .footer-inner {
       grid-template-columns: 1fr;
       gap: var(--sp-lg);
-    }
-
-    .footer-meta {
-      align-items: flex-start;
     }
   }
 </style>
