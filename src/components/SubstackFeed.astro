@@ -87,11 +87,12 @@ const { limit = 3, variant = 'compact' } = Astro.props;
         return `
           <li class="feed-item">
             <a href="${link}" target="_blank" rel="noopener" class="feed-link">
-              <div class="feed-meta">
+              <div class="feed-body">
                 ${dateHtml}
+                <div class="feed-title">${title}</div>
+                ${excerpt ? `<p class="feed-excerpt">${excerpt}</p>` : ''}
               </div>
-              <div class="feed-title">${title}</div>
-              ${excerpt ? `<p class="feed-excerpt">${excerpt}</p>` : ''}
+              <span class="feed-stub" aria-hidden="true"><span>↗</span></span>
             </a>
           </li>
         `;

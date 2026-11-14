@@ -63,7 +63,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
             <div class="glitch-slice s3"></div>
             <div class="portrait-scanlines" aria-hidden="true"></div>
           </div>
-          <div class="portrait-label">// charles</div>
+          <a href="/book" class="btn btn-primary portrait-cta">Book Time with Charles</a>
         </div>
 
         <AboutIntro placement="beside" />
@@ -105,8 +105,6 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
         <p>
           Your craft, your people, your next meaningful thing. That's where we start.
         </p>
-
-        <a href="/book" class="btn btn-primary" style="margin-top: 1rem;">Book a Call with Charles</a>
 
         <hr class="divider" />
 
@@ -307,7 +305,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
   }
 
   /* Hover: horizontal band that follows cursor — stepped/pixelated edges */
-  .portrait-wrap:hover .portrait-img {
+  .portrait-glitch-container:hover .portrait-img {
     --band-center: var(--my, 50%);
     -webkit-mask-image: linear-gradient(
       to bottom,
@@ -352,11 +350,11 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
       black 100%
     );
   }
-  .portrait-wrap:hover .portrait-reveal {
+  .portrait-glitch-container:hover .portrait-reveal {
     animation: none;
     opacity: 1;
   }
-  .portrait-wrap:hover .glitch-slice {
+  .portrait-glitch-container:hover .glitch-slice {
     animation: none;
     opacity: 0;
   }
@@ -387,12 +385,12 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
   }
 
   /* Flipped hover: just show the photo clean */
-  .portrait-wrap.flipped:hover .portrait-img {
+  .portrait-wrap.flipped .portrait-glitch-container:hover .portrait-img {
     opacity: 0;
     -webkit-mask-image: none;
     mask-image: none;
   }
-  .portrait-wrap.flipped:hover .portrait-reveal {
+  .portrait-wrap.flipped .portrait-glitch-container:hover .portrait-reveal {
     opacity: 1;
   }
 
@@ -452,24 +450,16 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
     pointer-events: none;
   }
 
-  .portrait-label {
-    margin-top: -1px;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.65rem;
-    letter-spacing: 0.16em;
+  .portrait-cta {
+    --btn-inline-space: 0.5rem;
+    display: block;
+    margin-top: var(--sp-sm);
+    padding-block: 0.65rem;
+    padding-inline-start: calc(var(--btn-inline-space) + 1.25em);
+    font-size: 0.75rem;
+    line-height: 1.4;
     text-align: center;
-    border: 1px solid var(--phosphor-dim);
-    /* Default (cw4 cream): dark text on phosphor */
-    color: #100d09;
-    background: var(--phosphor);
-    transition: color 0.2s ease, background 0.2s ease;
-  }
-
-  /* When cw2 photo is revealed, flip back to phosphor-on-dark */
-  .portrait-wrap:hover .portrait-label,
-  .portrait-wrap.flipped .portrait-label {
-    color: var(--phosphor);
-    background: rgba(0, 0, 0, 0.6);
+    text-wrap: balance;
   }
 
   /* Default (cw4 cream): dark wedges in the photo corners */
@@ -479,7 +469,7 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
   .portrait-wrap .corner.br { border-bottom-color: #100d09; border-right-color: #100d09; }
 
   /* When cw2 is revealed, wedges go back to phosphor */
-  .portrait-wrap:hover .corner,
+  .portrait-glitch-container:hover .corner,
   .portrait-wrap.flipped .corner {
     border-color: var(--phosphor) !important;
   }
