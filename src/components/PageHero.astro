@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
+  class?: string;
   label: string;
   title: string;
   image: ImageMetadata;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const {
+  class: className,
   label,
   title,
   image,
@@ -29,7 +31,7 @@ const {
 } = Astro.props;
 ---
 
-<section class:list={['page-hero', { compact }]}>
+<section class:list={['page-hero', className, { compact }]}>
   <div class="page-hero-bg" aria-hidden="true">
     <!-- Sub-page LCP candidate: eager + high priority, responsive widths for full-bleed -->
     <Image
@@ -105,11 +107,11 @@ const {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(to right,
+      var(--page-hero-horizontal-fade, linear-gradient(to right,
         var(--bg) 22%,
         rgba(var(--bg-rgb), 0.65) 55%,
         rgba(var(--bg-rgb), 0.2) 100%
-      ),
+      )),
       linear-gradient(to top,
         var(--bg) 0%,
         transparent 35%

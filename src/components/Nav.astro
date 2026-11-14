@@ -2,13 +2,7 @@
 import { getImage } from 'astro:assets';
 import keycap from '../assets/nav-keycap.webp';
 import Wordmark from '../assets/fellow-vector-wordmark.svg';
-
-const navLinks = [
-  { href: '/about',    label: 'About'    },
-  { href: '/services', label: 'Services' },
-  { href: '/writing',  label: 'Writings'  },
-  { href: '/book',     label: 'Book a Call' },
-];
+import { navLinks } from '../data/nav-links';
 
 const { pathname } = Astro.url;
 const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
@@ -129,7 +123,6 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
 
   /* A thin bezel frames the keycaps. */
   .nav-board {
-    flex: 0 1 418px;
     min-width: 0;
     padding: 3px 4px;
     border: 1px solid #a08a67;
@@ -145,10 +138,12 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
       inset 0 -1px 0 rgba(67, 45, 27, 0.28);
   }
 
+  .nav-board-desktop { flex: none; }
+
   .nav-links {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, max-content);
     gap: 1px;
     background: #1b130c;
     border-radius: 2px;
@@ -197,6 +192,8 @@ const keycapImage = await getImage({ src: keycap, width: 520, format: 'webp' });
     transform: translateY(0);
     transition: transform 0.15s cubic-bezier(0.2, 1.55, 0.4, 1), box-shadow 0.12s ease;
   }
+
+  .nav-board-desktop .nav-link { padding-inline: 13px; }
 
   .nav-link span {
     position: relative;

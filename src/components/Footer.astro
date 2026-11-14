@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import bulb from '../assets/cw-bulb-amber.webp';
+import { navLinks } from '../data/nav-links';
 
 const year = new Date().getFullYear();
 ---
@@ -15,9 +16,7 @@ const year = new Date().getFullYear();
     </div>
 
     <nav class="footer-nav" aria-label="Footer navigation">
-      <a href="/services">Learn</a>
-      <a href="/about">About</a>
-      <a href="/book">Book a Call</a>
+      {navLinks.map(({ href, label }) => <a href={href}>{label}</a>)}
     </nav>
 
     <div class="footer-meta">

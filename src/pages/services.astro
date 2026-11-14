@@ -2,8 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-import servicesHero from '../assets/services.webp';
-import patchbay from '../assets/patchbay.webp';
+import drivingSimulatorHero from '../assets/services-driving-simulator.webp';
 import charlesSpeaking from '../assets/charles-speaking.jpg';
 import clayChin from '../assets/clay-chin.svg?url';
 import clayHeaderFaceplate from '../assets/clay-header-faceplate.webp';
@@ -13,90 +12,60 @@ import ClayPreviewPaper from '../components/ClayPreviewPaper.astro';
 import { clayEvenings } from '../data/clay-evenings';
 import '../styles/clay-feature.css';
 
-// Keep the existing section IDs so saved links still reach the right offering.
+// Keep the existing IDs so links from the homepage and saved bookmarks still work.
 const services = [
   {
     id: 'consulting',
-    label: '01 // one-to-one tutoring',
-    title: 'One-to-One AI Tutoring',
-    jumpLabel: '1:1 tutoring',
-    color: 'phosphor',
-    description: `Start with something you want to understand or do. I work alongside you,
-    using your questions and real tasks as the lesson. You might be opening an AI tool
-    for the first time or working toward a full business application. The starting point
-    is your role, your curiosity, and what would make you more capable.`,
-    bullets: [
-      'Learn the tools through a task that matters to you',
-      'Practice giving context, asking useful questions, and checking results',
-      'Build workflows and applications together, with room to understand each step',
-      'Develop the judgment to know when AI helps and when to take another approach',
+    title: 'One-to-One Tutoring',
+    description: 'Bring a task you want to tackle. Whether you’re opening an AI tool for the first time or building a workflow for your business, we’ll use your real work as the lesson so you can take the next step on your own.',
+    examples: [
+      'Practice giving AI useful context and clear instructions',
+      'Check the results and decide when AI helps',
+      'Build a workflow you can understand and use again',
     ],
-    outcome: 'The aim: something useful you understand, skills you can use again, and a clearer next step to practice on your own.',
-    cta: { href: '/book', label: 'Talk About Tutoring' },
-  },
-  {
-    id: 'speaking',
-    label: '02 // speaking',
-    title: 'AI Speaking & Keynotes',
-    jumpLabel: 'Speaking',
-    color: 'electric',
-    description: `A shared starting point for people sorting through AI noise. I speak about
-    learning by doing, human judgment, and how automation can expand what people are able
-    to do. Each talk connects the bigger picture to your audience's own work, with room
-    for curiosity and honest questions about what these changes mean for employees.`,
-    bullets: [
-      'Conference keynotes and panel conversations',
-      'Talks for teams, associations, and communities',
-      'AI, meaningful work, and employee agency',
-      'Examples and next steps shaped around your audience',
-    ],
-    outcome: 'The aim: a clearer understanding of the tools, better questions, and something your audience feels ready to try.',
-    cta: { href: '/book', label: 'Inquire About Speaking' },
   },
   {
     id: 'webinars',
-    label: '03 // learning together',
-    title: 'Role-Focused Workshops',
-    jumpLabel: 'Team workshops',
-    color: 'amber',
-    description: `Build capacity with the people doing the work. I shape hands-on sessions
-    around a specific role or a task your team recognizes. We practice, compare results,
-    and talk through the choices together. The work can grow from a useful everyday
-    workflow into a full business application, with the people who use it involved throughout.`,
-    bullets: [
-      'Live workshops and webinars, virtual or in person',
-      'Exercises built around your role, tools, and experience level',
-      'Practice with instructions, output review, and responsible use of work information',
-      'Shared learning that keeps employee knowledge and judgment at the center',
+    title: 'Team Workshops',
+    description: 'I shape each workshop around a role or task your team knows well. People get hands-on practice with AI, compare results, and decide together what they’d use in their day-to-day work.',
+    examples: [
+      'Work with scenarios drawn from your team’s roles and tools',
+      'Practice reviewing AI output and handling work information responsibly',
+      'Meet in person or live online',
     ],
-    outcome: 'The aim: people who can use and question the tools, explain their choices, and keep developing what they have learned.',
-    cta: { href: '/book', label: 'Plan a Workshop' },
+  },
+  {
+    id: 'speaking',
+    title: 'Speaking & Keynotes',
+    description: 'I speak about learning by doing, where human judgment matters, and how automation can give people more room to do meaningful work. I bring examples from the kinds of decisions your audience faces and make room for honest questions.',
   },
 ];
-
 ---
 
 <BaseLayout
   title="AI Tutoring, Workshops & Speaking"
   description="Learn AI one-to-one or with your team. Practical tutoring, role-focused workshops, and talks with Charles Wilke, from first steps to full business applications."
 >
-
-  <!-- ── Page header ── -->
-  <PageHero label="// ways to learn" title="AI Tutoring & Workshops" image={servicesHero} imageOpacity={0.55}>
+  <PageHero
+    class="services-hero"
+    label="// ways to learn"
+    title="AI Tutoring & Workshops"
+    image={drivingSimulatorHero}
+    imageOpacity={0.82}
+    imagePosition="58% center"
+    preserveImageColor
+  >
     <p class="text-muted page-hero-sub">
       Think AI driver's ed: learn the controls, practice on real work, and
       build your judgment along the way. I'm Charles Wilke, based in Omaha.
-      You can learn with me one-to-one, with your team, or in a small-group series.
     </p>
-    <nav class="service-jump" aria-label="Jump to a service">
-      <ul>
-        {services.map(({ id, jumpLabel }) => (
-          <li>
-            <a href={`#${id}`}><span>{jumpLabel}</span><span aria-hidden="true">↓</span></a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div class="hero-booking">
+      <p>Start with a conversation. Tell me what you’re working on and we’ll figure out what kind of help fits.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/book">Book a free call</a>
+        <a class="text-link hero-services-link" href="#services">See the services <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
   </PageHero>
 
   <!-- ── Throw More Clay series ── -->
@@ -163,120 +132,54 @@ const services = [
     </div>
   </section>
 
-  <section class="section conversation-section">
-    <div class="container conversation-layout">
-      <div class="conversation-heading">
-        <div class="label">// first contact</div>
-        <h2>Start with a conversation.</h2>
-      </div>
-      <div class="conversation-body">
-        <p>
-          A 30-minute conversation about what you want to learn, the work you
-          do, and where you're getting stuck. You don't need a technical
-          background or a finished project brief.
-        </p>
-        <p class="text-muted">
-          From there, we can shape a useful next step: individual tutoring,
-          learning together as a team, or a talk for your audience.
-        </p>
-        <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Services ── -->
-  {services.map((svc) => (
-    <section id={svc.id} class="service-section section" aria-labelledby={`${svc.id}-title`} tabindex="-1">
-      <div class="container service-layout">
-
-        <div class="service-meta">
-          <div class="label" style={`color: var(--${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'})`}>
-            {svc.label}
-          </div>
-        </div>
-
-        <div class="service-body">
-          <h2 id={`${svc.id}-title`}>{svc.title}</h2>
-          <p>{svc.description}</p>
-
-          <div class:list={['service-content', { 'speaking-content': svc.id === 'speaking' }]}>
-            {svc.id === 'speaking' && (
+  <section id="services" class="section" aria-labelledby="services-title" tabindex="-1">
+    <div class="container">
+      <h2 id="services-title">Three ways to work together</h2>
+      <div class="services-list">
+        {services.map(({ id, title, description, examples }) => (
+          <section class="service-detail" id={id} aria-labelledby={`${id}-title`} tabindex="-1">
+            <div class="service-copy">
+              <h3 id={`${id}-title`}>{title}</h3>
+              <p class="text-muted">{description}</p>
+              {id === 'speaking' && (
+                <p>Keynotes, conference panels, and talks for teams, associations, and communities.</p>
+              )}
+              {id === 'webinars' && (
+                <figure class="recommendation">
+                  <blockquote>
+                    <p>“He was always proactively experimenting … spearheading an AI education project to ensure our entire team was up to date and proficient in new tools.”</p>
+                  </blockquote>
+                  <figcaption class="text-muted">Estella Aditirto, Technical Writer, GoDaddy</figcaption>
+                </figure>
+              )}
+            </div>
+            {examples && (
+              <ul class="service-examples">
+                {examples.map((example) => <li>{example}</li>)}
+              </ul>
+            )}
+            {id === 'speaking' && (
               <figure class="speaking-photo">
-                <a
-                  class="speaking-photo-link"
-                  href={charlesSpeaking.src}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="View the full-size photo of Charles presenting Spectator to Initiator"
-                >
+                <a class="speaking-photo-link" href={charlesSpeaking.src} aria-label="View the full-size photo of Charles presenting Spectator to Initiator">
                   <Image
                     src={charlesSpeaking}
                     alt="Charles Wilke presenting Spectator to Initiator, with the projected talk and seated audience visible."
                     widths={[480, 800, 1200]}
-                    sizes="(max-width: 700px) calc(100vw - 64px), (max-width: 959px) 55vw, 500px"
+                    sizes="(max-width: 700px) calc(100vw - 64px), (max-width: 1200px) 45vw, 460px"
                     format="webp"
                     loading="lazy"
                   />
-                  <span class="speaking-photo-zoom" aria-hidden="true">View photo ↗</span>
                 </a>
                 <figcaption>
-                  <span class="speaking-photo-label">In the room / Charles Wilke</span>
                   <cite>Spectator to Initiator</cite>
-                  <a href="https://charleswilke.com/s2i" target="_blank" rel="noopener">Explore the talk deck <span aria-hidden="true">↗</span></a>
+                  <a class="text-link" href="https://charleswilke.com/s2i">Explore the talk deck <span aria-hidden="true">↗</span></a>
                 </figcaption>
               </figure>
             )}
-
-            <div class="service-details">
-              <ul class="service-bullets">
-                {svc.bullets.map(b => (
-                  <li>
-                    <span class={`bullet-mark text-${svc.color === 'phosphor' ? 'phosphor' : svc.color === 'electric' ? 'electric' : 'amber'}`}>▸</span>
-                    {b}
-                  </li>
-                ))}
-              </ul>
-
-              <p>{svc.outcome}</p>
-
-              {svc.id === 'webinars' && (
-                <figure class="recommendation">
-                  <div class="label">// from a colleague</div>
-                  <blockquote>
-                    <p>
-                      “He was always proactively experimenting … spearheading an AI
-                      education project to ensure our entire team was up to date
-                      and proficient in new tools.”
-                    </p>
-                  </blockquote>
-                  <figcaption>
-                    <span class="recommendation-name">Estella Aditirto</span>
-                    <span class="text-muted">Technical Writer, GoDaddy</span>
-                  </figcaption>
-                </figure>
-              )}
-
-              <a href={svc.cta.href} class="btn btn-primary">{svc.cta.label}</a>
-            </div>
-          </div>
-        </div>
-
+          </section>
+        ))}
       </div>
-    </section>
-  ))}
-
-  <!-- ── CTA ── -->
-  <section class="cta-section">
-    <div class="cta-bg" aria-hidden="true">
-      <Image src={patchbay} alt="" class="cta-splash" widths={[480, 800, 1200, 1600]} sizes="100vw" loading="lazy" />
-    </div>
-    <div class="container cta-inner">
-      <h2 class="closing-cta-title text-phosphor glow-phosphor">Let's find a useful next step.</h2>
-      <p class="text-muted">Bring your questions and something you'd like to learn to do.<br />We'll start with a 30-minute exploratory conversation.</p>
-      <div class="cta-buttons">
-        <a href="/book" class="btn btn-primary">Book an Exploratory Call</a>
-        <a href="mailto:cwilke@fellowvector.com" class="btn btn-ghost">Send an Email</a>
-      </div>
+      <a class="btn btn-primary services-booking" href="/book">Book a free 30-minute call</a>
     </div>
   </section>
 
@@ -372,19 +275,39 @@ const services = [
 </script>
 
 <style>
-  .page-hero-sub {
-    font-size: 1rem;
+  .services-hero {
+    --page-hero-horizontal-fade: linear-gradient(to right,
+      var(--bg) 22%,
+      rgba(var(--bg-rgb), 0.86) clamp(48%, 30rem, 72%),
+      rgba(var(--bg-rgb), 0.34) 86%,
+      rgba(var(--bg-rgb), 0.2) 100%
+    );
+  }
+
+  .page-hero-sub,
+  .hero-booking p {
     max-width: 55ch;
   }
 
-  .service-jump ul {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: var(--sp-md);
-    list-style: none;
+  .hero-booking {
+    display: grid;
+    justify-items: start;
+    gap: var(--sp-md);
+    margin-top: var(--sp-sm);
   }
 
-  .service-jump a {
+  .hero-booking .btn {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-xs) var(--sp-md);
+  }
+
+  .hero-services-link {
     display: inline-flex;
     align-items: center;
     gap: var(--sp-xs);
@@ -392,72 +315,109 @@ const services = [
     font-size: 0.875rem;
   }
 
-  .service-jump a span:first-child {
+  .services-list {
+    margin-top: clamp(1rem, 3vw, 1.5rem);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .service-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--layout-gap);
+    padding-block: clamp(1.25rem, 3vw, 2rem);
+    border-top: 1px solid var(--border);
+  }
+
+  .service-detail:target h3 {
+    color: var(--phosphor);
+  }
+
+  .service-copy {
+    display: grid;
+    gap: var(--sp-sm);
+  }
+
+  .service-copy h3 {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+
+  .service-examples {
+    display: grid;
+    gap: var(--sp-sm);
+    padding: var(--sp-md) var(--sp-lg);
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .service-examples li::marker {
+    color: var(--phosphor);
+  }
+
+  .text-link {
     text-decoration: underline;
     text-underline-offset: 0.2em;
   }
 
-  .service-jump a:focus-visible {
-    outline: 2px solid var(--electric);
-    outline-offset: 3px;
-  }
-
-  .conversation-section {
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .conversation-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--layout-gap);
-    align-items: start;
-  }
-
-  .conversation-heading,
-  .conversation-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-md);
-  }
-
-  .conversation-body .btn {
-    align-self: flex-start;
-    max-width: 100%;
-    text-align: center;
+  .services-booking {
+    margin-top: var(--sp-md);
   }
 
   .recommendation {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-md);
-    margin: var(--sp-md) 0;
-    padding: var(--sp-lg);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--amber);
-    background: var(--bg-surface);
-  }
-
-  .recommendation .label {
-    color: var(--amber);
+    margin-top: var(--sp-sm);
+    padding-inline-start: var(--sp-md);
+    border-inline-start: 1px solid var(--phosphor-dim);
+    font-size: 0.9rem;
   }
 
   .recommendation figcaption {
+    margin-top: var(--sp-xs);
+    font-size: 0.8rem;
+  }
+
+  .speaking-photo {
+    width: 100%;
+    max-width: 34rem;
+    padding: 0.65rem;
+    background: #eaddbf;
+    color: #382414;
+    box-shadow: 0 1px #ad9772, 0 3px #100a0559, 0 8px 24px #100a052e;
+  }
+
+  .speaking-photo-link,
+  .speaking-photo img {
+    display: block;
+  }
+
+  .speaking-photo img {
+    width: 100%;
+    height: auto;
+  }
+
+  .speaking-photo figcaption {
     display: flex;
-    flex-direction: column;
-    gap: var(--sp-xs);
-    font-size: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--sp-xs) var(--sp-md);
+    padding: var(--sp-sm) var(--sp-xs) var(--sp-xs);
   }
 
-  .recommendation-name {
-    color: var(--amber);
+  .speaking-photo cite {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-style: normal;
   }
 
-  @media (max-width: 768px) {
-    .conversation-layout {
-      grid-template-columns: 1fr;
-      gap: var(--sp-lg);
-    }
+  .speaking-photo figcaption a {
+    color: #604020;
+    font-size: 0.875rem;
+  }
+
+  .speaking-photo a:focus-visible {
+    outline: 2px solid #382414;
+    outline-offset: 2px;
   }
 
   .clay-section {
@@ -729,239 +689,10 @@ const services = [
     }
   }
 
-  .service-section + .service-section {
-    border-top: 1px solid var(--border);
-  }
-
-  .service-layout {
-    display: grid;
-    grid-template-columns: 100px minmax(0, 1fr);
-    gap: var(--layout-gap);
-    align-items: start;
-  }
-
-  .service-meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-sm);
-    padding-top: var(--sp-sm);
-    position: sticky;
-    top: calc(var(--nav-height) + 16px);
-  }
-
-  .service-body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-md);
-  }
-
-  .service-body h2 {
-    margin-top: var(--sp-xs);
-  }
-
-  .service-content,
-  .service-details {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-md);
-    min-width: 0;
-  }
-
-  .speaking-content {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.85fr);
-    align-items: start;
-    gap: clamp(1.25rem, 3vw, 2rem);
-    margin-top: var(--sp-md);
-  }
-
-  .speaking-photo {
-    margin: 0;
-    padding: 0.75rem 0.75rem 0;
-    background: #eaddbf;
-    color: #382414;
-    box-shadow: 0 1px 0 #ad9772, 0 3px 0 rgba(16, 10, 5, 0.35),
-      0 8px 24px rgba(16, 10, 5, 0.18);
-    transform: rotate(-0.6deg);
-  }
-
-  .speaking-photo-link {
-    display: block;
-    position: relative;
-    background: #b9b5a5;
-    outline: 1px solid rgba(56, 36, 20, 0.18);
-  }
-
-  .speaking-photo-link:focus-visible {
-    outline: 2px solid #382414;
-    outline-offset: 4px;
-  }
-
-  .speaking-photo-zoom {
-    position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    background: rgba(36, 28, 19, 0.88);
-    color: var(--fg);
-    font-size: 0.7rem;
-    line-height: 1.4;
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-  }
-
-  .speaking-photo-link:is(:hover, :focus-visible) .speaking-photo-zoom {
-    opacity: 1;
-  }
-
-  .speaking-photo img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .speaking-photo figcaption {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.4rem;
-    padding: 1rem 0.35rem 1.15rem;
-    color: #382414;
-    font-size: 0.75rem;
-    line-height: 1.6;
-  }
-
-  .speaking-photo-label {
-    font-size: 0.65rem;
-    line-height: 1.4;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #765737;
-  }
-
-  .speaking-photo cite {
-    font-family: var(--font-crt);
-    font-style: normal;
-    font-size: clamp(1.5rem, 2.7vw, 1.9rem);
-    line-height: 1.15;
-    letter-spacing: 0.02em;
-  }
-
-  .speaking-photo figcaption a {
-    color: #604020;
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  .speaking-photo figcaption a:hover { color: #382414; text-shadow: none; }
-
-  .speaking-content .service-bullets { margin-top: 0; }
-
-  .speaking-content .service-details > p { font-size: 0.9rem; }
-
-  .service-details > .btn {
-    align-self: flex-start;
-    max-width: 100%;
-    text-align: center;
-  }
-
   @media (max-width: 700px) {
-    .speaking-content { grid-template-columns: minmax(0, 1fr); }
-    .speaking-photo { max-width: 34rem; }
-    .speaking-photo-label { font-size: 0.7rem; }
-    .speaking-photo-zoom { opacity: 1; }
-  }
-
-  .service-bullets {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-sm);
-    margin: var(--sp-sm) 0;
-  }
-
-  .service-bullets li {
-    display: flex;
-    gap: var(--sp-sm);
-    align-items: baseline;
-    font-size: 0.9rem;
-    color: var(--fg-muted);
-  }
-
-  .bullet-mark {
-    flex-shrink: 0;
-    font-size: 0.7rem;
-  }
-
-  .cta-section {
-    position: relative;
-    text-align: center;
-    padding: var(--section-space) 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-
-  .cta-splash {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    opacity: 0.28;
-  }
-
-  .cta-bg::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(var(--bg-rgb), 0.3) 0%,
-      rgba(var(--bg-rgb), 0.88) 100%
-    );
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: var(--sp-md);
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .cta-inner {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-md);
-  }
-
-  @media (max-width: 959px) {
-    .service-layout {
-      grid-template-columns: 1fr;
+    .service-detail {
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--sp-md);
     }
-
-    .service-meta {
-      position: static;
-      padding-top: 0;
-    }
-
   }
 </style>
