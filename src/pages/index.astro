@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SignalStrip from '../components/SignalStrip.astro';
 import ClayKeycap from '../components/ClayKeycap.astro';
 import '../styles/clay-feature.css';
 import clayCase from '../assets/clay-diskette-case.webp';
@@ -9,8 +8,8 @@ import clayCaseTray from '../assets/clay-diskette-case-tray.webp';
 import focus from '../assets/focus.webp';
 import signal from '../assets/signal.webp';
 import bulb from '../assets/cw-bulb-amber.webp';
-import floppyDisk from '../assets/floppy-disk-note-v1.webp';
-import floppyLabel from '../assets/floppy-label.webp';
+import floppyDisk from '../assets/floppy-disk-note-flat-label.webp';
+import floppyLabel from '../assets/floppy-label-flat-corner.webp';
 import illustratedPortrait from '../assets/cw4.webp';
 import photoPortrait from '../assets/cw2.webp';
 ---
@@ -35,8 +34,8 @@ import photoPortrait from '../assets/cw2.webp';
           building your own reusable workflows.
         </p>
         <div class="hero-cta">
-          <a href="/services" class="btn btn-primary"><span class="hero-primary-label">Find Your Starting Point</span></a>
-          <a href="/book" class="btn btn-ghost">Book a Call</a>
+          <a href="/book" class="btn btn-primary"><span class="hero-primary-label">Book a Call</span></a>
+          <a href="/services" class="btn btn-ghost">Explore Tutoring &amp; Workshops</a>
         </div>
       </div>
       <div class="hero-welcome">
@@ -73,8 +72,6 @@ import photoPortrait from '../assets/cw2.webp';
       </div>
     </div>
   </section>
-
-  <SignalStrip phrases={['AI TUTORING', 'SPEAKING', 'HANDS-ON LEARNING', 'YOUR ROLE', 'CAPACITY BUILDING', 'HUMAN JUDGMENT']} />
 
   <section class="clay-feature" aria-labelledby="clay-feature-title">
     <div class="container">
@@ -289,7 +286,6 @@ import photoPortrait from '../assets/cw2.webp';
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--fg-muted);
-    animation: fadeIn 0.7s 0.2s both;
   }
 
   .hero-eyebrow span {
@@ -302,7 +298,6 @@ import photoPortrait from '../assets/cw2.webp';
     line-height: 0.9;
     letter-spacing: 0.02em;
     white-space: nowrap;
-    animation: fadeIn 0.7s 0.35s both;
   }
 
   .hero-welcome {
@@ -324,17 +319,6 @@ import photoPortrait from '../assets/cw2.webp';
     aspect-ratio: 1;
     transform: rotate(-2deg);
     filter: drop-shadow(0 12px 16px rgba(12, 8, 4, 0.25));
-  }
-
-  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-    .tutor-note {
-      animation: tutor-note-float 8s ease-in-out infinite;
-    }
-  }
-
-  @keyframes tutor-note-float {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-6px) rotate(-1.5deg); }
   }
 
   .tutor-note-surface {
@@ -452,7 +436,6 @@ import photoPortrait from '../assets/cw2.webp';
     font-size: clamp(1.45rem, 2.6vw, 1.85rem);
     line-height: 1.2;
     color: var(--fg);
-    animation: fadeIn 0.7s 0.5s both;
   }
 
   .hero-sub {
@@ -460,14 +443,14 @@ import photoPortrait from '../assets/cw2.webp';
     line-height: 1.65;
     color: var(--fg-muted);
     max-width: 52ch;
-    animation: fadeIn 0.7s 0.5s both;
   }
+
   .hero-cta {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     gap: 0.75rem;
     align-items: stretch;
-    animation: fadeIn 0.7s 0.65s both;
   }
 
   .hero-cta .btn {
@@ -480,8 +463,6 @@ import photoPortrait from '../assets/cw2.webp';
     letter-spacing: 0.08em;
   }
 
-  .hero-cta .btn-ghost { flex-shrink: 0; white-space: nowrap; }
-
   .hero-cta .btn-primary {
     padding-inline: calc(var(--btn-inline-space) + 0.625em);
   }
@@ -492,8 +473,30 @@ import photoPortrait from '../assets/cw2.webp';
     transform: translateX(-0.625em);
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-eyebrow { animation: hero-fade-in 0.7s 0.2s both; }
+    .hero-headline { animation: hero-fade-in 0.7s 0.35s both; }
+    .hero-tagline,
+    .hero-sub { animation: hero-fade-in 0.7s 0.5s both; }
+    .hero-cta { animation: hero-fade-in 0.7s 0.65s both; }
+  }
+
+  @keyframes hero-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+    .tutor-note { animation: tutor-note-float 8s ease-in-out infinite; }
+  }
+
+  @keyframes tutor-note-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-6px) rotate(-1.5deg); }
+  }
+
   .clay-feature {
-    padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+    padding-top: calc(clamp(1.5rem, 3.5vw, 2.5rem) - 1.25rem);
   }
 
   .clay-feature-panel {
@@ -679,7 +682,6 @@ import photoPortrait from '../assets/cw2.webp';
     width: 100%;
     height: clamp(194px, 23vw, 272px);
     translate: -24px;
-    overflow: hidden;
     pointer-events: none;
   }
 
@@ -687,6 +689,17 @@ import photoPortrait from '../assets/cw2.webp';
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  @media (width > 600px) {
+    .focus-character {
+      position: relative;
+    }
+
+    .focus-character img {
+      position: absolute;
+      bottom: -12px;
+    }
   }
 
   @media (max-width: 600px) {
@@ -703,6 +716,7 @@ import photoPortrait from '../assets/cw2.webp';
       justify-content: center;
       width: 128px;
       height: 210px;
+      overflow: hidden;
       /* The image has 24px of transparent space above the bulb at this size. */
       margin-top: calc(var(--wrap-top) - 24px);
       margin-left: var(--sp-xs);

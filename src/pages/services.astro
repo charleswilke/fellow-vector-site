@@ -19,6 +19,7 @@ const services = [
     id: 'consulting',
     label: '01 // one-to-one tutoring',
     title: 'One-to-One AI Tutoring',
+    jumpLabel: '1:1 tutoring',
     color: 'phosphor',
     description: `Start with something you want to understand or do. I work alongside you,
     using your questions and real tasks as the lesson. You might be opening an AI tool
@@ -37,6 +38,7 @@ const services = [
     id: 'speaking',
     label: '02 // speaking',
     title: 'AI Speaking & Keynotes',
+    jumpLabel: 'Speaking',
     color: 'electric',
     description: `A shared starting point for people sorting through AI noise. I speak about
     learning by doing, human judgment, and how automation can expand what people are able
@@ -55,6 +57,7 @@ const services = [
     id: 'webinars',
     label: '03 // learning together',
     title: 'Role-Focused Workshops',
+    jumpLabel: 'Team workshops',
     color: 'amber',
     description: `Build capacity with the people doing the work. I shape hands-on sessions
     around a specific role or a task your team recognizes. We practice, compare results,
@@ -85,6 +88,15 @@ const services = [
       build your judgment along the way. I'm Charles Wilke, based in Omaha.
       You can learn with me one-to-one, with your team, or in a small-group series.
     </p>
+    <nav class="service-jump" aria-label="Jump to a service">
+      <ul>
+        {services.map(({ id, jumpLabel }) => (
+          <li>
+            <a href={`#${id}`}><span>{jumpLabel}</span><span aria-hidden="true">↓</span></a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </PageHero>
 
   <!-- ── Throw More Clay series ── -->
@@ -174,7 +186,7 @@ const services = [
 
   <!-- ── Services ── -->
   {services.map((svc) => (
-    <section id={svc.id} class="service-section section">
+    <section id={svc.id} class="service-section section" aria-labelledby={`${svc.id}-title`} tabindex="-1">
       <div class="container service-layout">
 
         <div class="service-meta">
@@ -184,7 +196,7 @@ const services = [
         </div>
 
         <div class="service-body">
-          <h2>{svc.title}</h2>
+          <h2 id={`${svc.id}-title`}>{svc.title}</h2>
           <p>{svc.description}</p>
 
           <div class:list={['service-content', { 'speaking-content': svc.id === 'speaking' }]}>
@@ -363,6 +375,31 @@ const services = [
   .page-hero-sub {
     font-size: 1rem;
     max-width: 55ch;
+  }
+
+  .service-jump ul {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--sp-md);
+    list-style: none;
+  }
+
+  .service-jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-xs);
+    min-height: 2.75rem;
+    font-size: 0.875rem;
+  }
+
+  .service-jump a span:first-child {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .service-jump a:focus-visible {
+    outline: 2px solid var(--electric);
+    outline-offset: 3px;
   }
 
   .conversation-section {

@@ -12,6 +12,7 @@ interface Props {
   wideFraming?: boolean;
   showCursor?: boolean;
   compact?: boolean;
+  serifTitle?: boolean;
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   wideFraming = false,
   showCursor = false,
   compact = false,
+  serifTitle = false,
 } = Astro.props;
 ---
 
@@ -46,12 +48,20 @@ const {
   </div>
   <div class="container page-hero-inner">
     <div class="label">{label}</div>
-    <h1>{title}{showCursor && <span class="hero-cursor" aria-hidden="true">_</span>}</h1>
+    <h1 class:list={{ 'serif-title': serifTitle }} aria-label={Astro.slots.has('title') ? title : undefined}><slot name="title">{title}</slot>{showCursor && <span class="hero-cursor" aria-hidden="true">_</span>}</h1>
     <slot />
   </div>
 </section>
 
 <style>
+  @font-face {
+    font-family: 'Besley';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/besley-semibold-latin.woff2') format('woff2');
+  }
+
   .page-hero {
     position: relative;
     border-bottom: 1px solid var(--border);
@@ -118,6 +128,12 @@ const {
     font-size: clamp(2.5rem, 5.5vw, 4.5rem);
     margin-top: var(--sp-xs);
     margin-bottom: var(--sp-sm);
+  }
+
+  .page-hero-inner h1.serif-title {
+    font-family: 'Besley', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 0;
   }
 
   @media (max-width: 350px) {

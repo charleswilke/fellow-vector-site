@@ -418,16 +418,6 @@ section[id] {
   50%       { opacity: 0; }
 }
 
-/* Fade-in animation for page content */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  animation: fadeIn 0.6s ease forwards;
-}
-
 /* ── Skip to content ── */
 .skip-link {
   position: fixed;

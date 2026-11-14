@@ -62,15 +62,6 @@ The meta viewport tag uses `viewport-fit=cover` to enable safe area support.
 
 ---
 
-## Signal Ticker
-
-The scrolling ticker on the home page (`index.astro`) uses 4 identical copies of the
-content in HTML, animated with `translateX(0)` to `translateX(-25%)`. This ensures the
-loop seam is always off-screen on any viewport width. Do NOT use JavaScript duplication
-(previous approach) — it causes a visible snap on loop.
-
----
-
 ## RSS Feed
 
 `SubstackFeed.astro` loads `/api/feed` and renders full reading cards on Writing or

@@ -4,6 +4,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AboutIntro from '../components/AboutIntro.astro';
 import PageHero from '../components/PageHero.astro';
 import SubstackFeed from '../components/SubstackFeed.astro';
+import NameW from '../assets/about-name-w.svg';
+import NameI from '../assets/about-name-i.svg';
+import NameL from '../assets/about-name-l.svg';
+import NameR from '../assets/about-name-r.svg';
 import aboutHero from '../assets/about.webp';
 import cw4 from '../assets/cw4.webp';
 import cw2 from '../assets/cw2.webp';
@@ -18,7 +22,8 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
   description="Meet Charles Wilke: writer, designer, and AI tutor. Fellow Vector helps individuals and teams build skills, judgment, and agency through hands-on learning."
 >
 
-  <PageHero label="// about the operator" title="Charles Wilke" image={aboutHero}>
+  <PageHero label="// about the operator" title="Charles Wilke" image={aboutHero} serifTitle>
+    <span slot="title" class="about-name" aria-hidden="true">Cha<NameR class="name-letter name-r" />les <span class="about-surname"><NameW class="name-letter name-w" /><NameI class="name-letter name-i" /><NameL class="name-letter name-l" />ke</span></span>
     <p class="page-hero-sub text-muted">Writer. Designer. AI Tutor.</p>
   </PageHero>
 
@@ -162,6 +167,55 @@ const cw2Bg = await getImage({ src: cw2, width: 480 });
 </BaseLayout>
 
 <style>
+  .about-surname {
+    white-space: nowrap;
+  }
+
+  /* Each outline uses Besley's advance width and sits on the text baseline. */
+  .about-name :global(.name-letter) {
+    display: inline-block;
+    vertical-align: baseline;
+    filter: drop-shadow(0 0 3px rgb(255 189 89 / 0.5)) drop-shadow(0 0 9px rgb(255 189 89 / 0.15));
+  }
+
+  .about-name :global(.name-r) {
+    width: 0.5335em;
+    height: 0.533em;
+    margin-inline-end: -0.04em;
+  }
+
+  .about-name :global(.name-w) {
+    width: 1.252em;
+    height: 0.8595em;
+    margin-inline-end: -0.06em;
+    vertical-align: -0.01em;
+  }
+
+  .about-name :global(.name-l) {
+    width: 0.349em;
+    height: 0.851em;
+  }
+
+  .about-name :global(.name-i) {
+    width: 0.3625em;
+    height: 0.7705em;
+    overflow: visible;
+  }
+
+  .about-name :global(.name-i-dot) {
+    filter: drop-shadow(0 0 3px rgb(255 189 89 / 0.12));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .about-name :global(.name-i-dot) {
+      animation: about-dot-glow 4.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes about-dot-glow {
+    50% { filter: drop-shadow(0 0 6px rgb(255 189 89 / 0.45)); }
+  }
+
   .page-hero-sub {
     font-size: 0.8rem;
     letter-spacing: 0.14em;
