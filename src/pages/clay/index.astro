@@ -35,7 +35,7 @@ const faqs = [
   description="Three live evenings for creatives making their way in the AI era. Bring one project, leave with a piece you directed and a point of view you can name. 12 seats, January 2027."
 >
   <PageHero
-    label="04 // small-group series"
+    label="04 // small-group series for creatives"
     title="THROW MORE CLAY"
     showCursor
     image={artRoomHero}
@@ -45,7 +45,7 @@ const faqs = [
     wideFraming
     compact
   >
-    <p class="page-hero-sub clay-sub">Three live evenings for creatives working with AI. Bring one project. Leave with a piece you directed.</p>
+    <p class="page-hero-sub clay-sub">Three live evenings working creatively with AI. Bring one project. Leave with a piece you directed.</p>
     <dl class="clay-spec" aria-label="Series details">
       <div><dt>Mondays · 2027</dt><dd>Jan 11 · 18 · 25</dd></div>
       <div><dt>Live online</dt><dd>6–8 pm Central</dd></div>
@@ -199,9 +199,10 @@ const faqs = [
 
   .clay-spec {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(4, auto);
     gap: 1px;
-    max-width: 760px;
+    width: fit-content;
+    max-width: 100%;
     margin-top: var(--sp-sm);
     background: var(--border);
     border: 1px solid var(--border);
@@ -586,7 +587,7 @@ const faqs = [
   }
 
   @media (max-width: 600px) {
-    .clay-spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .clay-spec { grid-template-columns: repeat(2, auto); }
     .clay-actions { column-gap: var(--sp-md); }
     .clay-actions .btn { --btn-inline-space: 1.5rem; font-size: 0.9rem; }
   }
