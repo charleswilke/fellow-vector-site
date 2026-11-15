@@ -12,7 +12,15 @@ import bookHero from '../assets/book.webp';
   <link slot="head" rel="preconnect" href="https://app.cal.com" />
   <link slot="head" rel="preconnect" href="https://cal.com" />
 
-  <PageHero label="// establish connection" title="Book a Call" image={bookHero} imageOpacity={0.45}>
+  <PageHero
+    class="book-hero"
+    label="// establish connection"
+    title="Book a Call"
+    image={bookHero}
+    imageOpacity={0.85}
+    imagePosition="76% center"
+    preserveImageColor
+  >
     <p class="text-muted page-hero-sub">
       Bring <span class="shimmer shimmer-1" data-text="your questions">your questions</span>.<br />
       Start with <span class="shimmer shimmer-2" data-text="your work">your work</span>.<br />
@@ -117,6 +125,15 @@ import bookHero from '../assets/book.webp';
 </BaseLayout>
 
 <style>
+  :global(.book-hero) {
+    --page-hero-horizontal-fade: linear-gradient(to right,
+      var(--bg) 22%,
+      rgba(var(--bg-rgb), 0.65) 55%,
+      rgba(var(--bg-rgb), 0.35) 76%,
+      rgba(var(--bg-rgb), 0.2) 100%
+    );
+  }
+
   .page-hero-sub {
     font-size: 1rem;
     max-width: 52ch;
@@ -259,6 +276,15 @@ import bookHero from '../assets/book.webp';
   }
 
   @media (max-width: 640px) {
+    :global(.book-hero) {
+      --page-hero-horizontal-fade: linear-gradient(to right,
+        var(--bg) 22%,
+        rgba(var(--bg-rgb), 0.83) 62%,
+        rgba(var(--bg-rgb), 0.27) 77%,
+        rgba(var(--bg-rgb), 0.2) 100%
+      );
+    }
+
     .booking-sidebar {
       grid-template-columns: minmax(0, 1fr);
     }
