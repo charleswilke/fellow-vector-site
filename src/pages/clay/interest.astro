@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import ClayDisk from '../../components/ClayDisk.astro';
 import computerLabHero from '../../assets/clay-computer-lab.webp';
+import OfferExclamation from '../../assets/offer-exclamation.svg';
 import { clayEvenings } from '../../data/clay-evenings';
 
 // Sign-ups go to the "Clay" Google Form. The entry IDs come from that form's questions,
@@ -121,7 +122,9 @@ const GOOGLE_FORM_FIELDS = {
 
         <div class="interest-success" id="interest-success" hidden tabindex="-1">
           <div class="label">// connection established</div>
-          <h2 class="text-phosphor glow-phosphor">You're on the list_</h2>
+          <h2 class="text-phosphor glow-phosphor" aria-label="You're on the list!">
+            You're on the <span class="interest-success-ending">list<OfferExclamation class="interest-success-exclamation" aria-hidden="true" /></span>
+          </h2>
           <p>Thanks, <span id="interest-who">friend</span>. You'll hear from me when seats open for the January cohort.</p>
           <a href="/clay" class="btn btn-ghost">Back to the series</a>
         </div>
@@ -342,6 +345,13 @@ const GOOGLE_FORM_FIELDS = {
   .interest-status { font-size: 0.9rem; color: var(--electric); }
 
   .interest-success { display: flex; flex-direction: column; gap: var(--sp-md); align-items: flex-start; }
+  .interest-success-ending { white-space: nowrap; }
+  .interest-success-exclamation {
+    width: auto;
+    height: 0.7em;
+    vertical-align: -0.01em;
+    filter: drop-shadow(0 0 0.12em rgba(255, 189, 89, 0.5));
+  }
 
   /* Keep toggled states hidden despite their flex display */
   #interest-form[hidden],
